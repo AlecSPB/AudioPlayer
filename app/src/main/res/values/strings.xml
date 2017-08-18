@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AudioPlayer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings1111</string>
+    <string-array name="main_tabs">
+        <item>在线音乐</item>
+        <item>我的音乐</item>
+    </string-array>
+    <string-array name="online_tabs">
+        <item>热歌</item>
+        <item>新曲</item>
+        <item>歌单</item>
+    </string-array>
+</resources>

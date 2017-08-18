@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Default_LRV_Divider_Style">
+        <item name="divider_size">1px</item>
+        <item name="divider_color">@android:color/darker_gray</item>
+        <item name="divider_style">middle</item>
+
+        <item name="divider_marginLeft">-1px</item>
+        <item name="divider_marginRight">-1px</item>
+        <item name="divider_marginTop">-1px</item>
+        <item name="divider_marginBottom">-1px</item>
+    </style>
+</resources>

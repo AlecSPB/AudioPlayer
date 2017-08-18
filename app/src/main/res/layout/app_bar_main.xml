@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--<android.support.design.widget.CoordinatorLayout-->
+<!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tl="http://schemas.android.com/apk/res-auto"-->
+<!--xmlns:tools="http://schemas.android.com/tools"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--tools:context="com.tc.audioplayer.MainActivity">-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:subtitle=" "
+            android:title=" "
+            app:popupTheme="@style/AppTheme.NoActionBar">
+
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/stl_title"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:background="@color/colorPrimary"
+                tl:tl_divider_color="@android:color/transparent"
+                tl:tl_divider_width="1dp"
+                tl:tl_indicator_color="@android:color/transparent"
+                tl:tl_indicator_height="2dp"
+                tl:tl_indicator_width="94dp"
+                tl:tl_tab_padding="16dp"
+                tl:tl_textSelectColor="#ffffff"
+                tl:tl_textUnselectColor="#FF9B87"
+                tl:tl_underline_color="@android:color/transparent"
+                tl:tl_underline_height="0dp"/>
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
+
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
+

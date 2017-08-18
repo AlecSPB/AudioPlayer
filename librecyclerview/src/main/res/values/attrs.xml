@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LinearRecyclerView_Divider">
+
+        <attr name="divider_size" format="dimension|reference"></attr>
+        <attr name="divider_color" format="color|reference"></attr>
+
+        <attr name="divider_style">
+            <flag name="none" value="0"></flag>
+            <flag name="middle" value="1"></flag>
+            <flag name="header" value="2"></flag>
+            <flag name="tail" value="4"></flag>
+            <flag name="all" value="7"></flag>
+        </attr>
+
+        <attr name="divider_marginLeft" format="dimension|reference"></attr>
+        <attr name="divider_marginTop" format="dimension|reference"></attr>
+        <attr name="divider_marginRight" format="dimension|reference"></attr>
+        <attr name="divider_marginBottom" format="dimension|reference"></attr>
+    </declare-styleable>
+    <attr name="LinearRcView_Style" format="reference"></attr>
+
+</resources>
