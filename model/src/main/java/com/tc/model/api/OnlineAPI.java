@@ -1,5 +1,6 @@
 package com.tc.model.api;
 
+import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongListEntity;
 
 import retrofit2.http.GET;
@@ -13,4 +14,7 @@ import rx.Observable;
 public interface OnlineAPI {
     @GET
     Observable<SongListEntity> requestOnlineMusicList(@Url String url);
+
+    @GET
+    Observable<SongDetail> requestOnlineMusicInfo(@Url String url);
 }

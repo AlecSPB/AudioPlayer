@@ -2,6 +2,7 @@ package com.tc.audioplayer;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.flyco.tablayout.SlidingTabLayout;
 import com.tc.audioplayer.local.LocalMusicFragment;
 import com.tc.audioplayer.oline.OnlineMusicFragment;
 
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     @BindView(R.id.vp_content_main)
     ViewPager vpContentMain;
-    @BindView(R.id.stl_title)
-    SlidingTabLayout stlTitle;
+    @BindView(R.id.tablayout)
+    TabLayout tabLayout;
 
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         vpContentMain.setAdapter(adapter);
-        stlTitle.setViewPager(vpContentMain);
+        tabLayout.setupWithViewPager(vpContentMain);
         vpContentMain.setCurrentItem(0);
     }
 

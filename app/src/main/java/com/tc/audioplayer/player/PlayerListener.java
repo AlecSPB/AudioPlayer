@@ -14,6 +14,8 @@ public interface PlayerListener {
 
     void onPreparingEnd();//音频准备状态结束
 
+    void onBufferingUpdate(int percent);//音频缓冲进度
+
     void onPlay();//当前音频开始播放
 
     void onPause();//当前音频暂停
@@ -22,7 +24,7 @@ public interface PlayerListener {
 
     void onStop();//当前音频停止
 
-    void onCompletion(int duration); //当前音频播放结束
+    void onCompletion(); //当前音频播放结束
 
     void isPlay(boolean isPlaying);//当前音频播放状态
 

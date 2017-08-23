@@ -6,11 +6,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.tc.base.utils.TLogger;
+
 /**
  * Created by tianchao on 2017/8/6.
  */
 
 public class PlayService extends Service {
+    private static final String TAG = PlayService.class.getSimpleName();
     public static final int STATE_IDLE = 0;
     public static final int STATE_PREPARING = 1;
     public static final int STATE_PLAYING = 2;
@@ -21,12 +24,16 @@ public class PlayService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        TLogger.d(TAG, "PlayService onCreate");
         player = Player.getInstance();
+        PlayerManager.getInstance().registerPlayer(player);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.getAction() != null) {
+            TLogger.d(TAG, "PlayService onStartCommand: flags=" + flags + " startId=" + startId
+                    + " action=" + intent.getAction());
             switch (intent.getAction()) {
                 case PlayActions.MEDIA_PLAY_PAUSE:
                     playPause();
@@ -45,7 +52,7 @@ public class PlayService extends Service {
     }
 
     private void playPause() {
-
+        player.play();
     }
 
     private void start() {

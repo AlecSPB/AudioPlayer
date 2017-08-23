@@ -3,7 +3,6 @@ package com.tc.audioplayer.player;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.tc.model.entity.SongListEntity;
 import com.tc.model.entity.SongListItemEntity;
 
 import java.util.ArrayList;
@@ -66,10 +65,16 @@ public class PlayList {
         songList.add(index, song);
     }
 
-    public void addSong(@Nullable List<SongListItemEntity> songs, int index) {
+    public void addSongList(@Nullable List<SongListItemEntity> songs, int index) {
         if (songs == null || songs.isEmpty()) return;
 
         songList.addAll(index, songs);
+    }
+
+    public void addSongList(@Nullable List<SongListItemEntity> songs) {
+        if (songs == null || songs.isEmpty()) return;
+
+        songList.addAll(songs);
     }
 
     public boolean removeSong(SongListItemEntity song) {
@@ -116,6 +121,29 @@ public class PlayList {
             playingIndex = 0;
         }
         return true;
+    }
+
+    /**
+     * Move the playingIndex forward depends on the play mode
+     *
+     * @return The next song to play
+     */
+    public SongListItemEntity prev() {
+        switch (playMode) {
+            case LOOP:
+            case LIST:
+            case SINGLE:
+                int newIndex = playingIndex - 1;
+                if (newIndex < 0) {
+                    newIndex = 0;
+                }
+                playingIndex = newIndex;
+                break;
+            case SHUFFLE:
+                playingIndex = randomPlayIndex();
+                break;
+        }
+        return songList.get(playingIndex);
     }
 
     /**

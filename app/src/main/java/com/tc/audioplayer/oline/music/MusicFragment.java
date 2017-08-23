@@ -6,7 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.tc.audioplayer.base.BaseListFragment;
-import com.tc.librecyclerview.adapter.QuickRcAdapter;
+import com.tc.audioplayer.player.PlayList;
+import com.tc.audioplayer.player.PlayerManager;
 import com.tc.model.entity.SongListEntity;
 
 import java.lang.annotation.Retention;
@@ -26,7 +27,8 @@ public class MusicFragment extends BaseListFragment {
     public static final int HOT = 2;//热歌
     public static final int NEW = 1;//新曲
 
-    private @LIST_TYPE int listType;
+    @LIST_TYPE
+    private int listType;
 
 
     public static MusicFragment newInstance(@LIST_TYPE int listType) {
@@ -49,11 +51,10 @@ public class MusicFragment extends BaseListFragment {
         adapter = new MusicAdapter(getContext());
         recyclerView.setAdapter(adapter);
         presenter.loadData(false);
-        adapter.setOnItemClickListener(new QuickRcAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-
-            }
+        adapter.setOnItemClickListener((v, position) -> {
+            PlayList playList = new PlayList();
+            playList.addSongList(adapter.getData());
+            PlayerManager.getInstance().play(playList, position);
         });
     }
 
@@ -64,4 +65,8 @@ public class MusicFragment extends BaseListFragment {
         adapter.setData(data.song_list);
     }
 
+    @Override
+    protected void onRefresh() {
+        presenter.loadData(false);
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.tc.audioplayer.player.PlayerManager;
 import com.tc.model.net.APIServiceProvider;
 
 import java.io.IOException;
@@ -21,9 +22,19 @@ import okhttp3.Response;
  */
 
 public class AudioApplication extends MultiDexApplication {
+    private static AudioApplication instance;
+
+    public static AudioApplication getInstance(){
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        if(instance == null){
+            instance = this;
+        }
+        PlayerManager.getInstance().startPlayService();
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
     }

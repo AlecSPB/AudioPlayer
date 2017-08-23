@@ -2,6 +2,7 @@ package com.tc.audioplayer.oline;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.flyco.tablayout.SlidingTabLayout;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.oline.music.MusicFragment;
 
@@ -35,8 +35,8 @@ public class OnlineMusicFragment extends Fragment {
 
     @BindView(R.id.vp_content)
     ViewPager vpContent;
-    @BindView(R.id.stl_title)
-    SlidingTabLayout stlTitle;
+    @BindView(R.id.tablayout)
+    TabLayout tabLayout;
 
 
     private List<Fragment> fragmentList;
@@ -72,7 +72,7 @@ public class OnlineMusicFragment extends Fragment {
 
     private void initUI() {
         vpContent.setAdapter(adapter);
-        stlTitle.setViewPager(vpContent);
+        tabLayout.setupWithViewPager(vpContent);
         vpContent.setCurrentItem(0);
     }
 

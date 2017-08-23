@@ -8,7 +8,9 @@ import com.tc.model.entity.SongListItemEntity;
  */
 
 public interface IPlayer {
-    void setPlayList(PlayList playList);
+    PlayList getPlayList();
+
+    void appendPlayList(PlayList playList);
 
     boolean play();
 
@@ -18,7 +20,9 @@ public interface IPlayer {
 
     boolean play(SongListItemEntity song);
 
-    boolean playLast();
+    boolean append(SongListItemEntity song);
+
+    boolean playPrev();
 
     boolean playNext();
 
@@ -33,5 +37,17 @@ public interface IPlayer {
     boolean seekTo(int progress);
 
     void setPlayMode(@Player.PlayMode int playMode);
+
+    @Player.PlayMode
+    int getPlayMode();
+
+    void setPlayState(@Player.PlayState int playState);
+
+    @Player.PlayState
+    int getPlayState();
+
+    void addPlayerListener(PlayerListener listener);
+
+    void removePlayerListener(PlayerListener listener);
 }
 

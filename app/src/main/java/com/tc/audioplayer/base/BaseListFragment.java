@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tc.audioplayer.R;
@@ -28,6 +29,8 @@ public class BaseListFragment extends BaseFragment {
     public LinearRecyclerView recyclerView;
     @BindView(R.id.minibar)
     public Minibar minibar;
+    @BindView(R.id.tv_retry)
+    TextView tvRetry;
 
     @Nullable
     @Override
@@ -43,6 +46,15 @@ public class BaseListFragment extends BaseFragment {
         minibar.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvRetry.setOnClickListener((v) -> {
+            swipeRefreshLayout.setRefreshing(true);
+            tvRetry.setVisibility(View.GONE);
+            onRefresh();
+        });
+    }
+
+    protected void onRefresh() {
+
     }
 
     @Override
@@ -54,6 +66,7 @@ public class BaseListFragment extends BaseFragment {
     @Override
     public void handleThrowable(Throwable t) {
         swipeRefreshLayout.setRefreshing(false);
+        tvRetry.setVisibility(View.VISIBLE);
         Toast.makeText(getContext(), "出错了", Toast.LENGTH_SHORT).show();
     }
 }
