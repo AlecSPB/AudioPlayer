@@ -3,7 +3,7 @@ package com.tc.audioplayer;
 import android.content.Context;
 import android.content.Intent;
 
-import com.tc.audioplayer.bussiness.PlayerDetailActivity;
+import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 
 /**
  * Created by itcayman on 2017/8/22.

@@ -7,7 +7,9 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="always"
+        android:fitsSystemWindows="true">
 
         <include
             layout="@layout/layout_base_with_minibar" />
@@ -15,11 +17,12 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="70dp"
             android:background="?attr/colorPrimary"
             app:titleTextAppearance="@style/Theme.ToolBar.Base.Title"
             app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
-            app:layout_behavior="com.tc.audioplayer.base.ToolbarAlphaBehavior" />
+            app:layout_behavior="com.tc.audioplayer.base.ToolbarAlphaBehavior"
+            app:layout_scrollFlags="scroll|snap|enterAlways"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

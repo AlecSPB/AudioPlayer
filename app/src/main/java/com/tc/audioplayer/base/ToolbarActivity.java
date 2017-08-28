@@ -73,7 +73,7 @@ public class ToolbarActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.WHITE);
-        toolbar.setTitleMargin(0, 1, 0, 1);
+        toolbar.setTitleMargin(0, 0, 0, 0);
     }
 
     public void setToolbarTitle(CharSequence title) {

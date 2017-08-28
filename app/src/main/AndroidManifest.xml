@@ -20,6 +20,7 @@
     <!-- 外部存储写文件权限，开启本地记录log后，需要在sd卡上写文件 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
     <application
         android:name="com.tc.audioplayer.AudioApplication"
         android:allowBackup="true"
@@ -42,7 +43,7 @@
             android:name=".base.ToolbarActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".bussiness.PlayerDetailActivity"
+            android:name=".bussiness.player.PlayerDetailActivity"
             android:screenOrientation="portrait" />
 
         <service android:name="com.tc.audioplayer.player.PlayService" />

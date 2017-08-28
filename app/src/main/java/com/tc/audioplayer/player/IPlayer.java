@@ -1,7 +1,7 @@
 package com.tc.audioplayer.player;
 
 
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongEntity;
 
 /**
  * Created by tianchao on 2017/8/10.
@@ -18,9 +18,9 @@ public interface IPlayer {
 
     boolean play(PlayList list, int startIndex);
 
-    boolean play(SongListItemEntity song);
+    boolean play(SongEntity song);
 
-    boolean append(SongListItemEntity song);
+    boolean append(SongEntity song);
 
     boolean playPrev();
 
@@ -32,7 +32,7 @@ public interface IPlayer {
 
     int getProgress();
 
-    SongListItemEntity getPlayingSong();
+    SongEntity getPlayingSong();
 
     boolean seekTo(int progress);
 

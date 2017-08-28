@@ -1,4 +1,4 @@
-package com.tc.audioplayer.oline.music;
+package com.tc.audioplayer.bussiness.oline.music;
 
 import android.content.Context;
 import android.view.View;
@@ -9,13 +9,13 @@ import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongEntity;
 
 /**
  * Created by tianchao on 2017/8/5.
  */
 
-public class MusicAdapter extends HeaderFooterAdapter<SongListItemEntity> {
+public class MusicAdapter extends HeaderFooterAdapter<SongEntity> {
 
     public MusicAdapter(Context context) {
         super(context);
@@ -28,9 +28,9 @@ public class MusicAdapter extends HeaderFooterAdapter<SongListItemEntity> {
 
     @Override
     public void bindListItemData(RecyclerViewHolder holder, int dataIndex) {
-        SongListItemEntity item = getItem(dataIndex);
-        holder.setText(R.id.tv_title, item.getTitle());
-        holder.setText(R.id.tv_author, item.getAuthor() + "-" + item.getAlbum_title());
-        Glide.with(mContext).load(item.getPic_small()).into((ImageView) holder.getView(R.id.iv_avatar));
+        SongEntity item = getItem(dataIndex);
+        holder.setText(R.id.tv_title, item.title);
+        holder.setText(R.id.tv_author, item.author + "-" + item.album_title);
+        Glide.with(mContext).load(item.pic_small).into((ImageView) holder.getView(R.id.iv_avatar));
     }
 }

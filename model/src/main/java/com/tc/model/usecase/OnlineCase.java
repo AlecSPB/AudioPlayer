@@ -4,8 +4,9 @@ import com.tc.base.utils.TLogger;
 import com.tc.model.api.BMA;
 import com.tc.model.api.OnlineAPI;
 import com.tc.model.entity.SongDetail;
-import com.tc.model.entity.SongListEntity;
+import com.tc.model.entity.SongList;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 /**
@@ -13,7 +14,7 @@ import rx.Observable;
  */
 
 public class OnlineCase extends BaseCase<OnlineAPI> {
-    public Observable<SongListEntity> getMusicList(int type) {
+    public Observable<SongList> getMusicList(int type) {
         String url = BMA.Billboard.billSongList(type, 0, 20);
         TLogger.e("getMusicList: " + url);
         return api.requestOnlineMusicList(url);
@@ -23,5 +24,10 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         String url = BMA.Song.songInfo(songid);
         TLogger.e("getMusicInfo: " + url);
         return api.requestOnlineMusicInfo(url);
+    }
+
+    public Observable<ResponseBody> getMusicLrc(String lrclink){
+        TLogger.e("getMusicLrc: " + lrclink);
+        return api.requestLrc(lrclink);
     }
 }

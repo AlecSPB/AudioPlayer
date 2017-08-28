@@ -1,9 +1,12 @@
-package com.tc.audioplayer.bussiness;
+package com.tc.audioplayer.bussiness.player;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,7 +19,9 @@ import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.audioplayer.utils.AudioDurationUtil;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.base.utils.TLogger;
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongEntity;
+
+import java.util.ArrayList;
 
 
 /**
@@ -25,6 +30,7 @@ import com.tc.model.entity.SongListItemEntity;
 
 public class PlayerDetailActivity extends ToolbarActivity {
     private static final String TAG = PlayerDetailActivity.class.getSimpleName();
+    private ViewPager viewPager;
     private ImageView ivPlayMode;
     private ImageView ivPlayPause;
     private ImageView ivPrev;
@@ -33,6 +39,9 @@ public class PlayerDetailActivity extends ToolbarActivity {
     private TextView tvCurrentDuration;
     private TextView tvTotalDuration;
     private SeekBar seekBar;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private LrcFragment lrcFragment;
+    private CDFragment cdFragment;
 
     private DetailPlayerListener playerListener;
     private SeekbarListener seekbarListener;
@@ -41,9 +50,9 @@ public class PlayerDetailActivity extends ToolbarActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_player);
 
+        viewPager = (ViewPager) findViewById(R.id.vp_content);
         ivPlayMode = (ImageView) findViewById(R.id.iv_play_mode);
         ivPlayPause = (ImageView) findViewById(R.id.iv_play_pause);
         ivPrev = (ImageView) findViewById(R.id.iv_prev);
@@ -52,9 +61,14 @@ public class PlayerDetailActivity extends ToolbarActivity {
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         tvCurrentDuration = (TextView) findViewById(R.id.tv_current_duration);
         tvTotalDuration = (TextView) findViewById(R.id.tv_total_duration);
+        lrcFragment = new LrcFragment();
+        cdFragment = new CDFragment();
+        fragments.add(lrcFragment);
+        fragments.add(cdFragment);
+        viewPager.setAdapter(new CDPagerAdapter(getSupportFragmentManager()));
 
         minibar.setVisibility(View.GONE);
-        StatusBarUtil.setTransparent(this);
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
         changeToolBarColor(0);
         seekbarListener = new SeekbarListener();
 
@@ -70,16 +84,55 @@ public class PlayerDetailActivity extends ToolbarActivity {
         initPlayerStatus();
     }
 
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    private class CDPagerAdapter extends FragmentPagerAdapter {
+        public CDPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+    }
+
     /**
      * 初始化播放器当前状态
      */
     private void initPlayerStatus() {
         PlayList playList = PlayerManager.getInstance().getPlayList();
-        SongListItemEntity song = playList.getCurrentSong();
+        SongEntity song = playList.getCurrentSong();
+        if (song == null)
+            return;
         int progress = PlayerManager.getInstance().getProgress();
-        int duration = progress * song.getFile_duration() / 100;
+        int duration = progress * song.file_duration / 100;
         String currentDuration = AudioDurationUtil.secondsToString(duration);
-        String totalDuration = AudioDurationUtil.secondsToString(song.getFile_duration());
+        String totalDuration = AudioDurationUtil.secondsToString(song.file_duration);
         tvCurrentDuration.setText(currentDuration);
         tvTotalDuration.setText(totalDuration);
         seekBar.setProgress(progress);
@@ -88,8 +141,9 @@ public class PlayerDetailActivity extends ToolbarActivity {
         } else {
             ivPlayPause.setImageResource(R.drawable.selector_pause);
         }
-        setToolbarTitle(song.getTitle());
-        setToolbarSubtitle(song.getAuthor());
+        setToolbarTitle(song.title);
+        setToolbarSubtitle(song.author);
+        lrcFragment.setLrclink(song.lrclink);
     }
 
     @Override
@@ -122,8 +176,8 @@ public class PlayerDetailActivity extends ToolbarActivity {
             TLogger.d(TAG, "onProgressChanged: progress=" + progress);
             if (seekbarStarting) {
                 PlayList playList = PlayerManager.getInstance().getPlayList();
-                SongListItemEntity song = playList.getCurrentSong();
-                int totalDuration = song.getFile_duration();
+                SongEntity song = playList.getCurrentSong();
+                int totalDuration = song.file_duration;
                 tvCurrentDuration.setText(AudioDurationUtil.secondsToString(progress * totalDuration / 100));
             }
         }
@@ -180,6 +234,7 @@ public class PlayerDetailActivity extends ToolbarActivity {
             seekBar.setProgress(progress);
             String totalDuration = AudioDurationUtil.secondsToString(duration);
             tvCurrentDuration.setText(totalDuration);
+            lrcFragment.updateLrcTime(duration * 1000);
         }
 
         @Override

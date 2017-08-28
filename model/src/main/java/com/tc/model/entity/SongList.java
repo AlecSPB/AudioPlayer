@@ -8,8 +8,8 @@ import java.util.List;
  * Created by tianchao on 2017/8/5.
  */
 
-public class SongListEntity {
-    public List<SongListItemEntity> song_list;
+public class SongList {
+    public List<SongEntity> song_list;
     public BillboardEntity billboard;
 
     @Override

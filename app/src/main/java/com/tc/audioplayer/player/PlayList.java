@@ -3,7 +3,7 @@ package com.tc.audioplayer.player;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongEntity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,25 +24,25 @@ public class PlayList {
     private
     @Player.PlayMode
     int playMode = LOOP;
-    private List<SongListItemEntity> songList = new ArrayList<>();
+    private List<SongEntity> songList = new ArrayList<>();
     private int playingIndex = -1;
 
     public PlayList() {
         // EMPTY
     }
 
-    public PlayList(SongListItemEntity song) {
+    public PlayList(SongEntity song) {
         songList.add(song);
     }
 
     @NonNull
-    public List<SongListItemEntity> getSongList() {
+    public List<SongEntity> getSongList() {
         if (songList == null)
             return new ArrayList<>();
         return songList;
     }
 
-    public SongListItemEntity getCurrentSong() {
+    public SongEntity getCurrentSong() {
         if (songList == null || playingIndex < 0 || playingIndex >= songList.size())
             return null;
         return songList.get(playingIndex);
@@ -53,31 +53,31 @@ public class PlayList {
         return songList == null ? 0 : songList.size();
     }
 
-    public void addSong(@Nullable SongListItemEntity song) {
+    public void addSong(@Nullable SongEntity song) {
         if (song == null) return;
 
         songList.add(song);
     }
 
-    public void addSong(@Nullable SongListItemEntity song, int index) {
+    public void addSong(@Nullable SongEntity song, int index) {
         if (song == null) return;
 
         songList.add(index, song);
     }
 
-    public void addSongList(@Nullable List<SongListItemEntity> songs, int index) {
+    public void addSongList(@Nullable List<SongEntity> songs, int index) {
         if (songs == null || songs.isEmpty()) return;
 
         songList.addAll(index, songs);
     }
 
-    public void addSongList(@Nullable List<SongListItemEntity> songs) {
+    public void addSongList(@Nullable List<SongEntity> songs) {
         if (songs == null || songs.isEmpty()) return;
 
         songList.addAll(songs);
     }
 
-    public boolean removeSong(SongListItemEntity song) {
+    public boolean removeSong(SongEntity song) {
         if (song == null) return false;
 
         int index;
@@ -86,9 +86,9 @@ public class PlayList {
                 return true;
             }
         } else {
-            for (Iterator<SongListItemEntity> iterator = songList.iterator(); iterator.hasNext(); ) {
-                SongListItemEntity item = iterator.next();
-                if (song.getPath().equals(item.getPath())) {
+            for (Iterator<SongEntity> iterator = songList.iterator(); iterator.hasNext(); ) {
+                SongEntity item = iterator.next();
+                if (song.path.equals(item.path)) {
                     iterator.remove();
                     return true;
                 }
@@ -128,7 +128,7 @@ public class PlayList {
      *
      * @return The next song to play
      */
-    public SongListItemEntity prev() {
+    public SongEntity prev() {
         switch (playMode) {
             case LOOP:
             case LIST:
@@ -151,7 +151,7 @@ public class PlayList {
      *
      * @return The next song to play
      */
-    public SongListItemEntity next() {
+    public SongEntity next() {
         switch (playMode) {
             case LOOP:
             case LIST:

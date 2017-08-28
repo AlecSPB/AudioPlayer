@@ -1,123 +1,106 @@
 package com.tc.model.entity;
 
-import com.tc.model.api.BMA;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by tianchao on 2017/8/3.
- * 艺术家
  */
 
+@Entity
 public class ArtistEntity {
     /**
-     * 全部地区
+     * avatar_mini : http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_20
+     * avatar_s300 : http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_300
+     * ting_uid : 1078
+     * del_status : 0
+     * avatar_s500 : http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_500
+     * artist_name : 李玉刚
+     * avatar_small : http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_48
+     * avatar_s180 : http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_180
+     * artist_id : 89
      */
-    public static final int AREA_ALL = 0;
-    /**
-     * 华语
-     */
-    public static final int AREA_CHINIESE = 6;
-    /**
-     * 欧美
-     */
-    public static final int AREA_EU = 3;
-    /**
-     * 韩国
-     */
-    public static final int AREA_KOREA = 7;
-    /**
-     * 日本
-     */
-    public static final int AREA_JAPAN = 60;
-    /**
-     * 其他
-     */
-    public static final int AREA_OTHER = 5;
 
-    /**
-     * 无选择
-     */
-    public static final int SEX_NONE = 0;
-    /**
-     * 男性
-     */
-    public static final int SEX_MALE = 1;
-    /**
-     * 女性
-     */
-    public static final int SEX_FEMALE = 2;
-    /**
-     * 组合
-     */
-    public static final int SEX_GROUP = 3;
-
-    /**
-     * 获取艺术家列表
-     *
-     * @param offset 偏移
-     * @param limit  数量
-     * @param area   地区：0不分,6华语,3欧美,7韩国,60日本,5其他
-     * @param sex    性别：0不分,1男,2女,3组合
-     * @param order  排序：1按热门，2按艺术家id
-     * @param abc    艺术家名首字母：a-z,other其他
-     * @return
-     */
-    public static String artistList(int offset, int limit, int area, int sex, int order, String abc) {
-        StringBuffer sb = new StringBuffer(BMA.BASE);
-        sb.append("&method=").append("baidu.ting.artist.getList");
-        sb.append("&offset=").append(offset);
-        sb.append("&limit=").append(limit);
-        sb.append("&area=").append(area);
-        sb.append("&sex=").append(sex);
-        sb.append("&order=").append(order);//暂时不清楚order排序
-        if (abc != null && !abc.trim().equals("")) {
-            sb.append("&abc=").append(abc);
-        }
-        return sb.toString();
+    @Id
+    public String artist_id;
+    public String avatar_mini;
+    public String avatar_s300;
+    public String ting_uid;
+    public String del_status;
+    public String avatar_s500;
+    public String artist_name;
+    public String avatar_small;
+    public String avatar_s180;
+    public String getAvatar_s180() {
+        return this.avatar_s180;
     }
-
-    /**
-     * 热门艺术家
-     *
-     * @param offset 偏移量
-     * @param limit  获取数量
-     * @return
-     */
-    public static String hotArtist(int offset, int limit) {
-        return artistList(offset, limit, 0, 0, 1, null);
+    public void setAvatar_s180(String avatar_s180) {
+        this.avatar_s180 = avatar_s180;
     }
-
-    /**
-     * 艺术家歌曲
-     *
-     * @param tinguid  tinguid
-     * @param artistid 艺术家id
-     * @param offset   偏移量
-     * @param limit    获取数量
-     * @return
-     */
-    public static String artistSongList(String tinguid, String artistid, int offset, int limit) {
-        StringBuffer sb = new StringBuffer(BMA.BASE);
-        sb.append("&method=").append("baidu.ting.artist.getSongList")
-                .append("&order=2")
-                .append("&tinguid=").append(tinguid)
-                .append("&artistid=").append(artistid)
-                .append("&offset=").append(offset)
-                .append("&limits=").append(limit);
-        return sb.toString();
+    public String getAvatar_small() {
+        return this.avatar_small;
     }
-
-    /**
-     * 艺术家信息
-     *
-     * @param tinguid  tinguid
-     * @param artistid 艺术家id
-     * @return
-     */
-    public static String artistInfo(String tinguid, String artistid) {
-        StringBuffer sb = new StringBuffer(BMA.BASE);
-        sb.append("&method=").append("baidu.ting.artist.getinfo")
-                .append("&tinguid=").append(tinguid)
-                .append("&artistid=").append(artistid);
-        return sb.toString();
+    public void setAvatar_small(String avatar_small) {
+        this.avatar_small = avatar_small;
+    }
+    public String getArtist_name() {
+        return this.artist_name;
+    }
+    public void setArtist_name(String artist_name) {
+        this.artist_name = artist_name;
+    }
+    public String getAvatar_s500() {
+        return this.avatar_s500;
+    }
+    public void setAvatar_s500(String avatar_s500) {
+        this.avatar_s500 = avatar_s500;
+    }
+    public String getDel_status() {
+        return this.del_status;
+    }
+    public void setDel_status(String del_status) {
+        this.del_status = del_status;
+    }
+    public String getTing_uid() {
+        return this.ting_uid;
+    }
+    public void setTing_uid(String ting_uid) {
+        this.ting_uid = ting_uid;
+    }
+    public String getAvatar_s300() {
+        return this.avatar_s300;
+    }
+    public void setAvatar_s300(String avatar_s300) {
+        this.avatar_s300 = avatar_s300;
+    }
+    public String getAvatar_mini() {
+        return this.avatar_mini;
+    }
+    public void setAvatar_mini(String avatar_mini) {
+        this.avatar_mini = avatar_mini;
+    }
+    public String getArtist_id() {
+        return this.artist_id;
+    }
+    public void setArtist_id(String artist_id) {
+        this.artist_id = artist_id;
+    }
+    @Generated(hash = 1683919058)
+    public ArtistEntity(String artist_id, String avatar_mini, String avatar_s300,
+            String ting_uid, String del_status, String avatar_s500, String artist_name,
+            String avatar_small, String avatar_s180) {
+        this.artist_id = artist_id;
+        this.avatar_mini = avatar_mini;
+        this.avatar_s300 = avatar_s300;
+        this.ting_uid = ting_uid;
+        this.del_status = del_status;
+        this.avatar_s500 = avatar_s500;
+        this.artist_name = artist_name;
+        this.avatar_small = avatar_small;
+        this.avatar_s180 = avatar_s180;
+    }
+    @Generated(hash = 1273112035)
+    public ArtistEntity() {
     }
 }

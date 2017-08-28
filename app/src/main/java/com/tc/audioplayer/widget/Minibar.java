@@ -22,7 +22,8 @@ import com.tc.audioplayer.player.Player;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.model.entity.SongDetail;
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongInfoEntity;
+import com.tc.model.entity.SongEntity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,9 +81,9 @@ public class Minibar extends LinearLayout {
     }
 
     public void bindData(SongDetail songDetail) {
-        SongDetail.SonginfoBean songInfo = songDetail.getSonginfo();
-        tvTitle.setText(songInfo.getTitle());
-        tvAuthor.setText(songInfo.getAuthor());
+        SongInfoEntity songInfo = songDetail.songinfo;
+        tvTitle.setText(songInfo.title);
+        tvAuthor.setText(songInfo.author);
     }
 
 
@@ -127,10 +128,10 @@ public class Minibar extends LinearLayout {
         @Override
         public void onPlay() {
             PlayList playList = PlayerManager.getInstance().getPlayList();
-            SongListItemEntity song = playList.getCurrentSong();
-            tvTitle.setText(song.getTitle());
-            tvAuthor.setText(song.getAuthor());
-            Glide.with(getContext()).load(song.getPic_small()).into(ivAvatar);
+            SongEntity song = playList.getCurrentSong();
+            tvTitle.setText(song.title);
+            tvAuthor.setText(song.author);
+            Glide.with(getContext()).load(song.pic_small).into(ivAvatar);
             progressBar.setPlayState(true);
         }
 

@@ -1,13 +1,12 @@
 package com.tc.audioplayer;
 
-import android.app.Application;
-import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.FileUtil;
 import com.tc.model.net.APIServiceProvider;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -22,21 +21,27 @@ import okhttp3.Response;
  */
 
 public class AudioApplication extends MultiDexApplication {
+    private static final String TAG = AudioApplication.class.getSimpleName();
     private static AudioApplication instance;
 
-    public static AudioApplication getInstance(){
+    public static AudioApplication getInstance() {
         return instance;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if(instance == null){
+        if (instance == null) {
             instance = this;
         }
         PlayerManager.getInstance().startPlayService();
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
+
+        File cacheDir = new File(FileUtil.PATH_LRC);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();
+        }
     }
 
     private OkHttpClient getModelConfig() {

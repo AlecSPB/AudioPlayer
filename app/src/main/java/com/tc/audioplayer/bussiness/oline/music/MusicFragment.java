@@ -1,4 +1,4 @@
-package com.tc.audioplayer.oline.music;
+package com.tc.audioplayer.bussiness.oline.music;
 
 import android.os.Bundle;
 import android.support.annotation.IntDef;
@@ -8,7 +8,7 @@ import android.view.View;
 import com.tc.audioplayer.base.BaseListFragment;
 import com.tc.audioplayer.player.PlayList;
 import com.tc.audioplayer.player.PlayerManager;
-import com.tc.model.entity.SongListEntity;
+import com.tc.model.entity.SongList;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -61,7 +61,7 @@ public class MusicFragment extends BaseListFragment {
     @Override
     public void setData(Object object) {
         super.setData(object);
-        SongListEntity data = (SongListEntity) object;
+        SongList data = (SongList) object;
         adapter.setData(data.song_list);
     }
 

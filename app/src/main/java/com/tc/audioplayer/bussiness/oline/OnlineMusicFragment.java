@@ -1,4 +1,4 @@
-package com.tc.audioplayer.oline;
+package com.tc.audioplayer.bussiness.oline;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tc.audioplayer.R;
-import com.tc.audioplayer.oline.music.MusicFragment;
+import com.tc.audioplayer.bussiness.oline.music.MusicFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.tc.audioplayer.oline.music.MusicFragment.HOT;
-import static com.tc.audioplayer.oline.music.MusicFragment.NEW;
+import static com.tc.audioplayer.bussiness.oline.music.MusicFragment.HOT;
+import static com.tc.audioplayer.bussiness.oline.music.MusicFragment.NEW;
 
 /**
  * Created by tianchao on 2017/8/2.

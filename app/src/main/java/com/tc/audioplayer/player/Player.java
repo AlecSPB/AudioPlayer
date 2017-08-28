@@ -5,7 +5,7 @@ import android.support.annotation.IntDef;
 
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.SongDetail;
-import com.tc.model.entity.SongListItemEntity;
+import com.tc.model.entity.SongEntity;
 import com.tc.model.usecase.OnlineCase;
 
 import java.io.IOException;
@@ -96,7 +96,7 @@ public class Player implements IPlayer {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((aLong) -> {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
-                    int duration = playList.getCurrentSong().getFile_duration();
+                    int duration = playList.getCurrentSong().file_duration;
                     progress = (int) (currentDuration * 100f / duration);
                     for (int i = 0; i < playerListeners.size(); i++) {
                         PlayerListener listener = playerListeners.get(i);
@@ -183,7 +183,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public boolean append(SongListItemEntity song) {
+    public boolean append(SongEntity song) {
         this.playList.addSong(song);
         return true;
     }
@@ -201,7 +201,7 @@ public class Player implements IPlayer {
             return true;
         }
         if (playList.prepare()) {
-            SongListItemEntity song = playList.getCurrentSong();
+            SongEntity song = playList.getCurrentSong();
             loadMusicDetail(song);
             return true;
         }
@@ -229,7 +229,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public boolean play(SongListItemEntity song) {
+    public boolean play(SongEntity song) {
         return false;
     }
 
@@ -277,13 +277,13 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public SongListItemEntity getPlayingSong() {
+    public SongEntity getPlayingSong() {
         return null;
     }
 
     @Override
     public boolean seekTo(int progress) {
-        int duration = playList.getCurrentSong().getFile_duration();
+        int duration = playList.getCurrentSong().file_duration;
         mediaPlayer.seekTo(duration * progress * 10);
         return true;
     }
@@ -313,11 +313,11 @@ public class Player implements IPlayer {
     /**
      * 加载
      */
-    private void loadMusicDetail(SongListItemEntity entity) {
-        TLogger.d(TAG, "loadMusicDetail: songid=" + entity.getSong_id() + " source=" + entity.getSong_source());
+    private void loadMusicDetail(SongEntity entity) {
+        TLogger.d(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;
-            String path = songDetail.getSongurl().getUrl().get(0).getShow_link();
+            String path = songDetail.songurl.get(0).show_link;
             TLogger.d(TAG, "get play path: " + path);
             try {
                 mediaPlayer.reset();
@@ -333,7 +333,7 @@ public class Player implements IPlayer {
                 TLogger.e(TAG, "play IOException: ", e.getMessage());
             }
         };
-        onlineCase.getMusicInfo(entity.getSong_id())
+        onlineCase.getMusicInfo(entity.song_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext);
