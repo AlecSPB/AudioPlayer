@@ -43,7 +43,8 @@ public class BaseListFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        minibar.setVisibility(View.VISIBLE);
+        minibar.setVisibility(View.GONE);
+        minibar.setAutoVisibility(false);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvRetry.setOnClickListener((v) -> {

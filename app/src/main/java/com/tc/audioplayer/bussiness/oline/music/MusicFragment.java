@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.tc.audioplayer.base.BaseListFragment;
-import com.tc.audioplayer.player.PlayList;
+import com.tc.model.entity.PlayList;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.model.entity.SongList;
 

@@ -1,31 +1,37 @@
-package com.tc.audioplayer.player;
+package com.tc.model.entity;
 
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.tc.model.entity.SongEntity;
-
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import static com.tc.audioplayer.player.Player.LIST;
-import static com.tc.audioplayer.player.Player.LOOP;
-import static com.tc.audioplayer.player.Player.SHUFFLE;
-import static com.tc.audioplayer.player.Player.SINGLE;
 
 /**
  * Created by tianchao on 2017/8/10.
  */
 
 public class PlayList {
+    public static final int SINGLE = 0;//单曲
+    public static final int LOOP = 1;//循环
+    public static final int SHUFFLE = 2;//随机
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({SINGLE, LOOP, SHUFFLE})
+    public @interface PlayMode {
+
+    }
+
     public static final int NO_POSITION = -1;
-    private
-    @Player.PlayMode
-    int playMode = LOOP;
+    @PlayMode
+    private int playMode = LOOP;
     private List<SongEntity> songList = new ArrayList<>();
     private int playingIndex = -1;
+    private int currentDuration;
 
     public PlayList() {
         // EMPTY
@@ -102,16 +108,17 @@ public class PlayList {
     }
 
     public void setPlayingIndex(int playingIndex) {
+        if (playingIndex <= 0)
+            this.playingIndex = 0;
         this.playingIndex = playingIndex;
     }
 
-    public
-    @Player.PlayMode
-    int getPlayMode() {
+    @PlayMode
+    public int getPlayMode() {
         return playMode;
     }
 
-    public void setPlayMode(@Player.PlayMode int playMode) {
+    public void setPlayMode(@PlayMode int playMode) {
         this.playMode = playMode;
     }
 
@@ -131,7 +138,6 @@ public class PlayList {
     public SongEntity prev() {
         switch (playMode) {
             case LOOP:
-            case LIST:
             case SINGLE:
                 int newIndex = playingIndex - 1;
                 if (newIndex < 0) {
@@ -154,7 +160,6 @@ public class PlayList {
     public SongEntity next() {
         switch (playMode) {
             case LOOP:
-            case LIST:
             case SINGLE:
                 int newIndex = playingIndex + 1;
                 if (newIndex >= songList.size()) {
@@ -176,5 +181,13 @@ public class PlayList {
             randomPlayIndex();
         }
         return randomIndex;
+    }
+
+    public int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    public void setCurrentDuration(int currentDuration) {
+        this.currentDuration = currentDuration;
     }
 }

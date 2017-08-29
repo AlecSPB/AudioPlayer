@@ -1,7 +1,5 @@
 package com.tc.model.entity;
 
-import java.util.List;
-
 /**
  * Created by itcayman on 2017/8/19.
  */
@@ -14,7 +12,7 @@ public class SongDetail {
      * songinfo : {"resource_type_ext":"0","resource_type":"0","del_status":"0","collect_num":129972,"hot":"577812","sound_effect":"","title":"刚好遇见你","language":"国语","play_type":0,"country":"内地","biaoshi":"lossless","bitrate_fee":"{\"0\":\"0|0\",\"1\":\"0|0\"}","song_source":"web","is_first_publish":0,"artist_640_1136":"","is_secret":"0","charge":0,"album_500_500":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_500,h_500","korean_bb_song":"0","has_mv_mobile":0,"album_no":"1","is_charge":"","pic_radio":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_300,h_300","has_filmtv":"0","pic_huge":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_1000,h_1000","ting_uid":"1078","expire":36000,"pic_singer":"","si_proxycompany":"北京新奥视讯国际文化传媒有限公司","compose":"高进","toneid":"0","area":"0","original_rate":"","artist_500_500":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_500","multiterminal_copytype":"","has_mv":0,"album_title":"刚好遇见你","piao_id":"0","high_rate":"320","compress_status":"0","lrclink":"http://musicdata.baidu.com/data2/lrc/b794e0a41a7806a92746d5ac3652dd8c/543756270/543756270.lrc","artist_480_800":"","relate_status":"0","learn":0,"pic_big":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_150,h_150","artist":"李玉刚","artist_list":[{"avatar_mini":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_20","avatar_s300":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_300","ting_uid":"1078","del_status":"0","avatar_s500":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_500","artist_name":"李玉刚","avatar_small":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_48","avatar_s180":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg@s_0,w_180","artist_id":"89"}],"aliasname":"","comment_num":3562,"album_1000_1000":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_1000,h_1000","album_id":"276867491","share_num":6676,"song_id":"276867440","pic_premium":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_500,h_500","all_rate":"64,128,256,320,flac","author":"李玉刚","share_url":"http://music.baidu.com/song/276867440","all_artist_id":"89","songwriting":"高进","publishtime":"2016-11-14","copy_type":"1","artist_1000_1000":"http://musicdata.baidu.com/data2/pic/246707812/246707812.jpg","versions":"","file_duration":"200","artist_id":"89","original":0,"distribution":"0000000000,0000000000,0000000000,0000000000,0000000000,0000000000,0000000000,0000000000,0000000000,0000000000","pic_small":"http://musicdata.baidu.com/data2/pic/d59cab8d47b4ae5cd500cbb67de9cc5c/276867491/276867491.jpg@s_1,w_90,h_90","info":"","havehigh":2,"bitrate":"64,128,256,320,976"}
      */
 
-    public List<SongUrlEntity> songurl;
+    public SongDetailListWrapper songurl;
     public int error_code;
     public SongInfoEntity songinfo;
 }

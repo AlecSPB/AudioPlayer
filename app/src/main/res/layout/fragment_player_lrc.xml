@@ -16,6 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_sound" />
 
         <SeekBar
@@ -25,7 +26,6 @@
             android:layout_height="wrap_content"
             android:indeterminate="false"
             android:paddingLeft="0dp"
-
             android:paddingRight="0dp" />
     </LinearLayout>
 

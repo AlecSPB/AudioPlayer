@@ -1,6 +1,7 @@
 package com.tc.audioplayer.player;
 
 
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 
 /**
@@ -11,6 +12,8 @@ public interface IPlayer {
     PlayList getPlayList();
 
     void appendPlayList(PlayList playList);
+
+    void appendPlayList(PlayList playList, int startIndex, int currentDuration);
 
     boolean play();
 
@@ -36,9 +39,9 @@ public interface IPlayer {
 
     boolean seekTo(int progress);
 
-    void setPlayMode(@Player.PlayMode int playMode);
+    void setPlayMode(@PlayList.PlayMode int playMode);
 
-    @Player.PlayMode
+    @PlayList.PlayMode
     int getPlayMode();
 
     void setPlayState(@Player.PlayState int playState);
@@ -49,5 +52,10 @@ public interface IPlayer {
     void addPlayerListener(PlayerListener listener);
 
     void removePlayerListener(PlayerListener listener);
+
+    @PlayList.PlayMode
+    int switchNextMode(@PlayList.PlayMode int currentMode);
+
+    int getSeekToDuration();
 }
 

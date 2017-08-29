@@ -14,20 +14,22 @@ import rx.Observable;
  */
 
 public class OnlineCase extends BaseCase<OnlineAPI> {
+    private static final String TAG = OnlineCase.class.getSimpleName();
+
     public Observable<SongList> getMusicList(int type) {
         String url = BMA.Billboard.billSongList(type, 0, 20);
-        TLogger.e("getMusicList: " + url);
+        TLogger.d(TAG, "getMusicList: " + url);
         return api.requestOnlineMusicList(url);
     }
 
     public Observable<SongDetail> getMusicInfo(String songid) {
         String url = BMA.Song.songInfo(songid);
-        TLogger.e("getMusicInfo: " + url);
+        TLogger.d(TAG, "getMusicInfo: " + url);
         return api.requestOnlineMusicInfo(url);
     }
 
-    public Observable<ResponseBody> getMusicLrc(String lrclink){
-        TLogger.e("getMusicLrc: " + lrclink);
+    public Observable<ResponseBody> getMusicLrc(String lrclink) {
+        TLogger.d(TAG, "getMusicLrc: " + lrclink);
         return api.requestLrc(lrclink);
     }
 }

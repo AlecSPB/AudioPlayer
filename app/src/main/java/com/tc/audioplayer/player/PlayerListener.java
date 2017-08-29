@@ -1,5 +1,7 @@
 package com.tc.audioplayer.player;
 
+import com.tc.model.entity.PlayList;
+
 /**
  * 播放引擎状态监听器
  * Created by itcayman on 2017/8/16.

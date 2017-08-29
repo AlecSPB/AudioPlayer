@@ -15,8 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.tc.audioplayer.local.LocalMusicFragment;
 import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
+import com.tc.audioplayer.local.LocalMusicFragment;
+import com.tc.audioplayer.widget.Minibar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     ViewPager vpContentMain;
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
+    @BindView(R.id.minibar)
+    Minibar minibar;
 
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
@@ -79,6 +82,10 @@ public class MainActivity extends AppCompatActivity
         vpContentMain.setAdapter(adapter);
         tabLayout.setupWithViewPager(vpContentMain);
         vpContentMain.setCurrentItem(0);
+
+        minibar.postDelayed(() -> {
+            minibar.bindData();
+        }, 500);
     }
 
     private class MainPagerAdapter extends FragmentPagerAdapter {

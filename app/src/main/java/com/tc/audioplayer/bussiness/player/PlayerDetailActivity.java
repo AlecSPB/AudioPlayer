@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
-import com.tc.audioplayer.player.PlayList;
+import com.tc.model.entity.PlayList;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.audioplayer.utils.AudioDurationUtil;
@@ -68,6 +68,7 @@ public class PlayerDetailActivity extends ToolbarActivity {
         viewPager.setAdapter(new CDPagerAdapter(getSupportFragmentManager()));
 
         minibar.setVisibility(View.GONE);
+        minibar.setAutoVisibility(false);
         StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
         changeToolBarColor(0);
         seekbarListener = new SeekbarListener();
@@ -144,6 +145,8 @@ public class PlayerDetailActivity extends ToolbarActivity {
         setToolbarTitle(song.title);
         setToolbarSubtitle(song.author);
         lrcFragment.setLrclink(song.lrclink);
+        int playMode = PlayerManager.getInstance().getPlayMode();
+        updatePlayModeUI(playMode);
     }
 
     @Override
@@ -152,9 +155,25 @@ public class PlayerDetailActivity extends ToolbarActivity {
         super.onDestroy();
     }
 
+    private void updatePlayModeUI(int playMode) {
+        switch (playMode) {
+            case PlayList.SINGLE:
+                ivPlayMode.setImageResource(R.drawable.selector_mode_single);
+                break;
+            case PlayList.LOOP:
+                ivPlayMode.setImageResource(R.drawable.selector_mode_loop);
+                break;
+            case PlayList.SHUFFLE:
+                ivPlayMode.setImageResource(R.drawable.selector_mode_random);
+                break;
+        }
+    }
+
     private View.OnClickListener onClickListener = (view) -> {
         switch (view.getId()) {
             case R.id.iv_play_mode:
+                int playMode = PlayerManager.getInstance().switchNextMode();
+                updatePlayModeUI(playMode);
                 break;
             case R.id.iv_play_pause:
                 PlayerManager.getInstance().playPause();
@@ -206,6 +225,14 @@ public class PlayerDetailActivity extends ToolbarActivity {
         public void onBufferingUpdate(int percent) {
             TLogger.d(TAG, "onBufferingUpdate: percent=" + percent);
             seekBar.setSecondaryProgress(percent);
+            int seektoDuration = PlayerManager.getInstance().getSeektoDuration();
+            if (percent >= 100 && seektoDuration > 0) {
+                PlayList playList = PlayerManager.getInstance().getPlayList();
+                SongEntity song = playList.getCurrentSong();
+                int totalDuration = song.file_duration;
+                int progress = seektoDuration * 100 / totalDuration;
+                PlayerManager.getInstance().seekTo(progress);
+            }
         }
 
         @Override
@@ -229,8 +256,10 @@ public class PlayerDetailActivity extends ToolbarActivity {
 
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
-            if (seekbarStarting)
+            if (seekbarStarting || (progress == 0 && duration == 0 && secondProgress == 0))
                 return;
+            TLogger.d(TAG, "onProgress: progress=" + progress + " duration=" + duration
+                    + " secondProgress=" + secondProgress);
             seekBar.setProgress(progress);
             String totalDuration = AudioDurationUtil.secondsToString(duration);
             tvCurrentDuration.setText(totalDuration);

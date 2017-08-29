@@ -3,8 +3,19 @@ package com.tc.audioplayer.player;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
 import com.tc.audioplayer.AudioApplication;
+import com.tc.audioplayer.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
+import com.tc.model.db.DBManager;
+import com.tc.model.db.greendao.CommonEntityDao;
+import com.tc.model.entity.CommonEntity;
+import com.tc.model.entity.PlayList;
+
+import org.greenrobot.greendao.query.QueryBuilder;
+import org.greenrobot.greendao.query.WhereCondition;
+
+import java.util.List;
 
 /**
  * Created by itcayman on 2017/8/18.
@@ -15,6 +26,7 @@ public class PlayerManager {
     private static PlayerManager instance;
     private Context context;
     private IPlayer player;
+    private Gson gson;
 
     public static PlayerManager getInstance() {
         if (instance == null) {
@@ -33,10 +45,30 @@ public class PlayerManager {
 
     private PlayerManager() {
         context = AudioApplication.getInstance();
+        gson = new Gson();
+    }
+
+    public int getSeektoDuration() {
+        return player.getSeekToDuration();
     }
 
     public PlayList getPlayList() {
-        return player.getPlayList();
+        if (player == null)
+            return null;
+        PlayList playList = player.getPlayList();
+        if (playList == null || CollectionUtil.isEmpty(playList.getSongList())) {
+            PlayList dbPlaylist = getPlayListFromDB();
+            if (dbPlaylist != null) {
+                TLogger.d(TAG, "getPlayList: playindex=" + dbPlaylist.getPlayingIndex()
+                        + " listsize=" + dbPlaylist.getSongList().size()
+                        + " duration=" + dbPlaylist.getCurrentDuration()
+                        + " playmode=" + dbPlaylist.getPlayMode());
+                player.appendPlayList(dbPlaylist, dbPlaylist.getPlayingIndex(), dbPlaylist.getCurrentDuration());
+                player.setPlayMode(dbPlaylist.getPlayMode());
+                return dbPlaylist;
+            }
+        }
+        return playList;
     }
 
     /**
@@ -44,10 +76,12 @@ public class PlayerManager {
      */
     public void appendPlayList(PlayList playList) {
         player.appendPlayList(playList);
+        updatePlaylistToDB();
     }
 
     public void addPlayListener(PlayerListener listener) {
-        player.addPlayerListener(listener);
+        if (player != null)
+            player.addPlayerListener(listener);
     }
 
     public void removePlayListener(PlayerListener listener) {
@@ -56,10 +90,12 @@ public class PlayerManager {
 
     public void play(PlayList playList, int index) {
         player.play(playList, index);
+        updatePlaylistToDB();
         startPlayerAction(PlayActions.MEDIA_PLAY_PAUSE);
     }
 
     public void playPause() {
+        TLogger.d(TAG, "playPause");
         if (player.getPlayList() == null || player.getPlayList().getPlayingIndex() < 0)
             return;
         if (player.isPlaying()) {
@@ -67,6 +103,7 @@ public class PlayerManager {
         } else {
             player.play();
         }
+        updatePlaylistToDB();
     }
 
     public void playPrev() {
@@ -81,11 +118,21 @@ public class PlayerManager {
         player.seekTo(progress);
     }
 
+    @PlayList.PlayMode
+    public int switchNextMode() {
+        return player.switchNextMode(player.getPlayMode());
+    }
+
+    @PlayList.PlayMode
+    public int getPlayMode() {
+        return player.getPlayMode();
+    }
+
     public boolean isPlaying() {
         return player.isPlaying();
     }
 
-    public int getProgress(){
+    public int getProgress() {
         return player.getProgress();
     }
 
@@ -113,5 +160,44 @@ public class PlayerManager {
         intent.setAction(action);
         intent.putExtra("index", index);
         context.startService(intent);
+    }
+
+    private void updatePlaylistToDB() {
+        CommonEntity commonEntity = getCommonEntityFromDB();
+        PlayList playList = player.getPlayList();
+        String content = gson.toJson(playList);
+        TLogger.d(TAG, "updatePlaylistToDB: index=" + playList.getPlayingIndex()
+                + " duration=" + playList.getCurrentDuration());
+        if (commonEntity != null) {
+            commonEntity.content = content;
+            DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
+                    .getCommonEntityDao().update(commonEntity);
+        } else {
+            CommonEntity temp = new CommonEntity();
+            temp.content = content;
+            temp.setType(PlayList.class.getSimpleName());
+            DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
+                    .getCommonEntityDao().insert(temp);
+        }
+    }
+
+    private PlayList getPlayListFromDB() {
+        CommonEntity commonEntity = getCommonEntityFromDB();
+        if (commonEntity == null) {
+            return null;
+        }
+        return gson.fromJson(commonEntity.getContent(), PlayList.class);
+    }
+
+    private CommonEntity getCommonEntityFromDB() {
+        QueryBuilder queryBuilder = DBManager.getInstance(AudioApplication.getInstance())
+                .getDaoSession().getCommonEntityDao().queryBuilder();
+        WhereCondition whereCondition = new WhereCondition.PropertyCondition(
+                CommonEntityDao.Properties.Type, "=" + "\"" + PlayList.class.getSimpleName() + "\"");
+        queryBuilder.where(whereCondition);
+        List<CommonEntity> commonEntities = queryBuilder.build().list();
+        if (CollectionUtil.isEmpty(commonEntities))
+            return null;
+        return commonEntities.get(0);
     }
 }

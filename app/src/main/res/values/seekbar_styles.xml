@@ -9,11 +9,11 @@
     </style>
 
     <style name="Widget.SeekBar.Normal.Sound" parent="@android:style/Widget.SeekBar">
-        <item name="android:maxHeight">3.0dip</item>
+        <item name="android:maxHeight">2.0dip</item>
         <item name="android:progressDrawable">@drawable/seekbar_style_2</item>
-        <item name="android:minHeight">3.0dip</item>
+        <item name="android:minHeight">2.0dip</item>
         <item name="android:thumb">@drawable/ic_white_circle</item>
-        <item name="android:thumbOffset">5dp</item>
+        <item name="android:thumbOffset">0dp</item>
     </style>
 
     <style name="Widget.SeekBar.Normal.HomePlayer" parent="@android:style/Widget.SeekBar">

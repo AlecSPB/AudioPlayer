@@ -1,5 +1,7 @@
 package com.tc.audioplayer.player;
 
+import com.tc.model.entity.PlayList;
+
 /**
  * Created by itcayman on 2017/8/20.
  */

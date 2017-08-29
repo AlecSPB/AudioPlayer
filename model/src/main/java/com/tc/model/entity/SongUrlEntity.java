@@ -24,12 +24,12 @@ public class SongUrlEntity {
      * hash : 9227e6efeb1dd27c54ce1dd2cd5d95ee192855ab
      */
 
+    public int song_file_id;
     public String show_link;
     public int down_type;
     public int original;
     public int free;
     public String replay_gain;
-    public int song_file_id;
     public int file_size;
     public String file_extension;
     public int file_duration;

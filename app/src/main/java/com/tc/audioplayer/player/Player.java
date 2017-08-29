@@ -4,11 +4,11 @@ import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
 
 import com.tc.base.utils.TLogger;
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongEntity;
 import com.tc.model.usecase.OnlineCase;
 
-import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -22,6 +22,10 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
+import static com.tc.model.entity.PlayList.LOOP;
+import static com.tc.model.entity.PlayList.SHUFFLE;
+import static com.tc.model.entity.PlayList.SINGLE;
+
 /**
  * Created by tianchao on 2017/8/10.
  */
@@ -29,17 +33,6 @@ import rx.subscriptions.CompositeSubscription;
 public class Player implements IPlayer {
     private static final String TAG = "Player";
     private static volatile Player sInstance;
-
-    public static final int SINGLE = 0;//单曲
-    public static final int LOOP = 1;//循环
-    public static final int LIST = 2;//列表
-    public static final int SHUFFLE = 3;//随机
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({SINGLE, LOOP, LIST, SHUFFLE})
-    public @interface PlayMode {
-
-    }
 
     public static final int DEFAULT = -1;
     public static final int INIT = 0;          //初始化
@@ -71,14 +64,24 @@ public class Player implements IPlayer {
     private OnlineCase onlineCase;
     // Player status
     private boolean isPaused;
-    @PlayMode
+    @PlayList.PlayMode
     private int playMode;
     @PlayState
     private int playState = DEFAULT;
 
     private CompositeSubscription compositeSubscription;
     private int currentDuration;
+    private int seekToDuration;
     private int progress;
+
+    public int getCurrentDuration() {
+        return currentDuration;
+    }
+
+    @Override
+    public int getSeekToDuration() {
+        return seekToDuration;
+    }
 
     void resetProgressa() {
         progress = 0;
@@ -96,6 +99,7 @@ public class Player implements IPlayer {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((aLong) -> {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
+                    this.playList.setCurrentDuration(currentDuration);
                     int duration = playList.getCurrentSong().file_duration;
                     progress = (int) (currentDuration * 100f / duration);
                     for (int i = 0; i < playerListeners.size(); i++) {
@@ -109,7 +113,11 @@ public class Player implements IPlayer {
 
     public void onCompletion() {
         resetProgressa();
-        playNext();
+        if (playMode != PlayList.SINGLE) {
+            playNext();
+        } else {
+            play();
+        }
     }
 
     @Override
@@ -122,24 +130,21 @@ public class Player implements IPlayer {
         playerListeners.remove(listener);
     }
 
-    @PlayMode
-    int getDefault() {
-        return LOOP;
-    }
-
-    @PlayMode
-    public int switchNextMode(@PlayMode int current) {
+    @PlayList.PlayMode
+    public int switchNextMode(@PlayList.PlayMode int current) {
         switch (current) {
             case LOOP:
-                return LIST;
-            case LIST:
-                return SHUFFLE;
+                playMode = SHUFFLE;
+                break;
             case SHUFFLE:
-                return SINGLE;
+                playMode = SINGLE;
+                break;
             case SINGLE:
-                return LOOP;
+                playMode = LOOP;
+                break;
         }
-        return getDefault();
+        playList.setPlayMode(playMode);
+        return playMode;
     }
 
 
@@ -183,6 +188,18 @@ public class Player implements IPlayer {
     }
 
     @Override
+    public void appendPlayList(PlayList playList, int startIndex, int currentDuration) {
+        appendPlayList(playList);
+        this.playList.setPlayingIndex(startIndex);
+        this.playList.setCurrentDuration(currentDuration);
+        this.currentDuration = currentDuration;
+        this.seekToDuration = currentDuration;
+        SongEntity song = playList.getSongList().get(startIndex);
+        float progress = playList.getCurrentDuration() * 100f / song.getFile_duration();
+        this.progress = (int) progress;
+    }
+
+    @Override
     public boolean append(SongEntity song) {
         this.playList.addSong(song);
         return true;
@@ -190,8 +207,9 @@ public class Player implements IPlayer {
 
     @Override
     public boolean play() {
-        startUpdateProgress();
         if (isPaused) {
+            TLogger.d(TAG, "from pause to start");
+            startUpdateProgress();
             mediaPlayer.start();
             isPaused = false;
             for (int i = 0; i < playerListeners.size(); i++) {
@@ -201,6 +219,7 @@ public class Player implements IPlayer {
             return true;
         }
         if (playList.prepare()) {
+            stopUpdateProgress();
             SongEntity song = playList.getCurrentSong();
             loadMusicDetail(song);
             return true;
@@ -285,16 +304,25 @@ public class Player implements IPlayer {
     public boolean seekTo(int progress) {
         int duration = playList.getCurrentSong().file_duration;
         mediaPlayer.seekTo(duration * progress * 10);
+        if (!mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            for (int i = 0; i < playerListeners.size(); i++) {
+                PlayerListener listener = playerListeners.get(i);
+                listener.onPlay();
+            }
+        }
+        seekToDuration = 0;
         return true;
     }
 
     @Override
-    public void setPlayMode(@PlayMode int playMode) {
+    public void setPlayMode(@PlayList.PlayMode int playMode) {
         this.playMode = playMode;
+        this.playList.setPlayMode(playMode);
     }
 
     @Override
-    @PlayMode
+    @PlayList.PlayMode
     public int getPlayMode() {
         return playMode;
     }
@@ -317,26 +345,38 @@ public class Player implements IPlayer {
         TLogger.d(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;
-            String path = songDetail.songurl.get(0).show_link;
-            TLogger.d(TAG, "get play path: " + path);
+            String path = songDetail.songurl.url.get(0).show_link;
             try {
+                stopUpdateProgress();
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(path);
                 mediaPlayer.prepare();
-                mediaPlayer.start();
-                List<PlayerListener> listenerList = playerListeners;
-                for (int i = 0; i < listenerList.size(); i++) {
-                    PlayerListener listener = listenerList.get(i);
-                    listener.onPlay();
+//                if (currentDuration > 0) {
+//                    mediaPlayer.seekTo(currentDuration * 1000);
+//                } else {
+//                    mediaPlayer.start();
+//                }
+                if (seekToDuration == 0) {
+                    mediaPlayer.start();
+                    startUpdateProgress();
+                    TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
+                    List<PlayerListener> listenerList = playerListeners;
+                    for (int i = 0; i < listenerList.size(); i++) {
+                        PlayerListener listener = listenerList.get(i);
+                        listener.onPlay();
+                    }
                 }
-            } catch (IOException e) {
-                TLogger.e(TAG, "play IOException: ", e.getMessage());
+            } catch (Exception e) {
+                TLogger.e(TAG, "play Exception: ", e);
             }
+        };
+        Action1<Throwable> onError = (throwable) -> {
+            TLogger.e(TAG, "getMusic error: " + throwable);
         };
         onlineCase.getMusicInfo(entity.song_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext);
+                .subscribe(onNext, onError);
     }
 
 

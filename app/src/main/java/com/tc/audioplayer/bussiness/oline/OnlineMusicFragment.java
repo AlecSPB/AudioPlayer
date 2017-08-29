@@ -68,6 +68,7 @@ public class OnlineMusicFragment extends Fragment {
         fragmentList.add(newFragment);
         fragmentList.add(listFragment);
         adapter = new OnlinePagerAdapter(getChildFragmentManager());
+        vpContent.setOffscreenPageLimit(3);
     }
 
     private void initUI() {

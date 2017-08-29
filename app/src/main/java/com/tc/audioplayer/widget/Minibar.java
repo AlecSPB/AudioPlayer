@@ -13,16 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
-import com.tc.audioplayer.event.PlayEvent;
-import com.tc.audioplayer.player.PlayList;
-import com.tc.audioplayer.player.Player;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
-import com.tc.model.entity.SongDetail;
-import com.tc.model.entity.SongInfoEntity;
+import com.tc.base.utils.TLogger;
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 
 import butterknife.BindView;
@@ -45,8 +41,10 @@ public class Minibar extends LinearLayout {
     @BindView(R.id.iv_next)
     ImageView ivNext;
 
+    private static final String TAG = Minibar.class.getSimpleName();
 
     private EventBus eventBus;
+    private boolean autoVisibility = true;
     private MibarPlayerListener playerListener;
     private int progress;
 
@@ -77,13 +75,29 @@ public class Minibar extends LinearLayout {
         eventBus = new EventBus();
         eventBus.register(this);
         playerListener = new MibarPlayerListener();
-        PlayerManager.getInstance().addPlayListener(playerListener);
+        postDelayed(() -> {
+            TLogger.d(TAG, "onAttachedToWindow");
+            PlayerManager.getInstance().addPlayListener(playerListener);
+        }, 500);
     }
 
-    public void bindData(SongDetail songDetail) {
-        SongInfoEntity songInfo = songDetail.songinfo;
-        tvTitle.setText(songInfo.title);
-        tvAuthor.setText(songInfo.author);
+    public void setAutoVisibility(boolean autoVisibility) {
+        this.autoVisibility = autoVisibility;
+    }
+
+    public void bindData() {
+        PlayList playList = PlayerManager.getInstance().getPlayList();
+        SongEntity song = playList.getCurrentSong();
+        if (song == null) {
+            setVisibility(View.GONE);
+            return;
+        }
+        setVisibility(autoVisibility ? View.VISIBLE : View.GONE);
+        tvTitle.setText(song.title);
+        tvAuthor.setText(song.author);
+        Glide.with(getContext()).load(song.pic_small).into(ivAvatar);
+        float progress = playList.getCurrentDuration() * 100f / song.getFile_duration();
+        progressBar.setProgress(progress);
     }
 
 
@@ -104,20 +118,20 @@ public class Minibar extends LinearLayout {
         super.onDetachedFromWindow();
     }
 
-    @Subscribe
-    public void onEventMainThread(PlayEvent event) {
-        if (event.songDetail == null)
-            return;
-        switch (event.playState) {
-            case Player.PLAY_START:
-                bindData(event.songDetail);
-                break;
-            case Player.PLAY_PAUSE:
-                break;
-            case Player.PLAY_STOP:
-                break;
-        }
-    }
+//    @Subscribe
+//    public void onEventMainThread(PlayEvent event) {
+//        if (event.songDetail == null)
+//            return;
+//        switch (event.playState) {
+//            case Player.PLAY_START:
+//                bindData(event.songDetail.songinfo);
+//                break;
+//            case Player.PLAY_PAUSE:
+//                break;
+//            case Player.PLAY_STOP:
+//                break;
+//        }
+//    }
 
     private class MibarPlayerListener extends SimplePlayerListener {
         @Override
@@ -127,11 +141,7 @@ public class Minibar extends LinearLayout {
 
         @Override
         public void onPlay() {
-            PlayList playList = PlayerManager.getInstance().getPlayList();
-            SongEntity song = playList.getCurrentSong();
-            tvTitle.setText(song.title);
-            tvAuthor.setText(song.author);
-            Glide.with(getContext()).load(song.pic_small).into(ivAvatar);
+            bindData();
             progressBar.setPlayState(true);
         }
 
