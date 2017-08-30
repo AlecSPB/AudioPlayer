@@ -7,14 +7,18 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.common.eventbus.EventBus;
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -28,6 +32,8 @@ import butterknife.ButterKnife;
 public class ToolbarActivity extends AppCompatActivity {
     protected EventBus eventBus;
 
+    @BindView(R.id.coordinatorlayout)
+    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.fl_content)
@@ -36,6 +42,8 @@ public class ToolbarActivity extends AppCompatActivity {
     TextView tvRetry;
     @BindView(R.id.minibar)
     public Minibar minibar;
+    @BindView(R.id.bg_header)
+    protected ImageView ivBg;
 
     private Drawable[] mAlphaDrawable;
     private LayerDrawable mLayerDrawable;
@@ -56,8 +64,11 @@ public class ToolbarActivity extends AppCompatActivity {
 
         initToolbar();
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         LayoutInflater.from(this).inflate(layoutResID, flContent, true);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setTranslucentForImageView(this, 0, coordinatorLayout);
         toolbar.setNavigationOnClickListener((v) -> finish());
     }
 
@@ -72,8 +83,9 @@ public class ToolbarActivity extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setSubtitleTextColor(Color.WHITE);
-        toolbar.setTitleMargin(0, 0, 0, 0);
+        toolbar.setSubtitleTextColor(Color.LTGRAY);
+        toolbar.setTitleMargin(0, 0, 0, DimenUtils.dp2px(this, 22));
+        toolbar.setContentInsetStartWithNavigation(0);
     }
 
     public void setToolbarTitle(CharSequence title) {
@@ -84,6 +96,16 @@ public class ToolbarActivity extends AppCompatActivity {
     public void setToolbarSubtitle(CharSequence subTitle) {
         toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);
+    }
+
+    /**
+     * 背景图全屏显示
+     * */
+    protected void setBgImageFitScreen() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivBg.getLayoutParams();
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
+        ivBg.setLayoutParams(params);
     }
 
     /**

@@ -1,13 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Widget.SeekBar.Normal" parent="@android:style/Widget.SeekBar">
-        <item name="android:maxHeight">5.0dip</item>
-        <item name="android:progressDrawable">@drawable/seekbar_style</item>
-        <item name="android:minHeight">5.0dip</item>
-        <item name="android:thumb">@drawable/ic_thumb</item>
-        <item name="android:thumbOffset">2.0dip</item>
-    </style>
-
     <style name="Widget.SeekBar.Normal.Sound" parent="@android:style/Widget.SeekBar">
         <item name="android:maxHeight">2.0dip</item>
         <item name="android:progressDrawable">@drawable/seekbar_style_2</item>
@@ -16,29 +8,12 @@
         <item name="android:thumbOffset">0dp</item>
     </style>
 
-    <style name="Widget.SeekBar.Normal.HomePlayer" parent="@android:style/Widget.SeekBar">
-        <item name="android:maxHeight">2.0dip</item>
-        <item name="android:progressDrawable">@drawable/seekbar_style_2</item>
-        <item name="android:minHeight">2.0dip</item>
-        <item name="android:thumb">@drawable/ic_thumb3</item>
-        <item name="android:thumbOffset">1dp</item>
-    </style>
-
-
     <style name="Widget.SeekBar.Normal.HomePlayer3" parent="@android:style/Widget.SeekBar">
         <item name="android:progressDrawable">@drawable/seekbar_style_4</item>
         <item name="android:thumb">@drawable/ic_white_circle</item>
         <item name="android:maxHeight">2.0dip</item>
         <item name="android:minHeight">2.0dip</item>
         <item name="android:thumbOffset">0dp</item>
-    </style>
-
-    <style name="Widget.SeekBar.Normal.LivePlayer" parent="@android:style/Widget.SeekBar">
-        <item name="android:progressDrawable">@drawable/seekbar_style_live</item>
-        <item name="android:thumb">@drawable/ic_thumb4</item>
-        <item name="android:maxHeight">2.0dip</item>
-        <item name="android:minHeight">2.0dip</item>
-        <item name="android:thumbOffset">3.0dp</item>
     </style>
 
 

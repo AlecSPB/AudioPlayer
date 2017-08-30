@@ -13,12 +13,11 @@ import android.widget.TextView;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
-import com.tc.model.entity.PlayList;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.audioplayer.utils.AudioDurationUtil;
-import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.base.utils.TLogger;
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 
 import java.util.ArrayList;
@@ -52,6 +51,7 @@ public class PlayerDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
+        setBgImageFitScreen();
         viewPager = (ViewPager) findViewById(R.id.vp_content);
         ivPlayMode = (ImageView) findViewById(R.id.iv_play_mode);
         ivPlayPause = (ImageView) findViewById(R.id.iv_play_pause);
@@ -69,7 +69,6 @@ public class PlayerDetailActivity extends ToolbarActivity {
 
         minibar.setVisibility(View.GONE);
         minibar.setAutoVisibility(false);
-        StatusBarUtil.setTranslucentForImageViewInFragment(this, null);
         changeToolBarColor(0);
         seekbarListener = new SeekbarListener();
 

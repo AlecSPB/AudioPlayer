@@ -136,6 +136,10 @@ public class PlayerManager {
         return player.getProgress();
     }
 
+    public void setVolume(float volume) {
+        player.setVolume(volume);
+    }
+
     public void startPlayService() {
         TLogger.d(TAG, "startPlayService");
         startPlayerAction("");

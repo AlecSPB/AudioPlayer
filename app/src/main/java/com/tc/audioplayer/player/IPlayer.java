@@ -57,5 +57,7 @@ public interface IPlayer {
     int switchNextMode(@PlayList.PlayMode int currentMode);
 
     int getSeekToDuration();
+
+    void setVolume(float volume);
 }
 

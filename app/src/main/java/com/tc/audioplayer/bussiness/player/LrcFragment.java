@@ -10,6 +10,7 @@ import android.widget.SeekBar;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseFragment;
+import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.audioplayer.widget.lrcview.LrcView;
 import com.tc.model.usecase.OnlineCase;
@@ -65,12 +66,11 @@ public class LrcFragment extends BaseFragment {
     private class SoundSeekbarListener implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+            PlayerManager.getInstance().setVolume(progress * 1f / 100);
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
         }
 
         @Override
@@ -88,8 +88,8 @@ public class LrcFragment extends BaseFragment {
         }
     }
 
-    public void updateLrcTime(long time){
-        if(lrcView == null)
+    public void updateLrcTime(long time) {
+        if (lrcView == null)
             return;
         lrcView.updateTime(time);
     }

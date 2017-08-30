@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/bg_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bg_player"
+        android:scaleType="fitXY" />
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:overScrollMode="always">
+        android:layout_height="match_parent">
 
         <include layout="@layout/layout_base_with_minibar" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="@dimen/header_height"
             android:background="?attr/colorPrimary"
-            app:layout_behavior="com.tc.audioplayer.base.ToolbarAlphaBehavior"
-            app:layout_scrollFlags="scroll|snap|enterAlways"
+            android:gravity="center_vertical"
             app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
             app:titleTextAppearance="@style/Theme.ToolBar.Base.Title" />
 
     </android.support.design.widget.CoordinatorLayout>
 
-</LinearLayout>
+</RelativeLayout>

@@ -338,6 +338,11 @@ public class Player implements IPlayer {
         return playState;
     }
 
+    @Override
+    public void setVolume(float volume) {
+        mediaPlayer.setVolume(volume, volume);
+    }
+
     /**
      * 加载
      */
