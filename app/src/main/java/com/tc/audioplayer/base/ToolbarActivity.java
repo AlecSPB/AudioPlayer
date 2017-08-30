@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
+import com.tc.audioplayer.widget.blur.BlurImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +43,7 @@ public class ToolbarActivity extends AppCompatActivity {
     @BindView(R.id.minibar)
     public Minibar minibar;
     @BindView(R.id.bg_header)
-    protected ImageView ivBg;
+    protected BlurImageView ivBg;
 
     private Drawable[] mAlphaDrawable;
     private LayerDrawable mLayerDrawable;

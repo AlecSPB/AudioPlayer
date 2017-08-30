@@ -1,5 +1,6 @@
 package com.tc.audioplayer.bussiness.player;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
 import com.tc.audioplayer.player.PlayerManager;
@@ -146,6 +150,15 @@ public class PlayerDetailActivity extends ToolbarActivity {
         lrcFragment.setLrclink(song.lrclink);
         int playMode = PlayerManager.getInstance().getPlayMode();
         updatePlayModeUI(playMode);
+        Glide.with(this)
+                .load(song.getPic_small())
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        ivBg.blur(resource);
+                    }
+                });
     }
 
     @Override

@@ -8,7 +8,7 @@
         <item name="android:thumbOffset">0dp</item>
     </style>
 
-    <style name="Widget.SeekBar.Normal.HomePlayer3" parent="@android:style/Widget.SeekBar">
+    <style name="Widget.SeekBar.Normal.Player" parent="@android:style/Widget.SeekBar">
         <item name="android:progressDrawable">@drawable/seekbar_style_4</item>
         <item name="android:thumb">@drawable/ic_white_circle</item>
         <item name="android:maxHeight">2.0dip</item>
