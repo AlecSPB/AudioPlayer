@@ -8,13 +8,13 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/default_background"
         android:layout_above="@+id/minibar">
 
         <com.tc.librecyclerview.LinearRecyclerView
             android:id="@+id/lrv_conent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/default_background"
             android:clipToPadding="false" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -23,6 +23,7 @@
         android:id="@+id/tv_retry"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/default_background"
         android:layout_above="@+id/minibar"
         android:layout_marginTop="150dp"
         android:gravity="center_horizontal"
