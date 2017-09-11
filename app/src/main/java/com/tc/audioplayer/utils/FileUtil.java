@@ -11,13 +11,12 @@ import java.io.OutputStream;
 import okhttp3.ResponseBody;
 import okio.ByteString;
 
-import static com.tc.base.utils.TLogger.TAG;
-
 /**
  * Created by itcayman on 2017/8/23.
  */
 
 public class FileUtil {
+    private static final String TAG = FileUtil.class.getSimpleName();
     public static final String PATH_BASE = android.os.Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/AudioPlayer/";
     public static final String PATH_LRC = PATH_BASE + "lyrics";
@@ -35,6 +34,9 @@ public class FileUtil {
     public static boolean writeResponseBodyToDisk(ResponseBody body, String lrclink) {
         try {
             File futureStudioIconFile = getLrcFile(lrclink);
+            if(!futureStudioIconFile.exists()){
+                futureStudioIconFile.createNewFile();
+            }
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
@@ -56,6 +58,7 @@ public class FileUtil {
                 outputStream.flush();
                 return true;
             } catch (IOException e) {
+                TLogger.e(TAG, "writeResponseBodyToDisk exception: ", e);
                 return false;
             } finally {
                 if (inputStream != null) {
@@ -66,6 +69,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
+            TLogger.e(TAG, "writeResponseBodyToDisk exception: ", e);
             return false;
         }
     }

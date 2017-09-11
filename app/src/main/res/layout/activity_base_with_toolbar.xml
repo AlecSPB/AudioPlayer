@@ -8,15 +8,20 @@
         android:id="@+id/bg_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:src="@drawable/bg_player"
-        android:scaleType="fitXY" />
+        android:visibility="gone" />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/layout_base_with_minibar" />
+        <include
+            layout="@layout/layout_base_with_minibar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/header_height" />
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,7 +30,28 @@
             android:background="?attr/colorPrimary"
             android:gravity="center_vertical"
             app:subtitleTextAppearance="@style/Theme.ToolBar.Base.Subtitle"
-            app:titleTextAppearance="@style/Theme.ToolBar.Base.Title" />
+            app:titleTextAppearance="@style/Theme.ToolBar.Base.Title">
+
+            <FrameLayout
+                android:id="@+id/fl_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <com.tc.audioplayer.widget.ClearableEditText
+                    android:id="@+id/cet_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dp"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#f78474"
+                    android:textSize="16sp"
+                    android:theme="@style/AppTheme.CompatEditText" />
+            </FrameLayout>
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.CoordinatorLayout>
 

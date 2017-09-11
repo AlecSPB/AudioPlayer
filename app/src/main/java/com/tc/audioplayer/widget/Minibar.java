@@ -141,6 +141,7 @@ public class Minibar extends LinearLayout {
 
         @Override
         public void onPlay() {
+            PlayerManager.getInstance().updatePlaylistToDB();
             bindData();
             progressBar.setPlayState(true);
         }

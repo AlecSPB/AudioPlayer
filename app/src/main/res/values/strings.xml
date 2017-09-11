@@ -14,4 +14,8 @@
         <item>新曲</item>
         <item>歌单</item>
     </string-array>
+
+    <string name="search_hint">搜索歌曲、歌手名</string>
+    <string name="status_loading">正在拼命加载...</string>
+    <string name="status_net_error">请连接网络后点击屏幕重试</string>
 </resources>

@@ -643,7 +643,9 @@ public class BMA {
                     .append("&query=").append(encode(query))
                     .append("&page_no=").append(pageNo)
                     .append("&page_size=").append(pageSize)
-                    .append("&type=-1&data_source=0");
+                    .append("&type=-1&data_source=0")
+                    .append("&isNew=1")
+                    .append("&use_cluster=1");
             return sb.toString();
         }
 

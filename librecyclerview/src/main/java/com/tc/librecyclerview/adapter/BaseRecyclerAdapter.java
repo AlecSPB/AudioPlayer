@@ -40,7 +40,7 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     }
 
     public int getItemCount() {
-        return this.data.size();
+        return data == null ? 0 : this.data.size();
     }
 
     public long getItemId(int position) {
@@ -52,7 +52,7 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     }
 
     public void appendData(List<D> list) {
-        if(list == null) {
+        if (list == null) {
             list = new ArrayList<>();
         }
         this.data.addAll(list);
@@ -69,7 +69,7 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     }
 
     public void clear() {
-        if(this.data != null) {
+        if (this.data != null) {
             this.data.clear();
         }
     }
@@ -84,14 +84,14 @@ public abstract class BaseRecyclerAdapter<D, VH extends RecyclerView.ViewHolder>
     }
 
     public void remove(D d) {
-        if(data != null) {
+        if (data != null) {
             data.remove(d);
             notifyDataSetChanged();
         }
     }
 
     public void removeAt(int pos) {
-        if(data != null) {
+        if (data != null) {
             data.remove(pos);
             notifyItemRemoved(pos);
         }

@@ -11,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.google.common.eventbus.EventBus;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
+import com.tc.audioplayer.widget.ClearableEditText;
 import com.tc.audioplayer.widget.Minibar;
 import com.tc.audioplayer.widget.blur.BlurImageView;
 
@@ -35,15 +37,19 @@ public class ToolbarActivity extends AppCompatActivity {
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    protected Toolbar toolbar;
     @BindView(R.id.fl_content)
     protected FrameLayout flContent;
     @BindView(R.id.tv_retry)
     TextView tvRetry;
     @BindView(R.id.minibar)
-    public Minibar minibar;
+    protected Minibar minibar;
     @BindView(R.id.bg_header)
     protected BlurImageView ivBg;
+    @BindView(R.id.fl_toolbar)
+    protected FrameLayout flToolbarContent;
+    @BindView(R.id.cet_search)
+    protected ClearableEditText cetSearch;
 
     private Drawable[] mAlphaDrawable;
     private LayerDrawable mLayerDrawable;
@@ -84,28 +90,31 @@ public class ToolbarActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setSubtitleTextColor(Color.LTGRAY);
-        toolbar.setTitleMargin(0, 0, 0, DimenUtils.dp2px(this, 22));
+        toolbar.setTitleMargin(0, 0, 0, DimenUtils.dp2px(this, 10));
         toolbar.setContentInsetStartWithNavigation(0);
     }
 
     public void setToolbarTitle(CharSequence title) {
         toolbar.setTitle(title);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((v) -> finish());
     }
 
     public void setToolbarSubtitle(CharSequence subTitle) {
         toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((v) -> finish());
     }
 
     /**
      * 背景图全屏显示
-     * */
+     */
     protected void setBgImageFitScreen() {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivBg.getLayoutParams();
         params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
         params.height = RelativeLayout.LayoutParams.MATCH_PARENT;
         ivBg.setLayoutParams(params);
+        ivBg.setVisibility(View.VISIBLE);
     }
 
     /**

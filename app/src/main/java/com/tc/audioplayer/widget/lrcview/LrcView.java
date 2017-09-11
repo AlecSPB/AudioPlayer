@@ -63,7 +63,7 @@ public class LrcView extends View {
         mDividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, DimenUtils.dp2px(getContext(), 16));
         mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, 1000);
         mAnimationDuration = (mAnimationDuration < 0) ? 1000 : mAnimationDuration;
-        mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, Color.parseColor("#939191"));
+        mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, Color.parseColor("#bcbaba"));
         mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, Color.WHITE);
         mLabel = ta.getString(R.styleable.LrcView_lrcLabel);
         mLabel = TextUtils.isEmpty(mLabel) ? "暂无歌词" : mLabel;

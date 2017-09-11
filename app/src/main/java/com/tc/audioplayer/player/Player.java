@@ -100,13 +100,14 @@ public class Player implements IPlayer {
                 .subscribe((aLong) -> {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
                     this.playList.setCurrentDuration(currentDuration);
-                    int duration = playList.getCurrentSong().file_duration;
+                    int duration = mediaPlayer.getDuration() / 1000;
+                    getPlayingSong().setFile_duration(duration);
                     progress = (int) (currentDuration * 100f / duration);
                     for (int i = 0; i < playerListeners.size(); i++) {
                         PlayerListener listener = playerListeners.get(i);
                         listener.onProgress(true, progress, currentDuration, 0);
                     }
-//                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
+                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
                 });
         compositeSubscription.add(subscribe);
     }
@@ -297,7 +298,7 @@ public class Player implements IPlayer {
 
     @Override
     public SongEntity getPlayingSong() {
-        return null;
+        return playList.getCurrentSong();
     }
 
     @Override

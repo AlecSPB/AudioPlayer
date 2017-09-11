@@ -36,6 +36,13 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         public final static Property Artist_name = new Property(6, String.class, "artist_name", false, "ARTIST_NAME");
         public final static Property Avatar_small = new Property(7, String.class, "avatar_small", false, "AVATAR_SMALL");
         public final static Property Avatar_s180 = new Property(8, String.class, "avatar_s180", false, "AVATAR_S180");
+        public final static Property Song_num = new Property(9, int.class, "song_num", false, "SONG_NUM");
+        public final static Property Country = new Property(10, String.class, "country", false, "COUNTRY");
+        public final static Property Avatar_middle = new Property(11, String.class, "avatar_middle", false, "AVATAR_MIDDLE");
+        public final static Property Album_num = new Property(12, int.class, "album_num", false, "ALBUM_NUM");
+        public final static Property Artist_desc = new Property(13, String.class, "artist_desc", false, "ARTIST_DESC");
+        public final static Property Author = new Property(14, String.class, "author", false, "AUTHOR");
+        public final static Property Artist_source = new Property(15, String.class, "artist_source", false, "ARTIST_SOURCE");
     };
 
     private Query<ArtistEntity> songInfoEntity_Artist_listQuery;
@@ -60,7 +67,14 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
                 "\"AVATAR_S500\" TEXT," + // 5: avatar_s500
                 "\"ARTIST_NAME\" TEXT," + // 6: artist_name
                 "\"AVATAR_SMALL\" TEXT," + // 7: avatar_small
-                "\"AVATAR_S180\" TEXT);"); // 8: avatar_s180
+                "\"AVATAR_S180\" TEXT," + // 8: avatar_s180
+                "\"SONG_NUM\" INTEGER NOT NULL ," + // 9: song_num
+                "\"COUNTRY\" TEXT," + // 10: country
+                "\"AVATAR_MIDDLE\" TEXT," + // 11: avatar_middle
+                "\"ALBUM_NUM\" INTEGER NOT NULL ," + // 12: album_num
+                "\"ARTIST_DESC\" TEXT," + // 13: artist_desc
+                "\"AUTHOR\" TEXT," + // 14: author
+                "\"ARTIST_SOURCE\" TEXT);"); // 15: artist_source
     }
 
     /** Drops the underlying database table. */
@@ -117,6 +131,33 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         if (avatar_s180 != null) {
             stmt.bindString(9, avatar_s180);
         }
+        stmt.bindLong(10, entity.getSong_num());
+ 
+        String country = entity.getCountry();
+        if (country != null) {
+            stmt.bindString(11, country);
+        }
+ 
+        String avatar_middle = entity.getAvatar_middle();
+        if (avatar_middle != null) {
+            stmt.bindString(12, avatar_middle);
+        }
+        stmt.bindLong(13, entity.getAlbum_num());
+ 
+        String artist_desc = entity.getArtist_desc();
+        if (artist_desc != null) {
+            stmt.bindString(14, artist_desc);
+        }
+ 
+        String author = entity.getAuthor();
+        if (author != null) {
+            stmt.bindString(15, author);
+        }
+ 
+        String artist_source = entity.getArtist_source();
+        if (artist_source != null) {
+            stmt.bindString(16, artist_source);
+        }
     }
 
     @Override
@@ -167,6 +208,33 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         if (avatar_s180 != null) {
             stmt.bindString(9, avatar_s180);
         }
+        stmt.bindLong(10, entity.getSong_num());
+ 
+        String country = entity.getCountry();
+        if (country != null) {
+            stmt.bindString(11, country);
+        }
+ 
+        String avatar_middle = entity.getAvatar_middle();
+        if (avatar_middle != null) {
+            stmt.bindString(12, avatar_middle);
+        }
+        stmt.bindLong(13, entity.getAlbum_num());
+ 
+        String artist_desc = entity.getArtist_desc();
+        if (artist_desc != null) {
+            stmt.bindString(14, artist_desc);
+        }
+ 
+        String author = entity.getAuthor();
+        if (author != null) {
+            stmt.bindString(15, author);
+        }
+ 
+        String artist_source = entity.getArtist_source();
+        if (artist_source != null) {
+            stmt.bindString(16, artist_source);
+        }
     }
 
     @Override
@@ -185,7 +253,14 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // avatar_s500
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // artist_name
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // avatar_small
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // avatar_s180
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // avatar_s180
+            cursor.getInt(offset + 9), // song_num
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // country
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // avatar_middle
+            cursor.getInt(offset + 12), // album_num
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // artist_desc
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // author
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // artist_source
         );
         return entity;
     }
@@ -201,6 +276,13 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         entity.setArtist_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setAvatar_small(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setAvatar_s180(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setSong_num(cursor.getInt(offset + 9));
+        entity.setCountry(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setAvatar_middle(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setAlbum_num(cursor.getInt(offset + 12));
+        entity.setArtist_desc(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setAuthor(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setArtist_source(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

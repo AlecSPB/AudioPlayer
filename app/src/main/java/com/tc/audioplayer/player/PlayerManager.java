@@ -166,7 +166,7 @@ public class PlayerManager {
         context.startService(intent);
     }
 
-    private void updatePlaylistToDB() {
+    public void updatePlaylistToDB() {
         CommonEntity commonEntity = getCommonEntityFromDB();
         PlayList playList = player.getPlayList();
         String content = gson.toJson(playList);

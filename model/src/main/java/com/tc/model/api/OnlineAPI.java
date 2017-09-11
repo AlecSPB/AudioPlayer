@@ -1,5 +1,6 @@
 package com.tc.model.api;
 
+import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongList;
 
@@ -21,4 +22,7 @@ public interface OnlineAPI {
 
     @GET
     Observable<ResponseBody> requestLrc(@Url String url);
+
+    @GET
+    Observable<SearchWrapper> requestSearch(@Url String url);
 }

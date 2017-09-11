@@ -41,4 +41,20 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="AppTheme.CompatEditText" parent="Theme.AppCompat.Light">
+        <!-- 默认状态提示颜色和字体-->
+        <item name="android:textColorHint">#f47970</item>
+        <item name="android:textColor">#f5e3e3</item>
+        <item name="android:textSize">14sp</item>
+        <!-- 下面可以根据需要设置，如果没有将默认使用默认theme的颜色 -->
+        <!-- Label标签的颜色 -->
+        <item name="colorAccent">#ffffff</item>
+        <!-- 默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#f2c9c9</item>
+        <!-- 选择的底线颜色 -->
+        <item name="colorControlActivated">#ffffff</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_search</item>
+        <item name="editTextBackground">@null</item>
+    </style>
+
 </resources>

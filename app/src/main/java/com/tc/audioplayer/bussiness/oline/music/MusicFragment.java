@@ -50,6 +50,7 @@ public class MusicFragment extends BaseListFragment {
         presenter.attachView(this);
         adapter = new MusicAdapter(getContext());
         recyclerView.setAdapter(adapter);
+        recyclerView.addDefaultDivider();
         presenter.loadData(false);
         adapter.setOnItemClickListener((v, position) -> {
             PlayList playList = new PlayList();

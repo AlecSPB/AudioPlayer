@@ -1,1 +1,1 @@
-include ':app', ':model', ':librecyclerview', ':base'
+include ':app', ':model', ':librecyclerview', ':base', ":lib_permission"

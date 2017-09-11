@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -15,6 +16,8 @@
             android:id="@+id/lrv_conent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:divider_color="#e5e5e5"
+            app:divider_marginLeft="15dp"
             android:clipToPadding="false" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
