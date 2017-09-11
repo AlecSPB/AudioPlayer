@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import com.tc.audioplayer.base.BaseActivity;
 import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
-import com.tc.audioplayer.local.LocalMusicFragment;
+import com.tc.audioplayer.bussiness.collect.CollectListFragment;
 import com.tc.audioplayer.widget.Minibar;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class MainActivity extends BaseActivity
         tabTitles = getResources().getStringArray(R.array.main_tabs);
         fragmentList = new ArrayList<>();
         Fragment onlineFragment = OnlineMusicFragment.newInstance();
-        Fragment localFragment = LocalMusicFragment.newInstance();
+        Fragment localFragment = CollectListFragment.newInstance();
         fragmentList.add(onlineFragment);
         fragmentList.add(localFragment);
         adapter = new MainPagerAdapter(getSupportFragmentManager());

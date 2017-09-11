@@ -25,6 +25,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CommonEntityDao.createTable(db, ifNotExists);
         SongEntityDao.createTable(db, ifNotExists);
         SongInfoEntityDao.createTable(db, ifNotExists);
+        CollectSongDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
@@ -33,6 +34,7 @@ public class DaoMaster extends AbstractDaoMaster {
         CommonEntityDao.dropTable(db, ifExists);
         SongEntityDao.dropTable(db, ifExists);
         SongInfoEntityDao.dropTable(db, ifExists);
+        CollectSongDao.dropTable(db, ifExists);
     }
 
     /**
@@ -55,6 +57,7 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(CommonEntityDao.class);
         registerDaoClass(SongEntityDao.class);
         registerDaoClass(SongInfoEntityDao.class);
+        registerDaoClass(CollectSongDao.class);
     }
 
     public DaoSession newSession() {

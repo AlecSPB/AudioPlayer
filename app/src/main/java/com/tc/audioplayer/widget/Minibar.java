@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.common.eventbus.EventBus;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.player.PlayerManager;
@@ -43,7 +42,6 @@ public class Minibar extends LinearLayout {
 
     private static final String TAG = Minibar.class.getSimpleName();
 
-    private EventBus eventBus;
     private boolean autoVisibility = true;
     private MibarPlayerListener playerListener;
     private int progress;
@@ -72,8 +70,6 @@ public class Minibar extends LinearLayout {
         setOnClickListener((v) -> {
             Navigator.toPlayerDetailActivity(getContext());
         });
-        eventBus = new EventBus();
-        eventBus.register(this);
         playerListener = new MibarPlayerListener();
         postDelayed(() -> {
             TLogger.d(TAG, "onAttachedToWindow");
@@ -113,7 +109,6 @@ public class Minibar extends LinearLayout {
 
     @Override
     protected void onDetachedFromWindow() {
-        eventBus.unregister(this);
         PlayerManager.getInstance().removePlayListener(playerListener);
         super.onDetachedFromWindow();
     }

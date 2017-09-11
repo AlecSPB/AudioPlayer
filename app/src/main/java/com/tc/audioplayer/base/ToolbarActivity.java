@@ -4,9 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.common.eventbus.EventBus;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
@@ -31,8 +28,6 @@ import butterknife.ButterKnife;
  */
 
 public class ToolbarActivity extends BaseActivity {
-    protected EventBus eventBus;
-
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.toolbar)
@@ -55,16 +50,9 @@ public class ToolbarActivity extends BaseActivity {
     private int mCurrentAlpha = -1;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(R.layout.activity_base_with_toolbar);
         ButterKnife.bind(this);
-        eventBus = new EventBus();
-        eventBus.register(this);
 //        registerEventBus(configDefaultRigsterFlags());
 
         initToolbar();
