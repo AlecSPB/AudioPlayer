@@ -1,11 +1,11 @@
-package com.sankuai.moviepro.permission.core;
+package com.tc.audioplayer.permission.core;
 
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by tianchao on 16/11/28.
+ * Created by itcayman on 16/11/28.
  */
 
 public interface IPermissionFragment {

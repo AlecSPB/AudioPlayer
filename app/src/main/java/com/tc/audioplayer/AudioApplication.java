@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.FileUtil;
+import com.tc.base.utils.SharedPreferencesUtil;
 import com.tc.model.net.APIServiceProvider;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class AudioApplication extends MultiDexApplication {
         PlayerManager.getInstance().startPlayService();
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
+        SharedPreferencesUtil.init(this);
 
         File cacheDir = new File(FileUtil.PATH_LRC);
         if (!cacheDir.exists()) {

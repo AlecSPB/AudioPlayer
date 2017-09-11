@@ -1,9 +1,10 @@
-package com.sankuai.moviepro.permission.core;
+package com.tc.audioplayer.permission.core;
+
 
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by tianchao on 16/11/28.
+ * Created by itcayman on 16/11/28.
  */
 
 public interface IPermissionActivity {

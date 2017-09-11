@@ -8,7 +8,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.tc.audioplayer"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,7 @@ dependencies {
 
     compile project(':base')
     compile project(':model')
+    compile project(':libpermission')
     compile 'com.android.support:multidex:1.0.1'
 
     //TabLayout
@@ -49,4 +50,6 @@ dependencies {
     //glide
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'jp.wasabeef:glide-transformations:1.2.1'
+
+    apt 'com.zhy:mpermission-compiler:1.0.0'
 }

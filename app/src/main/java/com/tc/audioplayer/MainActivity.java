@@ -10,11 +10,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tc.audioplayer.base.BaseActivity;
 import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
 import com.tc.audioplayer.local.LocalMusicFragment;
 import com.tc.audioplayer.widget.Minibar;
@@ -25,8 +25,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int MUTI_PERMISSION_WINDOW = 10;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;

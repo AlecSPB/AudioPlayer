@@ -1,16 +1,15 @@
-package com.sankuai.moviepro.permission;
+package com.tc.audioplayer.permission;
 
 import android.Manifest;
 import android.content.Context;
 
-import com.sankuai.moviepro.permission.core.IPermissionActivity;
-import com.sankuai.moviepro.permission.core.IPermissionFragment;
-import com.sankuai.moviepro.permission.core.PermissionCode;
-import com.sankuai.moviepro.permission.core.RunTimePermission;
-
+import com.tc.audioplayer.permission.core.IPermissionActivity;
+import com.tc.audioplayer.permission.core.IPermissionFragment;
+import com.tc.audioplayer.permission.core.PermissionCode;
+import com.tc.audioplayer.permission.core.RunTimePermission;
 
 /**
- * Created by zhangtao21 on 16/9/9.
+ * Created by itcayman on 16/9/9.
  */
 public class ExternalStoragePermission extends RunTimePermission {
 

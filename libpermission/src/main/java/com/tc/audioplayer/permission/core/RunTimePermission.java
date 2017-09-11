@@ -1,13 +1,14 @@
-package com.sankuai.moviepro.permission.core;
+package com.tc.audioplayer.permission.core;
 
 import android.content.Context;
 
-import com.sankuai.moviepro.common.utils.SharedPreferencesUtil;
+import com.tc.base.utils.SharedPreferencesUtil;
+
 
 /**
  * 运行时权限
  * <p>
- * Created by zhangtao21 on 16/9/9.
+ * Created by itcayman on 16/9/9.
  * <p>
  * 申请权限请继承该类
  * <p>

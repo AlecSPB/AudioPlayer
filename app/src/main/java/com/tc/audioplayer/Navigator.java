@@ -20,8 +20,13 @@ public class Navigator {
         context.startActivity(intent);
     }
 
-    public static void toSearchActivity(Context context){
+    public static void toSearchActivity(Context context) {
         Intent intent = new Intent(context, SearchActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void toMainActivity(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
     }
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.google.gson.Gson;
 import com.tc.audioplayer.AudioApplication;
-import com.tc.audioplayer.utils.CollectionUtil;
+import com.tc.base.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.db.DBManager;
 import com.tc.model.db.greendao.CommonEntityDao;

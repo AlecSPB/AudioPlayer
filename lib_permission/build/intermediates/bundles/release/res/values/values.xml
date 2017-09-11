@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="permission_btn_cancel">暂不</string>
-    <string name="permission_btn_good">好</string>
-    <string name="permission_btn_ok">去设置</string>
-    <string name="permission_location_message">您未允许猫眼专业版获取定位权限，您可在系统设置中开启</string>
-    <string name="permission_phone_state_message">您未允许猫眼专业版获取手机状态权限，您可在系统设置中开启</string>
-    <string name="permission_storage_message">您未允许猫眼专业版获取存储权限，您可在系统设置中开启</string>
-</resources>

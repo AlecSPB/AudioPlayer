@@ -1,7 +1,7 @@
-package com.sankuai.moviepro.permission.core;
+package com.tc.audioplayer.permission.core;
 
 /**
- * Created by zhangtao21 on 16/9/9.
+ * Created by itcayman on 16/9/9.
  */
 public class PermissionCode {
     public static final int READ_PHONE_STATE = 0x01;

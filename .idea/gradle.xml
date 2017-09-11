@@ -10,7 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
-            <option value="$PROJECT_DIR$/lib_permission" />
+            <option value="$PROJECT_DIR$/libpermission" />
             <option value="$PROJECT_DIR$/librecyclerview" />
             <option value="$PROJECT_DIR$/model" />
           </set>

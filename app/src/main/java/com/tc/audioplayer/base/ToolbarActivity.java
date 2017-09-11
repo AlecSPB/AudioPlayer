@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by itcayman on 2017/8/20.
  */
 
-public class ToolbarActivity extends AppCompatActivity {
+public class ToolbarActivity extends BaseActivity {
     protected EventBus eventBus;
 
     @BindView(R.id.coordinatorlayout)

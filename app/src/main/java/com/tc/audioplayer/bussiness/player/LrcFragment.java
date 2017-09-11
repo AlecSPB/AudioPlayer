@@ -25,6 +25,7 @@ import rx.schedulers.Schedulers;
 
 import static com.tc.audioplayer.utils.FileUtil.getLrcFile;
 
+
 /**
  * Created by itcayman on 2017/8/23.
  * 歌词页面
@@ -95,7 +96,7 @@ public class LrcFragment extends BaseFragment {
     }
 
     private void showLrc(String lrclink) {
-        File file = FileUtil.getLrcFile(lrclink);
+        File file = getLrcFile(lrclink);
         if (file.exists()) {
             lrcView.loadLrc(file);
         } else {
@@ -109,7 +110,7 @@ public class LrcFragment extends BaseFragment {
     private void loadServerLrc(String lrclink) {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
             if (saveLrcSuccess) {
-                File file = getLrcFile(lrclink);
+                File file = FileUtil.getLrcFile(lrclink);
                 lrcView.loadLrc(file);
             }
         };

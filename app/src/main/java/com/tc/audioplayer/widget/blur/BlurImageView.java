@@ -17,8 +17,8 @@ public class BlurImageView extends ImageView {
 
     private final DrawableFadeDisplayer drawableFadeDisplayer;
 
-    int scaleRatio = 16;
-    int blurRadius = 4;
+    int scaleRatio = 2;
+    int blurRadius = 25;
     private RenderScript mRenderScript;
     private ScriptIntrinsicBlur mBlurScript;
     private Allocation mBlurInput;

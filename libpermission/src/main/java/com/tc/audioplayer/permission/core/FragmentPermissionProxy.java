@@ -1,13 +1,13 @@
-package com.sankuai.moviepro.permission.core;
+package com.tc.audioplayer.permission.core;
 
 import android.support.v4.app.ActivityCompat;
 
-import com.sankuai.moviepro.common.utils.SharedPreferencesUtil;
-import com.sankuai.moviepro.permission.MovieProPermissionUtil;
+import com.tc.audioplayer.permission.PermissionUtil;
+import com.tc.base.utils.SharedPreferencesUtil;
 import com.zhy.m.permission.MPermissions;
 
 /**
- * Created by tianchao on 16/11/28.
+ * Created by itcayman on 16/11/28.
  */
 
 public class FragmentPermissionProxy extends BasePermissionProxy {
@@ -31,7 +31,7 @@ public class FragmentPermissionProxy extends BasePermissionProxy {
             return;
         }
         if (param.unUseSystem && (!param.isForce && !param.isFirstTime && !ActivityCompat.shouldShowRequestPermissionRationale(mFragment.getPermissionActivity().getActivity(), param.permissionName))) {
-            dialog = MovieProPermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, false, param.rational, new MovieProPermissionUtil.PermissionListener() {
+            dialog = PermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, false, param.rational, new PermissionUtil.PermissionListener() {
                 @Override
                 public void clickPositive() {
                 }
@@ -55,7 +55,7 @@ public class FragmentPermissionProxy extends BasePermissionProxy {
         }
         if (param.isForce) {
             if (param.unUseSystem && (!ActivityCompat.shouldShowRequestPermissionRationale(mFragment.getPermissionActivity().getActivity(), param.permissionName))) {
-                dialog = MovieProPermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, true, param.rational);
+                dialog = PermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, true, param.rational);
             } else {
                 MPermissions.requestPermissions(mFragment.getFragment(), param.requestCode, param.permissionName);
             }
@@ -88,7 +88,7 @@ public class FragmentPermissionProxy extends BasePermissionProxy {
             callPermissionGrant(mFragment, param.requestCode);
             return;
         }
-        dialog = MovieProPermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, false, param.rational, new MovieProPermissionUtil.PermissionListener() {
+        dialog = PermissionUtil.popPermissionDialog(mFragment.getPermissionActivity().getActivity(), param.requestCode, false, param.rational, new PermissionUtil.PermissionListener() {
             @Override
             public void clickPositive() {
             }
