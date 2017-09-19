@@ -1,6 +1,7 @@
 package com.tc.audioplayer;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,12 +12,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tc.audioplayer.base.BaseActivity;
-import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
 import com.tc.audioplayer.bussiness.collect.CollectListFragment;
+import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
+import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class MainActivity extends BaseActivity
     TabLayout tabLayout;
     @BindView(R.id.minibar)
     Minibar minibar;
+    @BindView(R.id.coordinatorlayout)
+    CoordinatorLayout coordinatorLayout;
 
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
@@ -54,6 +59,7 @@ public class MainActivity extends BaseActivity
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
+        StatusBarUtil.setTranslucentForDrawerLayout(this, drawerLayout, 0);
         initData();
         initUI();
     }
@@ -77,6 +83,7 @@ public class MainActivity extends BaseActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
+        drawerLayout.setDrawerShadow(R.drawable.ic_topbar_menu, Gravity.LEFT);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
