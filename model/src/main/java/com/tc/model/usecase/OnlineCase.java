@@ -40,4 +40,22 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         TLogger.d(TAG, "getSearch: " + url);
         return api.requestSearch(url);
     }
+
+    public Observable<String> getGedanCategory() {
+        String url = BMA.GeDan.geDanCategory();
+        TLogger.d(TAG, "getGedanCategory: " + url);
+        return api.requestGedanCatetory(url);
+    }
+
+    public Observable<String> getGedanByTag(String tag, int pageno) {
+        String url = BMA.GeDan.geDanByTag(tag, pageno, 10);
+        TLogger.d(TAG, "geGedanByTag: " + url);
+        return api.requestGeDanByTag(url);
+    }
+
+    public Observable<String> getGeDan(int pageNo, int pageSize) {
+        String url = BMA.GeDan.geDan(pageNo, pageSize);
+        TLogger.d(TAG, "geDan: " + url);
+        return api.requestGedan(url);
+    }
 }

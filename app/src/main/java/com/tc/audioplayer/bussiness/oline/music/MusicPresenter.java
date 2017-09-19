@@ -18,6 +18,7 @@ public class MusicPresenter extends LifePresenter {
 
     @Override
     public void loadData(boolean refresh) {
-        addSubscription(onlineCase.getMusicList(type), getOnNextAction(), getOnErrorAction());
+//        addSubscription(onlineCase.getMusicList(type), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getGeDan(10, 1), getOnNextAction(), getOnErrorAction());
     }
 }

@@ -25,4 +25,13 @@ public interface OnlineAPI {
 
     @GET
     Observable<SearchWrapper> requestSearch(@Url String url);
+
+    @GET
+    Observable<String> requestGedanCatetory(@Url String url);
+
+    @GET
+    Observable<String> requestGeDanByTag(@Url String url);
+
+    @GET
+    Observable<String> requestGedan(@Url String url);
 }
