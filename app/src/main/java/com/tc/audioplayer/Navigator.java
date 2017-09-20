@@ -3,6 +3,8 @@ package com.tc.audioplayer;
 import android.content.Context;
 import android.content.Intent;
 
+import com.tc.audioplayer.bussiness.account.LoginActivity;
+import com.tc.audioplayer.bussiness.account.RegisterActivity;
 import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 import com.tc.audioplayer.bussiness.search.SearchActivity;
 
@@ -27,6 +29,16 @@ public class Navigator {
 
     public static void toMainActivity(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void toLoginActivity(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void toRegisterActivity(Context context) {
+        Intent intent = new Intent(context, RegisterActivity.class);
         context.startActivity(intent);
     }
 }

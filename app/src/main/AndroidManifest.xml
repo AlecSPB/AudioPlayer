@@ -22,9 +22,13 @@
     <!-- 外部存储写文件权限，开启本地记录log后，需要在sd卡上写文件 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.tc.audioplayer.AudioApplication"
+        android:name=".AudioApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -32,7 +36,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
-            android:name="com.tc.audioplayer.WelcomeActivity"
+            android:name=".bussiness.account.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -47,15 +51,21 @@
         <activity
             android:name=".bussiness.player.PlayerDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".bussiness.search.SearchActivity"
             android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".bussiness.account.LoginActivity"-->
+            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".bussiness.account.RegisterActivity"
+            android:screenOrientation="portrait" />
 
-        <service android:name="com.tc.audioplayer.player.PlayService" />
+        <service android:name=".player.PlayService" />
+
     </application>
 
 </manifest>

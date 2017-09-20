@@ -3,22 +3,37 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_model_single"
+            android:icon="@drawable/nav_model_simple"
+            android:title="简单模式"/>
+    </group>
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_timer"
+            android:icon="@drawable/nav_timer"
+            android:title="定时停止播放"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/nav_about"
             android:title="关于软件"/>
     </group>
 
-    <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Share"/>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Send"/>-->
-        <!--</menu>-->
-    <!--</item>-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/nav_share"
+            android:title="分享"/>
+    </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/nav_exit"
+            android:title="退出"/>
+    </group>
 </menu>

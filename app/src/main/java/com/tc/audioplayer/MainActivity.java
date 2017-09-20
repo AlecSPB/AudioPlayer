@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.tc.audioplayer.base.BaseActivity;
 import com.tc.audioplayer.bussiness.collect.CollectListFragment;
@@ -151,10 +152,23 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_about) {
-            // Handle the camera action
+        switch (id) {
+            case R.id.nav_model_single:
+                Toast.makeText(this, "简单模式功能暂未上线", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_timer:
+                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_about:
+                Toast.makeText(this, "关于软件功能暂未上线", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_share:
+                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_exit:
+                finish();
+                break;
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
