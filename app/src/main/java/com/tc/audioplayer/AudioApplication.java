@@ -2,6 +2,7 @@ package com.tc.audioplayer;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.google.firebase.FirebaseApp;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.base.utils.SharedPreferencesUtil;
@@ -39,6 +40,7 @@ public class AudioApplication extends MultiDexApplication {
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
         SharedPreferencesUtil.init(this);
+        FirebaseApp.initializeApp(this);
 
         File cacheDir = new File(FileUtil.PATH_LRC);
         if (!cacheDir.exists()) {

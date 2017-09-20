@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "599110722660",
+    "firebase_url": "https://china-music-ca3a4.firebaseio.com",
+    "project_id": "china-music-ca3a4",
+    "storage_bucket": "china-music-ca3a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599110722660:android:7afc419cf74aefbe",
+        "android_client_info": {
+          "package_name": "com.tc.audioplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599110722660-v6011ks1lh33c44rt7vbobhtuuvo00i8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tc.audioplayer",
+            "certificate_hash": "84ace093d10d42fb0de476b6fd83af69f551a9e0"
+          }
+        },
+        {
+          "client_id": "599110722660-70empraocvr5dpd1e4arvktf0p7u4k1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMUKAk0w3EBoGtssrc358Ve6GVWkZLJvI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599110722660-70empraocvr5dpd1e4arvktf0p7u4k1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

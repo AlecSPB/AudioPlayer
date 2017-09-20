@@ -49,11 +49,13 @@
 }
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
-###########################
 
 ########## Permission ##########
 -dontwarn com.zhy.m.**
 -keep class com.zhy.m.** {*;}
 -keep interface com.zhy.m.** { *; }
 -keep class **$$PermissionProxy { *; }
-###########################
+
+########## firebase ##########
+-keepattributes Signature
+-keepattributes *Annotation*

@@ -20,6 +20,14 @@
     <string name="status_net_error">请连接网络后点击屏幕重试</string>
     <string name="title_activity_login1">Sign in</string>
 
+    <string name="login_bottom">使用MU(音乐联合账号),您可以收藏喜爱的音乐到云上,并且可以在任何一个有MU账号的App、网站里面读取这些喜好</string>
+    <string name="auth_failed">注册失败</string>
+    <string name="auth_usename_empty">用户名不能为空</string>
+    <string name="auth_password_empty">密码不能为空</string>
+    <string name="auth_repassword_empty">请再次输入密码</string>
+    <string name="auth_repassword_not_match">两次密码不一致，请重新确认</string>
+    <string name="auth_login_failed">注册失败</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

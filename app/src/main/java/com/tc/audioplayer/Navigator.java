@@ -1,5 +1,6 @@
 package com.tc.audioplayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -13,6 +14,7 @@ import com.tc.audioplayer.bussiness.search.SearchActivity;
  */
 
 public class Navigator {
+    public static final int REQUEST_CODE_REGISTER  = 1001;
     /**
      * 播放详情页
      */
@@ -37,8 +39,8 @@ public class Navigator {
         context.startActivity(intent);
     }
 
-    public static void toRegisterActivity(Context context) {
+    public static void toRegisterActivity(Activity context) {
         Intent intent = new Intent(context, RegisterActivity.class);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, REQUEST_CODE_REGISTER);
     }
 }
