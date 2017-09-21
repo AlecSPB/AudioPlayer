@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,8 @@ public class RegisterActivity extends BaseActivity {
     EditText edtPassword;
     @BindView(R.id.edt_re_password)
     EditText edtRePassword;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -75,6 +78,7 @@ public class RegisterActivity extends BaseActivity {
         String repassword = edtRePassword.getText().toString();
         String verifyResult = verifyEdt(username, password, repassword);
         if (TextUtils.isEmpty(verifyResult)) {
+            progressBar.setVisibility(View.VISIBLE);
             authRegister(username, password);
         } else {
             Toast.makeText(this, verifyResult, Toast.LENGTH_SHORT).show();
@@ -86,13 +90,14 @@ public class RegisterActivity extends BaseActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Log.d(TAG, "createUserWithEmail:onComplete: " + task.isSuccessful());
+                            TLogger.d(TAG, "createUserWithEmail:onComplete: " + task.isSuccessful());
                             Navigator.toMainActivity(RegisterActivity.this);
                             setResult(RESULT_OK);
                             finish();
                         } else {
-                            Log.e(TAG, "createUserWithEmail:fail: " + task.isSuccessful());
+                            TLogger.e(TAG, "createUserWithEmail:fail: " + task.getException().toString());
                             Toast.makeText(RegisterActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }

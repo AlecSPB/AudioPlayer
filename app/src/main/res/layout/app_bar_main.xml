@@ -8,13 +8,14 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:background="@drawable/top_bg" />
+        android:background="@drawable/top_bg"
+        android:scaleType="fitXY" />
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tablayout">
 
         <include
             layout="@layout/layout_home_content"
@@ -29,24 +30,23 @@
             android:gravity="center_vertical"
             android:subtitle=" "
             android:title=" "
-            app:popupTheme="@style/AppTheme.NoActionBar">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tablayout"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:tabIndicatorColor="@android:color/transparent"
-                app:tabIndicatorHeight="2dp"
-                app:tabSelectedTextColor="#ffffff"
-                app:tabTextAppearance="@style/Theme.Tablayout.TabTextAppearance"
-                app:tabTextColor="#FF9B87" />
-
-        </android.support.v7.widget.Toolbar>
+            app:popupTheme="@style/AppTheme.NoActionBar"></android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.CoordinatorLayout>
 
-
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextAppearance="@style/Theme.Tablayout.TabTextAppearance"
+        app:tabTextColor="#706d6d" />
 </RelativeLayout>
 
 

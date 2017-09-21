@@ -13,13 +13,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tc.audioplayer.base.BaseActivity;
-import com.tc.audioplayer.bussiness.collect.CollectListFragment;
-import com.tc.audioplayer.bussiness.oline.OnlineMusicFragment;
+import com.tc.audioplayer.bussiness.album.AlbumListFragment;
+import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
+import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
+import com.tc.audioplayer.bussiness.oline.music.MusicFragment;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -29,9 +34,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.tc.audioplayer.bussiness.oline.music.MusicFragment.HOT;
+
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     public static final int MUTI_PERMISSION_WINDOW = 10;
 
     @BindView(R.id.drawer_layout)
@@ -52,6 +60,8 @@ public class MainActivity extends BaseActivity
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
     private String[] tabTitles;
+    private int[] iconRess = new int[]{R.drawable.selector_tab_billboard, R.drawable.selector_tab_album,
+            R.drawable.selector_tab_artist, R.drawable.selector_tab_hot, R.drawable.selector_tab_artist};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +83,16 @@ public class MainActivity extends BaseActivity
     private void initData() {
         tabTitles = getResources().getStringArray(R.array.main_tabs);
         fragmentList = new ArrayList<>();
-        Fragment onlineFragment = OnlineMusicFragment.newInstance();
-        Fragment localFragment = CollectListFragment.newInstance();
-        fragmentList.add(onlineFragment);
-        fragmentList.add(localFragment);
+        Fragment billboardFragment = BillboardListFragment.newInstance();
+        Fragment albumFragment = AlbumListFragment.newInstance();
+        Fragment artistFragment = ArtistListFragment.newInstance();
+        Fragment hotFragment = MusicFragment.newInstance(HOT);
+        Fragment searchFragment = MusicFragment.newInstance(HOT);
+        fragmentList.add(billboardFragment);
+        fragmentList.add(albumFragment);
+        fragmentList.add(artistFragment);
+        fragmentList.add(hotFragment);
+        fragmentList.add(searchFragment);
         adapter = new MainPagerAdapter(getSupportFragmentManager());
     }
 
@@ -92,10 +108,23 @@ public class MainActivity extends BaseActivity
         vpContentMain.setAdapter(adapter);
         tabLayout.setupWithViewPager(vpContentMain);
         vpContentMain.setCurrentItem(0);
+        for (int i = 0; i < tabTitles.length; i++) {
+            tabLayout.getTabAt(i).setCustomView(createTabView(i));
+        }
 
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);
+    }
+
+    private View createTabView(int position) {
+        String name = tabTitles[position];
+        int iconRes = iconRess[position];
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        TextView textView = (TextView) layoutInflater.inflate(R.layout.item_home_tab, null);
+        textView.setText(name);
+        textView.setCompoundDrawablesWithIntrinsicBounds(0, iconRes, 0, 0);
+        return textView;
     }
 
     private class MainPagerAdapter extends FragmentPagerAdapter {

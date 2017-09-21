@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,7 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseActivity;
@@ -42,9 +43,10 @@ public class LoginActivity extends BaseActivity {
     Button btnLogin;
     @BindView(R.id.btn_to_register)
     Button btnToRegister;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,33 +57,7 @@ public class LoginActivity extends BaseActivity {
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    TLogger.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    TLogger.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
 
     @OnClick(R.id.btn_to_register)
     public void toRegister() {
@@ -94,6 +70,7 @@ public class LoginActivity extends BaseActivity {
         String password = edtPassword.getText().toString();
         String verifyResult = verifyEdt(username, password);
         if (TextUtils.isEmpty(verifyResult)) {
+            progressBar.setVisibility(View.VISIBLE);
             authLogin(username, password);
         } else {
             Toast.makeText(this, verifyResult, Toast.LENGTH_SHORT).show();
@@ -113,9 +90,11 @@ public class LoginActivity extends BaseActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
                         TLogger.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                         if (task.isSuccessful()) {
                             Navigator.toMainActivity(LoginActivity.this);
+                            finish();
                         } else {
                             TLogger.e(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.auth_login_failed,
