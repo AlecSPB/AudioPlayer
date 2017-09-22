@@ -7,6 +7,7 @@ import com.tc.base.utils.TLogger;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongEntity;
+import com.tc.model.entity.SongInfoEntity;
 import com.tc.model.usecase.OnlineCase;
 
 import java.lang.annotation.Retention;
@@ -250,6 +251,11 @@ public class Player implements IPlayer {
 
     @Override
     public boolean play(SongEntity song) {
+        if (playList == null) {
+            playList = new PlayList();
+        }
+        playList.clear();
+        playList.addSong(song);
         return false;
     }
 
@@ -351,6 +357,12 @@ public class Player implements IPlayer {
         TLogger.d(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;
+            SongEntity songEntity = playList.getCurrentSong();
+            SongInfoEntity songInfo = songDetail.songinfo;
+            songEntity.setTitle(songInfo.getTitle());
+            songEntity.setAuthor(songInfo.author);
+            songEntity.setLrclink(songInfo.lrclink);
+            songEntity.setPic_small(songInfo.pic_small);
             String path = songDetail.songurl.url.get(0).show_link;
             try {
                 stopUpdateProgress();

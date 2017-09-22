@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Looper;
@@ -63,8 +62,8 @@ public class LrcView extends View {
         mDividerHeight = ta.getDimension(R.styleable.LrcView_lrcDividerHeight, DimenUtils.dp2px(getContext(), 16));
         mAnimationDuration = ta.getInt(R.styleable.LrcView_lrcAnimationDuration, 1000);
         mAnimationDuration = (mAnimationDuration < 0) ? 1000 : mAnimationDuration;
-        mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, Color.parseColor("#bcbaba"));
-        mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, Color.WHITE);
+        mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, getResources().getColor(R.color.lrc_default));
+        mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, getResources().getColor(R.color.lrc_highlight));
         mLabel = ta.getString(R.styleable.LrcView_lrcLabel);
         mLabel = TextUtils.isEmpty(mLabel) ? "暂无歌词" : mLabel;
         mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);

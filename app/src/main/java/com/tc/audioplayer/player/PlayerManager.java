@@ -11,6 +11,7 @@ import com.tc.model.db.DBManager;
 import com.tc.model.db.greendao.CommonEntityDao;
 import com.tc.model.entity.CommonEntity;
 import com.tc.model.entity.PlayList;
+import com.tc.model.entity.SongEntity;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 import org.greenrobot.greendao.query.WhereCondition;
@@ -90,6 +91,12 @@ public class PlayerManager {
 
     public void play(PlayList playList, int index) {
         player.play(playList, index);
+        updatePlaylistToDB();
+        startPlayerAction(PlayActions.MEDIA_PLAY_PAUSE);
+    }
+
+    public void play(SongEntity songEntity) {
+        player.play(songEntity);
         updatePlaylistToDB();
         startPlayerAction(PlayActions.MEDIA_PLAY_PAUSE);
     }

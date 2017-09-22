@@ -51,6 +51,15 @@
                     android:textSize="16sp"
                     android:theme="@style/AppTheme.CompatEditText" />
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_center_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="#232222"
+                android:textSize="16sp"
+                android:visibility="gone" />
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.CoordinatorLayout>

@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -100,7 +99,6 @@ public class MainActivity extends BaseActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
-        drawerLayout.setDrawerShadow(R.drawable.ic_topbar_menu, Gravity.LEFT);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -112,6 +110,7 @@ public class MainActivity extends BaseActivity
             tabLayout.getTabAt(i).setCustomView(createTabView(i));
         }
 
+        minibar.setFragmentManager(getSupportFragmentManager());
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);

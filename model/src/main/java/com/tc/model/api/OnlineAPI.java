@@ -1,8 +1,12 @@
 package com.tc.model.api;
 
+import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
+import com.tc.model.entity.SongEntity;
 import com.tc.model.entity.SongList;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -34,4 +38,13 @@ public interface OnlineAPI {
 
     @GET
     Observable<String> requestGedan(@Url String url);
+
+    @GET
+    Observable<List<BillboardEntity>> requestBillboardCategory(@Url String url);
+
+    @GET
+    Observable<SongEntity> requestSongBaseInfo(@Url String url);
+
+    @GET
+    Observable<SongEntity> requestSongInfo(@Url String url);
 }

@@ -5,4 +5,7 @@
     <color name="colorAccent">#73a3e5</color>
     <color name="default_background">#f7f7f6</color>
     <color name="lrc">#bcbaba</color>
+    <color name="bg_minibar">#f4f1f1</color>
+    <color name="lrc_highlight">#1d64f2</color>
+    <color name="lrc_default">#737171</color>
 </resources>

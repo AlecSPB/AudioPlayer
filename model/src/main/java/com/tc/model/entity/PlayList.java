@@ -152,6 +152,10 @@ public class PlayList {
         return songList.get(playingIndex);
     }
 
+    public void clear(){
+        songList.clear();
+    }
+
     /**
      * Move the playingIndex forward depends on the play mode
      *

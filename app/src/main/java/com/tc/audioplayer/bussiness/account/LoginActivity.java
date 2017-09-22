@@ -57,6 +57,9 @@ public class LoginActivity extends BaseActivity {
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            edtName.setText(mAuth.getCurrentUser().getEmail());
+        }
     }
 
     @OnClick(R.id.btn_to_register)

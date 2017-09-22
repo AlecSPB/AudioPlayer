@@ -3,9 +3,13 @@ package com.tc.model.usecase;
 import com.tc.base.utils.TLogger;
 import com.tc.model.api.BMA;
 import com.tc.model.api.OnlineAPI;
+import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
+import com.tc.model.entity.SongEntity;
 import com.tc.model.entity.SongList;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -57,5 +61,17 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         String url = BMA.GeDan.geDan(pageNo, pageSize);
         TLogger.d(TAG, "geDan: " + url);
         return api.requestGedan(url);
+    }
+
+    public Observable<List<BillboardEntity>> getBillboardCategory() {
+        String url = BMA.Billboard.billCategory();
+        TLogger.d(TAG, "getBillboardCategory: " + url);
+        return api.requestBillboardCategory(url);
+    }
+
+    public Observable<SongEntity> getSongInfo(String songid) {
+        String url = BMA.Song.songInfo(songid);
+        TLogger.d(TAG, "getSongBaseInfo: " + url);
+        return api.requestSongInfo(url);
     }
 }

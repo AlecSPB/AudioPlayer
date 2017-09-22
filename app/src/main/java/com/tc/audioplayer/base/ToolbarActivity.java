@@ -44,6 +44,8 @@ public class ToolbarActivity extends BaseActivity {
     protected FrameLayout flToolbarContent;
     @BindView(R.id.cet_search)
     protected ClearableEditText cetSearch;
+    @BindView(R.id.tv_center_title)
+    protected TextView tvCenterTitle;
 
     private Drawable[] mAlphaDrawable;
     private LayerDrawable mLayerDrawable;

@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="40dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp">
 
     <ImageView
         android:id="@+id/iv_avatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginLeft="8dp"
         android:src="@drawable/default_cover" />
 
@@ -30,7 +30,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="14sp"
             tools:text="歌名" />
 
         <TextView
@@ -55,16 +55,23 @@
             android:layout_width="40dp"
             android:layout_height="40dp">
 
-            <com.tc.audioplayer.widget.CircularProgressBar
-                android:id="@+id/miniProgressBar"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+            <!--<com.tc.audioplayer.widget.CircularProgressBar-->
+                <!--android:id="@+id/miniProgressBar"-->
+                <!--android:layout_width="28dp"-->
+                <!--android:layout_height="28dp"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--app:background_progressbar_color="#ffb1b1b1"-->
+                <!--app:background_progressbar_width="1dp"-->
+                <!--app:progress="0"-->
+                <!--app:progressbar_color="@color/colorPrimary"-->
+                <!--app:progressbar_width="1dp" />-->
+
+            <ImageView
+                android:id="@+id/iv_play_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                app:background_progressbar_color="#ffb1b1b1"
-                app:background_progressbar_width="1dp"
-                app:progress="0"
-                app:progressbar_color="@color/colorPrimary"
-                app:progressbar_width="1dp" />
+                android:src="@drawable/selector_play_pause"/>
 
         </RelativeLayout>
 
@@ -72,7 +79,7 @@
             android:id="@+id/iv_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_play_bar_btn_next" />
+            android:src="@drawable/ic_skip_next_black_24dp" />
     </LinearLayout>
 
 </merge>
