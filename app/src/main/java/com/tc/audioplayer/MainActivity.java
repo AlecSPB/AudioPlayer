@@ -16,9 +16,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.tc.audioplayer.base.BaseActivity;
 import com.tc.audioplayer.bussiness.album.AlbumListFragment;
 import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
@@ -55,6 +58,8 @@ public class MainActivity extends BaseActivity
     Minibar minibar;
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
+    ImageView ivAvatar;
+    TextView tvUsername;
 
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
@@ -72,6 +77,7 @@ public class MainActivity extends BaseActivity
         StatusBarUtil.setTranslucentForDrawerLayout(this, drawerLayout, 0);
         initData();
         initUI();
+        initUserinfo();
     }
 
     @Override
@@ -96,6 +102,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void initUI() {
+        View headerView = navigationView.getHeaderView(0);
+        ivAvatar = (ImageView) headerView.findViewById(R.id.iv_avatar);
+        tvUsername = (TextView) headerView.findViewById(R.id.tv_username);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
@@ -114,6 +123,15 @@ public class MainActivity extends BaseActivity
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);
+
+    }
+
+    private void initUserinfo() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null ) {
+            tvUsername.setText(user.getEmail());
+        }
     }
 
     private View createTabView(int position) {

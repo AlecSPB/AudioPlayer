@@ -42,6 +42,7 @@ public class LrcView extends View {
     private long mNextTime = 0L;
     private int mCurrentLine = 0;
     private Object mFlag;
+    private long mDefaultTime = 0;
 
     public LrcView(Context context) {
         this(context, null);
@@ -153,6 +154,11 @@ public class LrcView extends View {
         });
     }
 
+    public void loadLrc(final File lrcFile, long time) {
+        mDefaultTime = time;
+        loadLrc(lrcFile);
+    }
+
     /**
      * 加载歌词文件
      *
@@ -176,6 +182,9 @@ public class LrcView extends View {
                         if (getFlag() == lrcFile) {
                             onLrcLoaded(lrcEntries);
                             setFlag(null);
+                        }
+                        if (mDefaultTime > 0) {
+                            onDrag(mDefaultTime);
                         }
                     }
                 }.execute(lrcFile);

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
@@ -27,6 +28,7 @@ import com.tc.model.usecase.OnlineCase;
 import java.io.File;
 import java.util.ArrayList;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -41,6 +43,10 @@ import static com.tc.audioplayer.utils.FileUtil.getLrcFile;
 public class PlayerDetailDialog extends DialogFragment {
     private static final String TAG = PlayerDetailDialog.class.getSimpleName();
     private OnlineCase onlineCase;
+    private ImageView ivClose;
+    private TextView tvName;
+    private TextView tvAuthor;
+    private ImageView ivAvatar;
     private ImageView ivPlayMode;
     private ImageView ivPlayPause;
     private ImageView ivPrev;
@@ -68,6 +74,10 @@ public class PlayerDetailDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_dialog_player, container);
+        ivClose = (ImageView) view.findViewById(R.id.iv_arrow_down);
+        tvName = (TextView) view.findViewById(R.id.tv_name);
+        tvAuthor = (TextView) view.findViewById(R.id.tv_author);
+        ivAvatar = (ImageView) view.findViewById(R.id.iv_avatar);
         ivPlayMode = (ImageView) view.findViewById(R.id.iv_play_mode);
         ivPlayPause = (ImageView) view.findViewById(R.id.iv_play_pause);
         ivPrev = (ImageView) view.findViewById(R.id.iv_prev);
@@ -85,6 +95,7 @@ public class PlayerDetailDialog extends DialogFragment {
         ivPrev.setOnClickListener(onClickListener);
         ivNext.setOnClickListener(onClickListener);
         ivList.setOnClickListener(onClickListener);
+        ivClose.setOnClickListener(onClickListener);
         seekBar.setOnSeekBarChangeListener(seekbarListener);
 
         playerListener = new DetailPlayerListener();
@@ -104,16 +115,15 @@ public class PlayerDetailDialog extends DialogFragment {
         p.width = (int) (DeviceUtils.getScreenWidthPx(getContext()) * 0.95);
         p.height = (int) (DeviceUtils.getScreenHeightPx(getContext()) * 0.95);
         p.gravity = Gravity.BOTTOM;
-        p.dimAmount = 0.5f;
-        getActivity().getWindow().setAttributes(p);
+        getDialog().getWindow().setAttributes(p);
     }
 
-    public void setLrclink(String lrclink) {
+    public void setLrclink(String lrclink, long time) {
         this.lrclink = lrclink;
         if (onlineCase == null) {
             return;
         } else {
-            showLrc(lrclink);
+            showLrc(lrclink, time);
         }
     }
 
@@ -123,10 +133,10 @@ public class PlayerDetailDialog extends DialogFragment {
         lrcView.updateTime(time);
     }
 
-    private void showLrc(String lrclink) {
+    private void showLrc(String lrclink, long time) {
         File file = getLrcFile(lrclink);
         if (file.exists()) {
-            lrcView.loadLrc(file);
+            lrcView.loadLrc(file, time);
         } else {
             loadServerLrc(lrclink);
         }
@@ -176,12 +186,21 @@ public class PlayerDetailDialog extends DialogFragment {
         } else {
             ivPlayPause.setImageResource(R.drawable.selector_pause);
         }
-//        setToolbarTitle(song.title);
-//        setToolbarSubtitle(song.author);
-//        tvCenterTitle.setText(song.title);
-        setLrclink(song.lrclink);
+        tvName.setText(song.title);
+        tvAuthor.setText(song.author);
+        setLrclink(song.lrclink, duration * 1000);
         int playMode = PlayerManager.getInstance().getPlayMode();
         updatePlayModeUI(playMode);
+        String pic = song.getPic_small();
+        int index = pic.indexOf(",w_");
+        if (index > 0) {
+            pic = pic.substring(0, index) + ",w_300,h_267";
+        }
+        Glide.with(this)
+                .load(pic)
+                .asBitmap()
+                .transform(new RoundedCornersTransformation(getContext(), 20, 0))
+                .into(ivAvatar);
     }
 
     @Override
@@ -220,6 +239,9 @@ public class PlayerDetailDialog extends DialogFragment {
                 PlayerManager.getInstance().playNext();
                 break;
             case R.id.iv_list:
+                break;
+            case R.id.iv_arrow_down:
+                dismiss();
                 break;
         }
     };

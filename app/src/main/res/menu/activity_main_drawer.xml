@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_model_single"
-            android:icon="@drawable/nav_model_simple"
+            android:icon="@drawable/ic_chrome_reader_mode_black_24dp"
             android:title="简单模式"/>
     </group>
 
@@ -12,28 +12,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_timer"
-            android:icon="@drawable/nav_timer"
+            android:icon="@drawable/ic_access_time_black_24dp"
             android:title="定时停止播放"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/nav_about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="关于软件"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/nav_share"
+            android:icon="@drawable/ic_share_black_24dp"
             android:title="分享"/>
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_exit"
-            android:icon="@drawable/nav_exit"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="退出"/>
     </group>
 </menu>

@@ -52,10 +52,6 @@
             android:name=".bussiness.player.PlayerDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".bussiness.player.PlayerDetailDialog"
-            android:theme="@style/AppTheme.Dialog"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
