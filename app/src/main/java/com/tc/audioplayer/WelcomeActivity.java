@@ -91,11 +91,7 @@ public class WelcomeActivity extends ToolbarActivity {
     public void requestReadSuccess() {
         TLogger.d(TAG, "requestReadSuccess");
         new Handler().postDelayed(() -> {
-            if (signedIn) {
-                Navigator.toMainActivity(WelcomeActivity.this);
-            } else {
-                Navigator.toLoginActivity(WelcomeActivity.this);
-            }
+            Navigator.toMainActivity(WelcomeActivity.this);
             finish();
         }, 200);
     }
