@@ -5,7 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
+import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.base.BaseListFragment;
+import com.tc.model.entity.Albumn;
 import com.tc.model.entity.AlbumnList;
 
 /**
@@ -28,12 +30,16 @@ public class AlbumListFragment extends BaseListFragment {
         adapter = new AlbumnAdapter(getContext());
         presenter.attachView(this);
         swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.setOnRefreshListener(()->{
+        swipeRefreshLayout.setOnRefreshListener(() -> {
             presenter.loadData(true);
         });
         presenter.loadData(false);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((v, position) -> {
+            Albumn albumn = adapter.getItem(position);
+            Navigator.toAlbumnDetailActivity(getContext(), albumn.album_id);
+        });
     }
 
     @Override

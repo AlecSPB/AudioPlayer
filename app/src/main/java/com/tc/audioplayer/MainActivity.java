@@ -26,6 +26,7 @@ import com.tc.audioplayer.base.BaseActivity;
 import com.tc.audioplayer.bussiness.album.AlbumListFragment;
 import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
 import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
+import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.oline.music.MusicFragment;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity
         Fragment billboardFragment = BillboardListFragment.newInstance();
         Fragment albumFragment = AlbumListFragment.newInstance();
         Fragment artistFragment = ArtistListFragment.newInstance();
-        Fragment hotFragment = MusicFragment.newInstance(HOT);
+        Fragment hotFragment = HotFragment.newInstance();
         Fragment searchFragment = MusicFragment.newInstance(HOT);
         fragmentList.add(billboardFragment);
         fragmentList.add(albumFragment);

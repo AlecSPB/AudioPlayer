@@ -1,5 +1,6 @@
 package com.tc.model.api;
 
+import com.tc.model.entity.AlbumnDetailEntity;
 import com.tc.model.entity.AlbumnList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
@@ -51,4 +52,7 @@ public interface OnlineAPI {
 
     @GET
     Observable<AlbumnList> requestAlbumnList(@Url String url);
+
+    @GET
+    Observable<AlbumnDetailEntity> requetAlbumnDetail(@Url String url);
 }

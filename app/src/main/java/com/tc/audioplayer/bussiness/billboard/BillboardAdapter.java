@@ -44,6 +44,7 @@ public class BillboardAdapter extends HeaderFooterAdapter<Object> {
             BillboardEntity.ContentBean content = (BillboardEntity.ContentBean) item;
             holder.setText(R.id.tv_name, content.title);
             holder.setText(R.id.tv_author, content.author);
+            holder.setText(R.id.tv_number, String.valueOf(content.number));
         }
     }
 

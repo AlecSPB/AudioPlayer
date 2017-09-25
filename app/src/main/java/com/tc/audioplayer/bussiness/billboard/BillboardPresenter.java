@@ -29,7 +29,7 @@ public class BillboardPresenter extends LifePresenter {
     /**
      * 加载歌曲详情
      */
-    public void loadSongInfo(String songid, Action1 onNext, Action1 onError){
+    public void loadSongInfo(String songid, Action1 onNext, Action1 onError) {
         addSubscription(onlineCase.getSongInfo(songid), onNext, onError);
     }
 
@@ -55,6 +55,9 @@ public class BillboardPresenter extends LifePresenter {
             temp.web_url = entity.web_url;
             result.add(temp);
             if (entity.content.size() > 3) {
+                for (int i = 1; i <= entity.content.size(); i++) {
+                    entity.content.get(i - 1).number = i;
+                }
                 result.addAll(entity.content.subList(0, 3));
             } else {
                 result.addAll(entity.content);

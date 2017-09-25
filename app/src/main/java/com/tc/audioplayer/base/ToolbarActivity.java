@@ -6,12 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
@@ -27,9 +29,11 @@ import butterknife.ButterKnife;
  * Created by itcayman on 2017/8/20.
  */
 
-public class ToolbarActivity extends BaseActivity {
+public abstract class ToolbarActivity extends BaseActivity implements IView{
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.swipeRefreshLayout)
+    protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
     @BindView(R.id.fl_content)
@@ -124,5 +128,17 @@ public class ToolbarActivity extends BaseActivity {
     protected void onDestroy() {
         eventBus.unregister(this);
         super.onDestroy();
+    }
+
+    @Override
+    public void handleThrowable(Throwable t) {
+        swipeRefreshLayout.setRefreshing(false);
+        tvRetry.setVisibility(View.VISIBLE);
+        Toast.makeText(this, "出错了", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setData(Object data) {
+
     }
 }

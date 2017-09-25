@@ -45,5 +45,6 @@ public class BillboardEntity {
         public String rank_change;
         public String all_rate;
         public String biaoshi;
+        public int number;
     }
 }

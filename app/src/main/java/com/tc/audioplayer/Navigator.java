@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.tc.audioplayer.bussiness.account.LoginActivity;
 import com.tc.audioplayer.bussiness.account.RegisterActivity;
+import com.tc.audioplayer.bussiness.album.AlbumnDetailActivity;
 import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 import com.tc.audioplayer.bussiness.search.SearchActivity;
 
@@ -14,7 +15,8 @@ import com.tc.audioplayer.bussiness.search.SearchActivity;
  */
 
 public class Navigator {
-    public static final int REQUEST_CODE_REGISTER  = 1001;
+    public static final int REQUEST_CODE_REGISTER = 1001;
+
     /**
      * 播放详情页
      */
@@ -42,5 +44,11 @@ public class Navigator {
     public static void toRegisterActivity(Activity context) {
         Intent intent = new Intent(context, RegisterActivity.class);
         context.startActivityForResult(intent, REQUEST_CODE_REGISTER);
+    }
+
+    public static void toAlbumnDetailActivity(Context context, String albumnid) {
+        Intent intent = new Intent(context, AlbumnDetailActivity.class);
+        intent.putExtra("albumnid", albumnid);
+        context.startActivity(intent);
     }
 }
