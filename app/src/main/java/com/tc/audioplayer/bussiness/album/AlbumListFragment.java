@@ -7,8 +7,8 @@ import android.view.View;
 
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.base.BaseListFragment;
-import com.tc.model.entity.Albumn;
-import com.tc.model.entity.AlbumnList;
+import com.tc.model.entity.Album;
+import com.tc.model.entity.AlbumList;
 
 /**
  * Created by itcayman on 2017/9/21.
@@ -37,7 +37,7 @@ public class AlbumListFragment extends BaseListFragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
-            Albumn albumn = adapter.getItem(position);
+            Album albumn = adapter.getItem(position);
             Navigator.toAlbumnDetailActivity(getContext(), albumn.album_id);
         });
     }
@@ -45,7 +45,7 @@ public class AlbumListFragment extends BaseListFragment {
     @Override
     public void setData(Object data) {
         super.setData(data);
-        AlbumnList listWrapp = (AlbumnList) data;
+        AlbumList listWrapp = (AlbumList) data;
         adapter.setData(listWrapp.list);
     }
 }

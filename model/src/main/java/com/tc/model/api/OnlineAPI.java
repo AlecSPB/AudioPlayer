@@ -1,7 +1,7 @@
 package com.tc.model.api;
 
-import com.tc.model.entity.AlbumnDetailEntity;
-import com.tc.model.entity.AlbumnList;
+import com.tc.model.entity.AlbumDetailEntity;
+import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
@@ -51,8 +51,8 @@ public interface OnlineAPI {
     Observable<SongEntity> requestSongInfo(@Url String url);
 
     @GET
-    Observable<AlbumnList> requestAlbumnList(@Url String url);
+    Observable<AlbumList> requestAlbumnList(@Url String url);
 
     @GET
-    Observable<AlbumnDetailEntity> requetAlbumnDetail(@Url String url);
+    Observable<AlbumDetailEntity> requetAlbumnDetail(@Url String url);
 }

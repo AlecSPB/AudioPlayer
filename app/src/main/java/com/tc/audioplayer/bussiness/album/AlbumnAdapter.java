@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
-import com.tc.model.entity.Albumn;
+import com.tc.model.entity.Album;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -17,19 +17,19 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  * Created by itcayman on 2017/9/24.
  */
 
-public class AlbumnAdapter extends HeaderFooterAdapter<Albumn> {
+public class AlbumnAdapter extends HeaderFooterAdapter<Album> {
     public AlbumnAdapter(Context context) {
         super(context);
     }
 
     @Override
     public View inflaterListItemView(ViewGroup parent, int viewType) {
-        return mInflater.inflate(R.layout.item_albumn, parent, false);
+        return mInflater.inflate(R.layout.item_album, parent, false);
     }
 
     @Override
     public void bindListItemData(RecyclerViewHolder holder, int dataIndex) {
-        Albumn item = getItem(dataIndex);
+        Album item = getItem(dataIndex);
         ImageView ivAlbumn = holder.getView(R.id.iv_albumn);
         String pic = item.pic_radio;
         int index = pic.indexOf(",w_");

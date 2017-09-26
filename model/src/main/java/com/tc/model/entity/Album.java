@@ -4,7 +4,7 @@ package com.tc.model.entity;
  * Created by itcayman on 2017/9/24.
  */
 
-public class Albumn {
+public class Album {
 
     /**
      * album_id : 558190492
@@ -30,10 +30,13 @@ public class Albumn {
     public String title;
     public String publishcompany;
     public String country;
+    public String language;
     public String songs_total;
     public String pic_small;
     public String pic_big;
     public String pic_radio;
+    public String pic_s500;
+    public String pic_s1000;
     public String artist_id;
     public String all_artist_id;
     public String author;

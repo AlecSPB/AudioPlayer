@@ -3,8 +3,8 @@ package com.tc.model.usecase;
 import com.tc.base.utils.TLogger;
 import com.tc.model.api.BMA;
 import com.tc.model.api.OnlineAPI;
-import com.tc.model.entity.AlbumnDetailEntity;
-import com.tc.model.entity.AlbumnList;
+import com.tc.model.entity.AlbumDetailEntity;
+import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
@@ -77,7 +77,7 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         return api.requestSongInfo(url);
     }
 
-    public Observable<AlbumnList> getAlbumnList(int page) {
+    public Observable<AlbumList> getAlbumnList(int page) {
         page = page >= 1 ? page - 1 : 0;
         int limit = 20;
         String url = BMA.Album.recommendAlbum(limit * page, limit);
@@ -85,7 +85,7 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         return api.requestAlbumnList(url);
     }
 
-    public Observable<AlbumnDetailEntity> getAlbumnDetail(String albumnid) {
+    public Observable<AlbumDetailEntity> getAlbumnDetail(String albumnid) {
         String url = BMA.Album.albumInfo(albumnid);
         TLogger.d(TAG, "getAlbumnDetail: " + url);
         return api.requetAlbumnDetail(url);

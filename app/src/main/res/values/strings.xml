@@ -32,6 +32,10 @@
     <string name="auth_login_failed">用户名或密码错误</string>
     
     <string name="billboard_more">显示全部</string>
-
     <string name="net_error">网络不太给力哦</string>
+
+    <string name="album_author">艺人：%s</string>
+    <string name="album_language">语种：%s</string>
+    <string name="album_company">唱片公司：%s</string>
+    <string name="album_time">发布时间：%s</string>
 </resources>

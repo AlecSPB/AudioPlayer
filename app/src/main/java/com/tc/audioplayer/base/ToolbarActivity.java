@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by itcayman on 2017/8/20.
  */
 
-public abstract class ToolbarActivity extends BaseActivity implements IView{
+public abstract class ToolbarActivity extends BaseActivity implements IView {
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.swipeRefreshLayout)
@@ -69,6 +69,13 @@ public abstract class ToolbarActivity extends BaseActivity implements IView{
         LayoutInflater.from(this).inflate(layoutResID, flContent, true);
         StatusBarUtil.setTranslucentForImageView(this, 0, coordinatorLayout);
         toolbar.setNavigationOnClickListener((v) -> finish());
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+    }
+
+    protected void setContentUnderToolbar() {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
+        params.topMargin = (int) getResources().getDimension(R.dimen.header_height);
+        swipeRefreshLayout.setLayoutParams(params);
     }
 
     /**
@@ -139,6 +146,6 @@ public abstract class ToolbarActivity extends BaseActivity implements IView{
 
     @Override
     public void setData(Object data) {
-
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

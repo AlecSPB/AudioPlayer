@@ -20,14 +20,13 @@ public class AlbumnDetailAdapter extends HeaderFooterAdapter<SongEntity> {
 
     @Override
     public View inflaterListItemView(ViewGroup parent, int viewType) {
-        return mInflater.inflate(R.layout.item_albumn_detail, parent, false);
+        return mInflater.inflate(R.layout.item_album_detail, parent, false);
     }
 
     @Override
     public void bindListItemData(RecyclerViewHolder holder, int dataIndex) {
         SongEntity item = getItem(dataIndex);
         holder.setText(R.id.tv_title, item.title);
-        holder.setText(R.id.tv_author, item.author);
         holder.setText(R.id.tv_number, String.valueOf(dataIndex + 1));
     }
 }

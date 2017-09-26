@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 @ParseNodePath(path = ":plaze_album_list:RM:album_list")
-public class AlbumnList {
-    public List<Albumn> list;
+public class AlbumList {
+    public List<Album> list;
     public int havemore;
 }

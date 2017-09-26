@@ -8,4 +8,5 @@
     <color name="bg_minibar">#f4f1f1</color>
     <color name="lrc_highlight">#1d64f2</color>
     <color name="lrc_default">#737171</color>
+    <color name="line">#e7e4e4</color>
 </resources>
