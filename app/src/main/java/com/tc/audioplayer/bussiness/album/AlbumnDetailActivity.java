@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
+import com.tc.audioplayer.player.PlayerManager;
 import com.tc.model.entity.Album;
 import com.tc.model.entity.AlbumDetailEntity;
+import com.tc.model.entity.PlayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -50,6 +52,11 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((v, position) -> {
+            PlayList playList = new PlayList();
+            playList.addSong(adapter.getItem(position));
+            PlayerManager.getInstance().play(playList, 0);
+        });
         initHeaderView();
         swipeRefreshLayout.setOnRefreshListener(() -> {
             presenter.loadData(true);
@@ -66,6 +73,12 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         tvLanguage = (TextView) view.findViewById(R.id.tv_language);
         tvCompany = (TextView) view.findViewById(R.id.tv_company);
         tvTime = (TextView) view.findViewById(R.id.tv_time);
+        tvPlayAll = (TextView) view.findViewById(R.id.tv_play_all);
+        tvPlayAll.setOnClickListener((v) -> {
+            PlayList playList = new PlayList();
+            playList.addSongList(adapter.getData());
+            PlayerManager.getInstance().play(playList, 0);
+        });
         adapter.addHeaderView(view);
     }
 

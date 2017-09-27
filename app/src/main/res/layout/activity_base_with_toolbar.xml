@@ -58,6 +58,7 @@
                     android:textSize="16sp"
                     android:theme="@style/AppTheme.CompatEditText"
                     android:visibility="gone" />
+
             </FrameLayout>
 
             <TextView

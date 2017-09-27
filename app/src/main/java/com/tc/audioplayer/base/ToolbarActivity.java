@@ -76,6 +76,7 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) swipeRefreshLayout.getLayoutParams();
         params.topMargin = (int) getResources().getDimension(R.dimen.header_height);
         swipeRefreshLayout.setLayoutParams(params);
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorAccent), 0);
     }
 
     /**

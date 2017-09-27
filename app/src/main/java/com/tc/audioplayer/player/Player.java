@@ -108,7 +108,7 @@ public class Player implements IPlayer {
                         PlayerListener listener = playerListeners.get(i);
                         listener.onProgress(true, progress, currentDuration, 0);
                     }
-                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
+//                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
                 });
         compositeSubscription.add(subscribe);
     }

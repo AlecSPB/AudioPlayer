@@ -8,7 +8,7 @@ import com.tc.model.usecase.OnlineCase;
  */
 
 public class AlbumnPresenter extends LifePresenter {
-    private int page = 1;
+    private int page = 2;
     private OnlineCase onlineCase;
 
     public AlbumnPresenter() {
@@ -18,7 +18,7 @@ public class AlbumnPresenter extends LifePresenter {
     @Override
     public void loadData(boolean refresh) {
         if (refresh)
-            page = 1;
+            page = 2;
         addSubscription(onlineCase.getAlbumnList(page), getOnNextAction(), getOnErrorAction());
     }
 }

@@ -2,18 +2,27 @@ package com.tc.audioplayer.bussiness.hot;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.tc.audioplayer.Navigator;
+import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.base.utils.TLogger;
+import com.tc.librecyclerview.LinearRecyclerView;
+import com.tc.model.entity.Album;
+import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongList;
+
+import rx.functions.Action1;
 
 /**
  * Created by tianchao on 2017/8/2.
@@ -31,11 +40,17 @@ public class HotFragment extends BaseListFragment {
     }
 
     private HotAdapter adapter;
+    private View layoutAlbum;
+    private LinearRecyclerView rcyAlbum;
+    private HeaderAlbumnAdapter albumnAdapter;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.loadData(true));
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.loadData(true);
+            presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
+        });
         swipeRefreshLayout.setRefreshing(true);
 
         presenter = new HotPresenter();
@@ -43,7 +58,6 @@ public class HotFragment extends BaseListFragment {
         adapter = new HotAdapter(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.addDefaultDivider();
-        presenter.loadData(false);
         adapter.setOnItemClickListener((v, position) -> {
             PlayList playList = new PlayList();
             playList.addSongList(adapter.getData());
@@ -87,6 +101,23 @@ public class HotFragment extends BaseListFragment {
             }
         });
         adapter.addHeaderView(adView);
+        addHotAlbumHeader();
+        presenter.loadData(false);
+        presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
+    }
+
+    private void addHotAlbumHeader() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.header_hot, recyclerView, false);
+        layoutAlbum = view.findViewById(R.id.ll_albumn);
+        rcyAlbum = (LinearRecyclerView) view.findViewById(R.id.rc_albumn);
+        albumnAdapter = new HeaderAlbumnAdapter(getContext());
+        rcyAlbum.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rcyAlbum.setAdapter(albumnAdapter);
+        albumnAdapter.setOnItemClickListener((v, position) -> {
+            Album albumn = albumnAdapter.getItem(position);
+            Navigator.toAlbumnDetailActivity(getContext(), albumn.album_id);
+        });
+        adapter.addHeaderView(view);
     }
 
     @Override
@@ -99,5 +130,21 @@ public class HotFragment extends BaseListFragment {
     @Override
     protected void onRefresh() {
         presenter.loadData(false);
+        presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
     }
+
+    private Action1 onLoadHeaderSuccess = (data) -> {
+        if (layoutAlbum != null) {
+            layoutAlbum.setVisibility(View.VISIBLE);
+            AlbumList listWrapp = (AlbumList) data;
+            albumnAdapter.setData(listWrapp.list);
+        }
+    };
+
+    private Action1 onLoadHeaderFail = (throwable) -> {
+        if (layoutAlbum != null) {
+            layoutAlbum.setVisibility(View.GONE);
+        }
+    };
+
 }

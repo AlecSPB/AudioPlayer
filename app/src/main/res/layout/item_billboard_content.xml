@@ -36,7 +36,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="8dp"
         android:foregroundGravity="center_vertical"
-        android:textColor="#000000"
+        android:textColor="@color/colorAccent"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

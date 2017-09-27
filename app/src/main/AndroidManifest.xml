@@ -46,9 +46,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".base.ToolbarActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".bussiness.player.PlayerDetailActivity"
             android:screenOrientation="portrait" />
         <activity

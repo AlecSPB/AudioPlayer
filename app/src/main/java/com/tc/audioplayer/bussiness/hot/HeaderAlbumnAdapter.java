@@ -1,4 +1,4 @@
-package com.tc.audioplayer.bussiness.album;
+package com.tc.audioplayer.bussiness.hot;
 
 import android.content.Context;
 import android.view.View;
@@ -17,24 +17,24 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  * Created by itcayman on 2017/9/24.
  */
 
-public class AlbumnAdapter extends HeaderFooterAdapter<Album> {
-    public AlbumnAdapter(Context context) {
+public class HeaderAlbumnAdapter extends HeaderFooterAdapter<Album> {
+    public HeaderAlbumnAdapter(Context context) {
         super(context);
     }
 
     @Override
     public View inflaterListItemView(ViewGroup parent, int viewType) {
-        return mInflater.inflate(R.layout.item_album, parent, false);
+        return mInflater.inflate(R.layout.item_album_header, parent, false);
     }
 
     @Override
     public void bindListItemData(RecyclerViewHolder holder, int dataIndex) {
         Album item = getItem(dataIndex);
         ImageView ivAlbumn = holder.getView(R.id.iv_albumn);
-        String pic = item.pic_big;
+        String pic = item.pic_radio;
         int index = pic.indexOf(",w_");
         if (index > 0) {
-            pic = pic.substring(0, index) + ",w_320,h_240";
+            pic = pic.substring(0, index) + ",w_200,h_180";
         }
         Glide.with(mContext)
                 .load(pic)

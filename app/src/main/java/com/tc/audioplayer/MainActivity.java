@@ -28,6 +28,7 @@ import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
 import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.oline.music.MusicFragment;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -79,6 +80,7 @@ public class MainActivity extends BaseActivity
         initData();
         initUI();
         initUserinfo();
+        AdMobUtils.activityLoop();
     }
 
     @Override

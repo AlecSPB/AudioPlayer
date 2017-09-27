@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.bussiness.FavHelper;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
 import com.tc.model.entity.BillboardEntity;
+import com.tc.model.entity.SongEntity;
 
 /**
  * Created by itcayman on 2017/9/22.
@@ -45,6 +47,9 @@ public class BillboardAdapter extends HeaderFooterAdapter<Object> {
             holder.setText(R.id.tv_name, content.title);
             holder.setText(R.id.tv_author, content.author);
             holder.setText(R.id.tv_number, String.valueOf(content.number));
+            holder.getView(R.id.iv_fav).setTag(content);
+            holder.getView(R.id.iv_fav).setSelected(FavHelper.isFav(content));
+            holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);
         }
     }
 
@@ -60,4 +65,17 @@ public class BillboardAdapter extends HeaderFooterAdapter<Object> {
         }
         return -1;
     }
+
+    private View.OnClickListener favClickListener = (v) -> {
+        BillboardEntity.ContentBean entity = (BillboardEntity.ContentBean) v.getTag();
+        SongEntity songEntity = FavHelper.revert(entity);
+        boolean isFav = v.isSelected();
+        if (isFav) {
+            FavHelper.unfavSong(songEntity);
+        } else {
+            FavHelper.favSong(mContext, songEntity);
+        }
+        notifyDataSetChanged();
+    };
+
 }

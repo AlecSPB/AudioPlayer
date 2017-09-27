@@ -42,12 +42,17 @@ public class BillboardListFragment extends BaseListFragment {
         swipeRefreshLayout.setRefreshing(true);
         presenter.loadData(false);
         adapter.setOnItemClickListener((v, position) -> {
-            BillboardEntity.ContentBean item = (BillboardEntity.ContentBean) adapter.getItem(position);
+            Object object = adapter.getItem(position);
+            if (object instanceof BillboardEntity.ContentBean) {
+                BillboardEntity.ContentBean item = (BillboardEntity.ContentBean) adapter.getItem(position);
 //            presenter.loadSongInfo(item.song_id, getOnPlayAction(), getOnPlayErrorAction());
-            SongEntity songEntity = new SongEntity();
-            songEntity.song_id = item.song_id;
-            songEntity.song_source = "";
-            PlayerManager.getInstance().play(songEntity);
+                SongEntity songEntity = new SongEntity();
+                songEntity.song_id = item.song_id;
+                songEntity.song_source = "";
+                PlayerManager.getInstance().play(songEntity);
+            } else if (object instanceof BillboardEntity) {
+
+            }
         });
     }
 
