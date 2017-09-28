@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.BuglyUtils;
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.base.utils.SharedPreferencesUtil;
 import com.tc.model.net.APIServiceProvider;
@@ -43,6 +44,7 @@ public class AudioApplication extends MultiDexApplication {
         SharedPreferencesUtil.init(this);
         FirebaseApp.initializeApp(this);
         MobileAds.initialize(this, "ca-app-pub-7199806726993025~2598142485");
+        BuglyUtils.init(this);
 
         File cacheDir = new File(FileUtil.PATH_LRC);
         if (!cacheDir.exists()) {

@@ -14,10 +14,10 @@ import rx.functions.Action1;
  * Created by itcayman on 2017/9/22.
  */
 
-public class BillboardPresenter extends LifePresenter {
+public class BillboardListPresenter extends LifePresenter {
     private OnlineCase onlineCase;
 
-    public BillboardPresenter() {
+    public BillboardListPresenter() {
         onlineCase = new OnlineCase();
     }
 

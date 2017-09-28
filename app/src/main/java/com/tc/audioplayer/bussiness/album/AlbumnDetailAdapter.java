@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.bussiness.FavHelper;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
 import com.tc.model.entity.SongEntity;
@@ -28,5 +29,19 @@ public class AlbumnDetailAdapter extends HeaderFooterAdapter<SongEntity> {
         SongEntity item = getItem(dataIndex);
         holder.setText(R.id.tv_title, item.title);
         holder.setText(R.id.tv_number, String.valueOf(dataIndex + 1));
+        holder.getView(R.id.iv_fav).setTag(item);
+        holder.getView(R.id.iv_fav).setSelected(FavHelper.isFav(item));
+        holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);
     }
+
+    private View.OnClickListener favClickListener = (v) -> {
+        SongEntity songEntity = (SongEntity) v.getTag();
+        boolean isFav = v.isSelected();
+        if (isFav) {
+            FavHelper.unfavSong(songEntity);
+        } else {
+            FavHelper.favSong(mContext, songEntity);
+        }
+        notifyDataSetChanged();
+    };
 }

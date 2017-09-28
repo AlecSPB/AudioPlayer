@@ -15,12 +15,12 @@ import com.tc.model.entity.SongEntity;
  * Created by itcayman on 2017/9/22.
  */
 
-public class BillboardAdapter extends HeaderFooterAdapter<Object> {
+public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_CONTENT = 1;
     private static final int TYPE_LINE = 2;
 
-    public BillboardAdapter(Context context) {
+    public BillboardListAdapter(Context context) {
         super(context);
     }
 

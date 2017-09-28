@@ -134,21 +134,16 @@ public class ShellUtils {
             os = new DataOutputStream(process.getOutputStream());
             for (Object command : commands) {
                 String strCommand = String.valueOf(command);
-
                 if (strCommand == null) {
                     continue;
                 }
-// donnot use os.writeBytes(strCommand), avoid chinese charset error
                 os.write(strCommand.getBytes());
                 os.writeBytes(COMMAND_LINE_END);
                 os.flush();
             }
             os.writeBytes(COMMAND_EXIT);
             os.flush();
-
-
             result = process.waitFor();
-// get command result
             if (isNeedResultMsg) {
                 successMsg = new StringBuilder();
                 errorMsg = new StringBuilder();

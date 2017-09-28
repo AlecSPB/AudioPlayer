@@ -61,7 +61,10 @@ public class FavHelper {
         CollectSongDao dao = DBManager.getInstance(AudioApplication.getInstance())
                 .getDaoSession().getCollectSongDao();
         try {
-            dao.delete(collectSong);
+            dao.queryBuilder()
+                    .where(CollectSongDao.Properties.Song_id.eq(songEntity.song_id))
+                    .buildDelete()
+                    .executeDeleteWithoutDetachingEntities();
             return true;
         } catch (Exception e) {
 

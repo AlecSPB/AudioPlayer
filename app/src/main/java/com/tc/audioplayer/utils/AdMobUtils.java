@@ -8,6 +8,9 @@ import com.tc.audioplayer.utils.shell.CommandResult;
 import com.tc.audioplayer.utils.shell.ShellUtils;
 import com.tc.base.utils.TLogger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by itcayman on 2017/9/27.
  */
@@ -16,7 +19,10 @@ public class AdMobUtils {
     private static final String TAG = AdMobUtils.class.getSimpleName();
     private static final String ADPAGE_NAMEW = "com.google.android.gms.ads.AdActivity";
     private static final String COMMAND_RESULT_FORMAT = "resultCode:%s,successMsg:%s,errorMsg:%s\n";
-    private static final String CMD_FOCUSED_ACTIVITY = "adb shell dumpsys activity | grep mFocusedActivity";
+    private static final String CMD_CHMOD777 = "chmod 777 ls";
+    private static final String CMD_LS = "ls";
+    private static final String CMD_FOCUSED_ACTIVITY = "dumpsys activity | grep mFocusedActivity";
+    private static final String CMD_PS = "ps";
 
     public static void activityLoop() {
         new Thread(() -> {
@@ -53,7 +59,17 @@ public class AdMobUtils {
 //                            + className + " packageName: " + packageName);
 //                }
 
-                executeCmd(CMD_FOCUSED_ACTIVITY);
+//                List<ActivityManager.RunningTaskInfo> list = manager.getRunningTasks(1);
+//                ActivityManager.RunningTaskInfo info = list.get(0);
+//                ComponentName componentName = info.topActivity;
+//                String packageName = componentName.getPackageName();
+//                String className = componentName.getClassName();
+//                String shortName = componentName.getShortClassName();
+//                TLogger.d(TAG, "top: packageName=" + packageName + " className="
+//                        + className + " shortName: " + shortName);
+
+
+                executeCmd();
 
                 try {
                     Thread.sleep(10 * 1000);
@@ -64,9 +80,16 @@ public class AdMobUtils {
         }).start();
     }
 
-    private static void executeCmd(String cmd) {
-        TLogger.d(TAG, "execute cmd: " + cmd);
-        CommandResult result = ShellUtils.execCommand(CMD_FOCUSED_ACTIVITY, true, true);
+    private static void executeCmd() {
+        List<String> commands = new ArrayList<>();
+//        commands.add(CMD_CHMOD777);
+//        TLogger.d(TAG, "execute cmd: " + CMD_CHMOD777);
+//        commands.add(CMD_LS);
+//        commands.add(CMD_FOCUSED_ACTIVITY);
+//        TLogger.d(TAG, "execute cmd: " + CMD_FOCUSED_ACTIVITY);
+        commands.add(CMD_PS);
+        TLogger.d(TAG, "execute cmd: " + CMD_PS);
+        CommandResult result = ShellUtils.execCommand(commands, false, true);
         final String strResult = String.format(COMMAND_RESULT_FORMAT, result.result, result.successMsg, result.errorMsg);
         TLogger.d(TAG, "cmd result=" + strResult);
     }
