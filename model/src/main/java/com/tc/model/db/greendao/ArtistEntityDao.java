@@ -43,6 +43,14 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         public final static Property Artist_desc = new Property(13, String.class, "artist_desc", false, "ARTIST_DESC");
         public final static Property Author = new Property(14, String.class, "author", false, "AUTHOR");
         public final static Property Artist_source = new Property(15, String.class, "artist_source", false, "ARTIST_SOURCE");
+        public final static Property Area = new Property(16, int.class, "area", false, "AREA");
+        public final static Property Firstchar = new Property(17, String.class, "firstchar", false, "FIRSTCHAR");
+        public final static Property Name = new Property(18, String.class, "name", false, "NAME");
+        public final static Property Islocate = new Property(19, int.class, "islocate", false, "ISLOCATE");
+        public final static Property Gender = new Property(20, int.class, "gender", false, "GENDER");
+        public final static Property Avatar_big = new Property(21, String.class, "avatar_big", false, "AVATAR_BIG");
+        public final static Property Albums_total = new Property(22, int.class, "albums_total", false, "ALBUMS_TOTAL");
+        public final static Property Songs_total = new Property(23, int.class, "songs_total", false, "SONGS_TOTAL");
     };
 
     private Query<ArtistEntity> songInfoEntity_Artist_listQuery;
@@ -74,7 +82,15 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
                 "\"ALBUM_NUM\" INTEGER NOT NULL ," + // 12: album_num
                 "\"ARTIST_DESC\" TEXT," + // 13: artist_desc
                 "\"AUTHOR\" TEXT," + // 14: author
-                "\"ARTIST_SOURCE\" TEXT);"); // 15: artist_source
+                "\"ARTIST_SOURCE\" TEXT," + // 15: artist_source
+                "\"AREA\" INTEGER NOT NULL ," + // 16: area
+                "\"FIRSTCHAR\" TEXT," + // 17: firstchar
+                "\"NAME\" TEXT," + // 18: name
+                "\"ISLOCATE\" INTEGER NOT NULL ," + // 19: islocate
+                "\"GENDER\" INTEGER NOT NULL ," + // 20: gender
+                "\"AVATAR_BIG\" TEXT," + // 21: avatar_big
+                "\"ALBUMS_TOTAL\" INTEGER NOT NULL ," + // 22: albums_total
+                "\"SONGS_TOTAL\" INTEGER NOT NULL );"); // 23: songs_total
     }
 
     /** Drops the underlying database table. */
@@ -158,6 +174,26 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         if (artist_source != null) {
             stmt.bindString(16, artist_source);
         }
+        stmt.bindLong(17, entity.getArea());
+ 
+        String firstchar = entity.getFirstchar();
+        if (firstchar != null) {
+            stmt.bindString(18, firstchar);
+        }
+ 
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(19, name);
+        }
+        stmt.bindLong(20, entity.getIslocate());
+        stmt.bindLong(21, entity.getGender());
+ 
+        String avatar_big = entity.getAvatar_big();
+        if (avatar_big != null) {
+            stmt.bindString(22, avatar_big);
+        }
+        stmt.bindLong(23, entity.getAlbums_total());
+        stmt.bindLong(24, entity.getSongs_total());
     }
 
     @Override
@@ -235,6 +271,26 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         if (artist_source != null) {
             stmt.bindString(16, artist_source);
         }
+        stmt.bindLong(17, entity.getArea());
+ 
+        String firstchar = entity.getFirstchar();
+        if (firstchar != null) {
+            stmt.bindString(18, firstchar);
+        }
+ 
+        String name = entity.getName();
+        if (name != null) {
+            stmt.bindString(19, name);
+        }
+        stmt.bindLong(20, entity.getIslocate());
+        stmt.bindLong(21, entity.getGender());
+ 
+        String avatar_big = entity.getAvatar_big();
+        if (avatar_big != null) {
+            stmt.bindString(22, avatar_big);
+        }
+        stmt.bindLong(23, entity.getAlbums_total());
+        stmt.bindLong(24, entity.getSongs_total());
     }
 
     @Override
@@ -260,7 +316,15 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
             cursor.getInt(offset + 12), // album_num
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // artist_desc
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // author
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // artist_source
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // artist_source
+            cursor.getInt(offset + 16), // area
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // firstchar
+            cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // name
+            cursor.getInt(offset + 19), // islocate
+            cursor.getInt(offset + 20), // gender
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // avatar_big
+            cursor.getInt(offset + 22), // albums_total
+            cursor.getInt(offset + 23) // songs_total
         );
         return entity;
     }
@@ -283,6 +347,14 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         entity.setArtist_desc(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setAuthor(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
         entity.setArtist_source(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setArea(cursor.getInt(offset + 16));
+        entity.setFirstchar(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setName(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
+        entity.setIslocate(cursor.getInt(offset + 19));
+        entity.setGender(cursor.getInt(offset + 20));
+        entity.setAvatar_big(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setAlbums_total(cursor.getInt(offset + 22));
+        entity.setSongs_total(cursor.getInt(offset + 23));
      }
     
     @Override

@@ -40,6 +40,15 @@ public class ArtistEntity {
     public String author;
     public String artist_source;
 
+    public int area;
+    public String firstchar;
+    public String name;
+    public int islocate;
+    public int gender;
+    public String avatar_big;
+    public int albums_total;
+    public int songs_total;
+
     public String getAvatar_s180() {
         return this.avatar_s180;
     }
@@ -168,11 +177,76 @@ public class ArtistEntity {
         return this.song_num;
     }
 
-    @Generated(hash = 1462595462)
+    public int getSongs_total() {
+        return this.songs_total;
+    }
+
+    public void setSongs_total(int songs_total) {
+        this.songs_total = songs_total;
+    }
+
+    public int getAlbums_total() {
+        return this.albums_total;
+    }
+
+    public void setAlbums_total(int albums_total) {
+        this.albums_total = albums_total;
+    }
+
+    public String getAvatar_big() {
+        return this.avatar_big;
+    }
+
+    public void setAvatar_big(String avatar_big) {
+        this.avatar_big = avatar_big;
+    }
+
+    public int getGender() {
+        return this.gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public int getIslocate() {
+        return this.islocate;
+    }
+
+    public void setIslocate(int islocate) {
+        this.islocate = islocate;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFirstchar() {
+        return this.firstchar;
+    }
+
+    public void setFirstchar(String firstchar) {
+        this.firstchar = firstchar;
+    }
+
+    public int getArea() {
+        return this.area;
+    }
+
+    public void setArea(int area) {
+        this.area = area;
+    }
+
+    @Generated(hash = 1853380393)
     public ArtistEntity(String artist_id, String avatar_mini, String avatar_s300, String ting_uid,
             String del_status, String avatar_s500, String artist_name, String avatar_small,
             String avatar_s180, int song_num, String country, String avatar_middle, int album_num,
-            String artist_desc, String author, String artist_source) {
+            String artist_desc, String author, String artist_source, int area, String firstchar,
+            String name, int islocate, int gender, String avatar_big, int albums_total, int songs_total) {
         this.artist_id = artist_id;
         this.avatar_mini = avatar_mini;
         this.avatar_s300 = avatar_s300;
@@ -189,6 +263,14 @@ public class ArtistEntity {
         this.artist_desc = artist_desc;
         this.author = author;
         this.artist_source = artist_source;
+        this.area = area;
+        this.firstchar = firstchar;
+        this.name = name;
+        this.islocate = islocate;
+        this.gender = gender;
+        this.avatar_big = avatar_big;
+        this.albums_total = albums_total;
+        this.songs_total = songs_total;
     }
 
     @Generated(hash = 1273112035)

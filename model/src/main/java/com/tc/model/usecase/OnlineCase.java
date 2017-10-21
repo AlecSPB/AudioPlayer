@@ -5,6 +5,8 @@ import com.tc.model.api.BMA;
 import com.tc.model.api.OnlineAPI;
 import com.tc.model.entity.AlbumDetailEntity;
 import com.tc.model.entity.AlbumList;
+import com.tc.model.entity.ArtistEntity;
+import com.tc.model.entity.ArtistList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
@@ -89,5 +91,27 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         String url = BMA.Album.albumInfo(albumnid);
         TLogger.d(TAG, "getAlbumnDetail: " + url);
         return api.requetAlbumnDetail(url);
+    }
+
+    public Observable<ArtistList> getArtistList(int page) {
+        page = page >= 1 ? page - 1 : 0;
+        int limit = 20;
+        String url = BMA.Artist.artistList(limit * page, limit, 6, 0, 0, "a-z");
+        TLogger.d(TAG, "getArtistList: " + url);
+        return api.requestArtistList(url);
+    }
+
+    public Observable<ArtistEntity> getArtistDetail(String tinguid, String artistid) {
+        String url = BMA.Artist.artistInfo(tinguid, artistid);
+        TLogger.d(TAG, "getArtistDetail: " + url);
+        return api.requestArtistDetail(url);
+    }
+
+    public Observable<ArtistList> getArtistSongList(String tinguid, String artistid, int page) {
+        page = page >= 1 ? page - 1 : 0;
+        int limit = 20;
+        String url = BMA.Artist.artistSongList(tinguid, artistid, limit * page, limit);
+        TLogger.d(TAG, "getArtistSongList");
+        return api.requestArtistList(url);
     }
 }

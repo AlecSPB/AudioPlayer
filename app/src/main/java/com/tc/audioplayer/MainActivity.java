@@ -1,5 +1,6 @@
 package com.tc.audioplayer;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -27,18 +28,19 @@ import com.tc.audioplayer.bussiness.album.AlbumListFragment;
 import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
 import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
-import com.tc.audioplayer.bussiness.oline.music.MusicFragment;
+import com.tc.audioplayer.bussiness.search.SearchResultFragment;
 import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
+import com.tc.base.utils.DeviceUtils;
+import com.tc.base.utils.TLogger;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.tc.audioplayer.bussiness.oline.music.MusicFragment.HOT;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -95,7 +97,7 @@ public class MainActivity extends BaseActivity
         Fragment albumFragment = AlbumListFragment.newInstance();
         Fragment artistFragment = ArtistListFragment.newInstance();
         Fragment hotFragment = HotFragment.newInstance();
-        Fragment searchFragment = MusicFragment.newInstance(HOT);
+        Fragment searchFragment = SearchResultFragment.newInstance();
         fragmentList.add(billboardFragment);
         fragmentList.add(albumFragment);
         fragmentList.add(artistFragment);
@@ -126,13 +128,14 @@ public class MainActivity extends BaseActivity
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);
-
+        vpContentMain.addOnPageChangeListener(pageChangeListener);
+        onVPageSelected(0);
     }
 
     private void initUserinfo() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null ) {
+        if (user != null) {
             tvUsername.setText(user.getEmail());
         }
     }
@@ -168,6 +171,46 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            onVPageSelected(position);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    private void onVPageSelected(int position) {
+        TextView titleView = getTitleTextView();
+        if (titleView != null) {
+            float width = titleView.getPaint().measureText(tabTitles[position]);
+            width = DeviceUtils.getScreenWidthPx(MainActivity.this) / 2 - width / 2;
+            toolbar.setContentInsetStartWithNavigation((int) width);
+        }
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setTitle(tabTitles[position]);
+    }
+
+    private TextView getTitleTextView() {
+        try {
+            Field field = toolbar.getClass().getDeclaredField("mTitleTextView");
+            field.setAccessible(true);
+            TextView textView = (TextView) field.get(toolbar);
+            return textView;
+        } catch (Exception e) {
+            TLogger.e(TAG, "reflect exception: " + e.toString());
+            return null;
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -187,10 +230,10 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_search) {
-            Navigator.toSearchActivity(this);
-            return true;
-        }
+//        if (id == R.id.action_search) {
+//            Navigator.toSearchActivity(this);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.tc.audioplayer.bussiness.account.LoginActivity;
 import com.tc.audioplayer.bussiness.account.RegisterActivity;
 import com.tc.audioplayer.bussiness.album.AlbumnDetailActivity;
+import com.tc.audioplayer.bussiness.artist.ArtistDetailActivity;
 import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 import com.tc.audioplayer.bussiness.search.SearchActivity;
 
@@ -49,6 +50,13 @@ public class Navigator {
     public static void toAlbumnDetailActivity(Context context, String albumnid) {
         Intent intent = new Intent(context, AlbumnDetailActivity.class);
         intent.putExtra("albumnid", albumnid);
+        context.startActivity(intent);
+    }
+
+    public static void toArtistDetailActivity(Context context, String tinguid, String albumnid) {
+        Intent intent = new Intent(context, ArtistDetailActivity.class);
+        intent.putExtra("albumnid", albumnid);
+        intent.putExtra("tinguid", tinguid);
         context.startActivity(intent);
     }
 }

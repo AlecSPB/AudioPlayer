@@ -16,6 +16,11 @@ public class SearchResultFragment extends BaseListFragment {
     private SearchPresent present;
     private SearchResultAdapter adapter;
 
+    public static SearchResultFragment newInstance(){
+        SearchResultFragment fragment = new SearchResultFragment();
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,4 +1,4 @@
-package com.tc.audioplayer.bussiness.album;
+package com.tc.audioplayer.bussiness.artist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,10 +24,11 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  * Created by itcayman on 2017/9/25.
  */
 
-public class AlbumnDetailActivity extends ToolbarActivity {
+public class ArtistDetailActivity extends ToolbarActivity {
     private String albumnid;
-    private AlbumnDetailPresenter presenter;
-    private AlbumnDetailAdapter adapter;
+    private String tinguid;
+    private ArtistDetailPresenter presenter;
+    private ArtistDetailAdapter adapter;
     private RecyclerView recyclerView;
     private ImageView ivAlbumn;
     private TextView tvTitle;
@@ -44,12 +45,13 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         setContentUnderToolbar();
 
         albumnid = getIntent().getStringExtra("albumnid");
+        tinguid = getIntent().getStringExtra("tinguid");
 
         flToolbarContent.setVisibility(View.VISIBLE);
 
-        presenter = new AlbumnDetailPresenter(albumnid);
+        presenter = new ArtistDetailPresenter(tinguid, albumnid);
         presenter.attachView(this);
-        adapter = new AlbumnDetailAdapter(this);
+        adapter = new ArtistDetailAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
