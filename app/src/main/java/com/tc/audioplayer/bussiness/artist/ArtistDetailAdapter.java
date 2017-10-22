@@ -21,7 +21,7 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<SongEntity> {
 
     @Override
     public View inflaterListItemView(ViewGroup parent, int viewType) {
-        return mInflater.inflate(R.layout.item_album_detail, parent, false);
+        return mInflater.inflate(R.layout.item_artist_detail, parent, false);
     }
 
     @Override
@@ -29,6 +29,7 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<SongEntity> {
         SongEntity item = getItem(dataIndex);
         holder.setText(R.id.tv_title, item.title);
         holder.setText(R.id.tv_number, String.valueOf(dataIndex + 1));
+        holder.setText(R.id.tv_album, item.album_title);
         holder.getView(R.id.iv_fav).setTag(item);
         holder.getView(R.id.iv_fav).setSelected(FavHelper.isFav(item));
         holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);

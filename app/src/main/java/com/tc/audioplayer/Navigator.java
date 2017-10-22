@@ -53,10 +53,14 @@ public class Navigator {
         context.startActivity(intent);
     }
 
-    public static void toArtistDetailActivity(Context context, String tinguid, String albumnid) {
+    public static void toArtistDetailActivity(Context context, String tinguid, String albumnid,
+                                              String author, String authorImg, String country) {
         Intent intent = new Intent(context, ArtistDetailActivity.class);
         intent.putExtra("albumnid", albumnid);
         intent.putExtra("tinguid", tinguid);
+        intent.putExtra("author", author);
+        intent.putExtra("authorImg", authorImg);
+        intent.putExtra("country", country);
         context.startActivity(intent);
     }
 }

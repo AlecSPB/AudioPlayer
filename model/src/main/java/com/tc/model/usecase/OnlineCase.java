@@ -7,6 +7,7 @@ import com.tc.model.entity.AlbumDetailEntity;
 import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.ArtistEntity;
 import com.tc.model.entity.ArtistList;
+import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
@@ -81,7 +82,7 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
 
     public Observable<AlbumList> getAlbumnList(int page) {
         page = page >= 1 ? page - 1 : 0;
-        int limit = 20;
+        int limit = 50;
         String url = BMA.Album.recommendAlbum(limit * page, limit);
         TLogger.d(TAG, "getAlbumnList: " + url);
         return api.requestAlbumnList(url);
@@ -95,7 +96,7 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
 
     public Observable<ArtistList> getArtistList(int page) {
         page = page >= 1 ? page - 1 : 0;
-        int limit = 20;
+        int limit = 50;
         String url = BMA.Artist.artistList(limit * page, limit, 6, 0, 0, "a-z");
         TLogger.d(TAG, "getArtistList: " + url);
         return api.requestArtistList(url);
@@ -107,11 +108,11 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         return api.requestArtistDetail(url);
     }
 
-    public Observable<ArtistList> getArtistSongList(String tinguid, String artistid, int page) {
+    public Observable<ArtistSongList> getArtistSongList(String tinguid, String artistid, int page) {
         page = page >= 1 ? page - 1 : 0;
-        int limit = 20;
+        int limit = 50;
         String url = BMA.Artist.artistSongList(tinguid, artistid, limit * page, limit);
         TLogger.d(TAG, "getArtistSongList");
-        return api.requestArtistList(url);
+        return api.requestArtistSongList(url);
     }
 }

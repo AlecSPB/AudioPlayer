@@ -38,7 +38,8 @@ public class ArtistListFragment extends BaseListFragment {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
             ArtistEntity artist = adapter.getItem(position);
-            Navigator.toArtistDetailActivity(getContext(),artist.ting_uid, artist.artist_id);
+            Navigator.toArtistDetailActivity(getContext(),artist.ting_uid, artist.artist_id,
+                    artist.name, artist.avatar_big, artist.country);
         });
     }
 

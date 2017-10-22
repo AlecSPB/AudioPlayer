@@ -14,8 +14,7 @@ import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.CollectionUtil;
-import com.tc.model.entity.Album;
-import com.tc.model.entity.AlbumDetailEntity;
+import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.PlayList;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -27,15 +26,15 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class ArtistDetailActivity extends ToolbarActivity {
     private String albumnid;
     private String tinguid;
+    private String author;
+    private String country;
+    private String authorImg;
     private ArtistDetailPresenter presenter;
     private ArtistDetailAdapter adapter;
     private RecyclerView recyclerView;
     private ImageView ivAlbumn;
-    private TextView tvTitle;
     private TextView tvAuthor;
     private TextView tvLanguage;
-    private TextView tvCompany;
-    private TextView tvTime;
     private TextView tvPlayAll;
 
     @Override
@@ -44,12 +43,14 @@ public class ArtistDetailActivity extends ToolbarActivity {
         setContentView(R.layout.common_base);
         setContentUnderToolbar();
 
+        setToolbarCenterTitle("歌手");
         albumnid = getIntent().getStringExtra("albumnid");
         tinguid = getIntent().getStringExtra("tinguid");
+        author = getIntent().getStringExtra("author");
+        country = getIntent().getStringExtra("country");
+        authorImg = getIntent().getStringExtra("authorImg");
 
-        flToolbarContent.setVisibility(View.VISIBLE);
-
-        presenter = new ArtistDetailPresenter(tinguid, albumnid);
+        presenter = new ArtistDetailPresenter(albumnid, tinguid);
         presenter.attachView(this);
         adapter = new ArtistDetailAdapter(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -69,13 +70,10 @@ public class ArtistDetailActivity extends ToolbarActivity {
     }
 
     private void initHeaderView() {
-        View view = LayoutInflater.from(this).inflate(R.layout.header_album_detail, recyclerView, false);
+        View view = LayoutInflater.from(this).inflate(R.layout.header_artist_detail, recyclerView, false);
         ivAlbumn = (ImageView) view.findViewById(R.id.iv_albumn);
-        tvTitle = (TextView) view.findViewById(R.id.tv_title);
         tvAuthor = (TextView) view.findViewById(R.id.tv_author);
         tvLanguage = (TextView) view.findViewById(R.id.tv_language);
-        tvCompany = (TextView) view.findViewById(R.id.tv_company);
-        tvTime = (TextView) view.findViewById(R.id.tv_time);
         tvPlayAll = (TextView) view.findViewById(R.id.tv_play_all);
         tvPlayAll.setOnClickListener((v) -> {
             if (CollectionUtil.isEmpty(adapter.getData()))
@@ -85,27 +83,21 @@ public class ArtistDetailActivity extends ToolbarActivity {
             PlayerManager.getInstance().play(playList, 0);
         });
         adapter.addHeaderView(view);
-    }
 
-    private void updateHeader(Album album) {
         Glide.with(this)
-                .load(album.pic_radio)
+                .load(authorImg)
                 .asBitmap()
                 .transform(new RoundedCornersTransformation(this, 10, 0))
                 .into(ivAlbumn);
-        tvTitle.setText(album.title);
-        tvAuthor.setText(getString(R.string.album_author, album.author));
-        tvLanguage.setText(getString(R.string.album_language, album.language));
-        tvCompany.setText(getString(R.string.album_company, album.publishcompany));
-        tvTime.setText(getString(R.string.album_time, album.publishtime));
+        tvAuthor.setText(author);
+        tvLanguage.setText(country + "歌手");
     }
 
     @Override
     public void setData(Object data) {
         super.setData(data);
-        AlbumDetailEntity detailEntity = (AlbumDetailEntity) data;
-        updateHeader(detailEntity.albumInfo);
-        adapter.setData(detailEntity.songlist);
+        ArtistSongList songListWrapper = (ArtistSongList) data;
+        adapter.setData(songListWrapper.songlist);
     }
 
 }

@@ -101,6 +101,12 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         toolbar.setNavigationOnClickListener((v) -> finish());
     }
 
+    public void setToolbarCenterTitle(String title){
+        setToolbarTitle(toolbar, title);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((v) -> finish());
+    }
+
     public void setToolbarSubtitle(CharSequence subTitle) {
         toolbar.setSubtitle(subTitle);
         setSupportActionBar(toolbar);

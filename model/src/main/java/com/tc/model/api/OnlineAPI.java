@@ -4,6 +4,7 @@ import com.tc.model.entity.AlbumDetailEntity;
 import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.ArtistEntity;
 import com.tc.model.entity.ArtistList;
+import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
@@ -63,4 +64,7 @@ public interface OnlineAPI {
 
     @GET
     Observable<ArtistEntity> requestArtistDetail(@Url String url);
+
+    @GET
+    Observable<ArtistSongList> requestArtistSongList(@Url String url);
 }

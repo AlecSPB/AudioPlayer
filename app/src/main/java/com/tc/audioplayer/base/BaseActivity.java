@@ -1,20 +1,25 @@
 package com.tc.audioplayer.base;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.permission.core.IPermissionActivity;
 import com.tc.audioplayer.permission.core.PermissionCode;
 import com.tc.audioplayer.permission.core.RunTimePermission;
 import com.tc.base.utils.CollectionUtil;
+import com.tc.base.utils.DeviceUtils;
 import com.tc.base.utils.TLogger;
 import com.zhy.m.permission.MPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -104,6 +109,23 @@ public class BaseActivity extends AppCompatActivity implements IPermissionActivi
             return;
 
         eventBus.register(this);
+    }
+
+    protected void setToolbarTitle(Toolbar toolbar, String title) {
+        try {
+            Field field = toolbar.getClass().getDeclaredField("mTitleTextView");
+            field.setAccessible(true);
+            TextView titleView = (TextView) field.get(toolbar);
+            if (titleView != null) {
+                float width = titleView.getPaint().measureText(title);
+                width = DeviceUtils.getScreenWidthPx(this) / 2 - width / 2;
+                toolbar.setContentInsetStartWithNavigation((int) width);
+            }
+            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            toolbar.setTitle(title);
+        } catch (Exception e) {
+            TLogger.e(TAG, "reflect exception: " + e.toString());
+        }
     }
 
 }
