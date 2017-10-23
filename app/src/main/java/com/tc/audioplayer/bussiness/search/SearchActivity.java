@@ -17,38 +17,63 @@ import com.tc.audioplayer.utils.InputMethodUtil;
  */
 
 public class SearchActivity extends ToolbarActivity {
-    private SearchResultFragment searchResultFragment;
+    private SearchFragment searchResultFragment;
+    private String keyword;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.common_push_up_in, 0);
         setContentView(R.layout.layout_empty);
+        keyword = getIntent().getStringExtra("keyword");
         flToolbarContent.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setEnabled(false);
+        setContentUnderToolbar();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        searchResultFragment = new SearchResultFragment();
+        searchResultFragment = new SearchFragment();
         transaction.replace(R.id.fl_content, searchResultFragment).commit();
         initUI();
+        if (!TextUtils.isEmpty(keyword)) {
+            cetSearch.clearFocus();
+            InputMethodUtil.hidden(cetSearch);
+            searchResultFragment.search(keyword);
+            cetSearch.setText(keyword);
+        }
     }
 
     private void initUI() {
+        flToolbarContent.setVisibility(View.VISIBLE);
         cetSearch.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         cetSearch.setOnEditorActionListener(etActionListener);
+        toolbar.setNavigationIcon(null);
 
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);
         cetSearch.requestFocus();
+
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(null, color);
     }
 
     private TextView.OnEditorActionListener etActionListener = (view, actionId, event) -> {
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             String content = cetSearch.getText().toString();
-            if(TextUtils.isEmpty(content))
+            if (TextUtils.isEmpty(content))
                 return true;
             searchResultFragment.search(content);
         }
         InputMethodUtil.hidden(cetSearch);
         return true;
     };
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.common_push_up_out);
+    }
 }

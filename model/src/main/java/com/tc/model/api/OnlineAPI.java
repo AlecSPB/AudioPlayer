@@ -6,6 +6,7 @@ import com.tc.model.entity.ArtistEntity;
 import com.tc.model.entity.ArtistList;
 import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.BillboardEntity;
+import com.tc.model.entity.HotSearch;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongEntity;
@@ -34,6 +35,9 @@ public interface OnlineAPI {
 
     @GET
     Observable<SearchWrapper> requestSearch(@Url String url);
+
+    @GET
+    Observable<List<HotSearch>> requestHotSearch(@Url String url);
 
     @GET
     Observable<String> requestGedanCatetory(@Url String url);

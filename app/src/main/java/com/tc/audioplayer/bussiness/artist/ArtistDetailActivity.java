@@ -63,9 +63,11 @@ public class ArtistDetailActivity extends ToolbarActivity {
         });
         initHeaderView();
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            progressBar.setVisibility(View.VISIBLE);
             presenter.loadData(true);
         });
 
+        progressBar.setVisibility(View.VISIBLE);
         presenter.loadData(false);
     }
 

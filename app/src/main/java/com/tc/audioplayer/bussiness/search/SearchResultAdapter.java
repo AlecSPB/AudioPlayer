@@ -8,15 +8,21 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.utils.StringUtils;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
+import com.tc.model.entity.ArtistEntity;
+import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongEntity;
 
 /**
  * Created by tianchao on 2017/8/5.
  */
 
-public class SearchResultAdapter extends HeaderFooterAdapter<SongEntity> {
+public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
+    public static final int TYPE_SONG = 0;
+    public static final int TYPE_ARTIST = 1;
+    public static final int TYPE_ALBUM = 2;
 
     public SearchResultAdapter(Context context) {
         super(context);
@@ -24,15 +30,75 @@ public class SearchResultAdapter extends HeaderFooterAdapter<SongEntity> {
 
     @Override
     public View inflaterListItemView(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_SONG:
+                return mInflater.inflate(R.layout.item_music, parent, false);
+            case TYPE_ARTIST:
+                return mInflater.inflate(R.layout.item_search_artist, parent, false);
+            case TYPE_ALBUM:
+                return mInflater.inflate(R.layout.item_search_album, parent, false);
+        }
         return mInflater.inflate(R.layout.item_music, parent, false);
     }
 
     @Override
+    public int getListItemViewHolderType(int dataIndex) {
+        Object object = getItem(dataIndex);
+        if (object instanceof SongEntity) {
+            return TYPE_SONG;
+        } else if (object instanceof ArtistEntity) {
+            return TYPE_ARTIST;
+        } else if (object instanceof SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean) {
+            return TYPE_ALBUM;
+        }
+        return super.getListItemViewHolderType(dataIndex);
+    }
+
+    @Override
     public void bindListItemData(RecyclerViewHolder holder, int dataIndex) {
-        SongEntity item = getItem(dataIndex);
+        int type = getListItemViewHolderType(dataIndex);
+        switch (type) {
+            case TYPE_SONG:
+                bindSong(dataIndex, holder);
+                break;
+            case TYPE_ARTIST:
+                bindArtist(dataIndex, holder);
+                break;
+            case TYPE_ALBUM:
+                bindAlbum(dataIndex, holder);
+                break;
+        }
+    }
+
+    private void bindSong(int dataIndex, RecyclerViewHolder holder) {
+        SongEntity item = (SongEntity) getItem(dataIndex);
         holder.setText(R.id.tv_title, item.title);
         String author = TextUtils.isEmpty(item.album_title) ? item.author : item.author + "-" + item.album_title;
         holder.setText(R.id.tv_author, author);
+        Glide.with(mContext)
+                .load(item.pic_small)
+                .placeholder(R.drawable.default_cover)
+                .into((ImageView) holder.getView(R.id.iv_avatar));
+        holder.getView(R.id.iv_more).setVisibility(View.GONE);
+    }
+
+    private void bindArtist(int dataIndex, RecyclerViewHolder holder) {
+        ArtistEntity item = (ArtistEntity) getItem(dataIndex);
+        item.author = StringUtils.replaceEm(item.author);
+        holder.setText(R.id.tv_title, item.author);
+        holder.setText(R.id.tv_author, item.country);
+        Glide.with(mContext)
+                .load(item.avatar_middle)
+                .placeholder(R.drawable.default_cover)
+                .into((ImageView) holder.getView(R.id.iv_avatar));
+    }
+
+    private void bindAlbum(int dataIndex, RecyclerViewHolder holder) {
+        SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean item = (SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean) getItem(dataIndex);
+        item.title = StringUtils.replaceEm(item.title);
+        item.author = StringUtils.replaceEm(item.author);
+        holder.setText(R.id.tv_title, item.title);
+        holder.setText(R.id.tv_author, item.author);
         Glide.with(mContext)
                 .load(item.pic_small)
                 .placeholder(R.drawable.default_cover)

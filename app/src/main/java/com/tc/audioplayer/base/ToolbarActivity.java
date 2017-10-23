@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,8 +49,12 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
     protected FrameLayout flToolbarContent;
     @BindView(R.id.cet_search)
     protected ClearableEditText cetSearch;
+    @BindView(R.id.tv_cancel)
+    protected TextView tvCancel;
     @BindView(R.id.tv_center_title)
     protected TextView tvCenterTitle;
+    @BindView(R.id.progressBar)
+    protected ProgressBar progressBar;
 
     private Drawable[] mAlphaDrawable;
     private LayerDrawable mLayerDrawable;
@@ -70,6 +75,7 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         StatusBarUtil.setTranslucentForImageView(this, 0, coordinatorLayout);
         toolbar.setNavigationOnClickListener((v) -> finish());
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        tvCancel.setOnClickListener((v) -> finish());
     }
 
     protected void setContentUnderToolbar() {
@@ -101,7 +107,7 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         toolbar.setNavigationOnClickListener((v) -> finish());
     }
 
-    public void setToolbarCenterTitle(String title){
+    public void setToolbarCenterTitle(String title) {
         setToolbarTitle(toolbar, title);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener((v) -> finish());
@@ -148,11 +154,13 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
     public void handleThrowable(Throwable t) {
         swipeRefreshLayout.setRefreshing(false);
         tvRetry.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         Toast.makeText(this, "出错了", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void setData(Object data) {
+        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
     }
 }

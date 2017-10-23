@@ -9,6 +9,7 @@ import com.tc.model.entity.ArtistEntity;
 import com.tc.model.entity.ArtistList;
 import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.BillboardEntity;
+import com.tc.model.entity.HotSearch;
 import com.tc.model.entity.SearchWrapper;
 import com.tc.model.entity.SongDetail;
 import com.tc.model.entity.SongEntity;
@@ -48,6 +49,12 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         String url = BMA.Search.searchMerge(query, 1, PAGE_SIZE);
         TLogger.d(TAG, "getSearch: " + url);
         return api.requestSearch(url);
+    }
+
+    public Observable<List<HotSearch>> getHotSearch() {
+        String url = BMA.Search.hotWord();
+        TLogger.d(TAG, "getHotSearch " + url);
+        return api.requestHotSearch(url);
     }
 
     public Observable<String> getGedanCategory() {

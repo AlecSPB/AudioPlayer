@@ -27,8 +27,9 @@ public class Navigator {
         context.startActivity(intent);
     }
 
-    public static void toSearchActivity(Context context) {
+    public static void toSearchActivity(Context context, String keyword) {
         Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra("keyword", keyword);
         context.startActivity(intent);
     }
 

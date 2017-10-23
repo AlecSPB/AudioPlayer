@@ -9,4 +9,6 @@
     <color name="lrc_highlight">#1d64f2</color>
     <color name="lrc_default">#737171</color>
     <color name="line">#e7e4e4</color>
+    <color name="search">#bcbaba</color>
+    <color name="search_text">#232222</color>
 </resources>

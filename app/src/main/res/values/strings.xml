@@ -18,7 +18,13 @@
         <item>歌单</item>
     </string-array>
 
-    <string name="search_hint">搜索歌曲、歌手名</string>
+    <string-array name="search">
+        <item>歌曲</item>
+        <item>歌手</item>
+        <item>专辑</item>
+    </string-array>
+
+    <string name="search_hint">请输入搜索关键词</string>
     <string name="status_loading">正在拼命加载...</string>
     <string name="status_net_error">请连接网络后点击屏幕重试</string>
     <string name="title_activity_login1">Sign in</string>
@@ -30,7 +36,7 @@
     <string name="auth_repassword_empty">请再次输入密码</string>
     <string name="auth_repassword_not_match">两次密码不一致，请重新确认</string>
     <string name="auth_login_failed">用户名或密码错误</string>
-    
+
     <string name="billboard_more">显示全部</string>
     <string name="net_error">网络不太给力哦</string>
 

@@ -42,11 +42,4 @@
             android:textColor="#bbbbbb"
             tools:text="歌手-专辑"/>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_more"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="center"
-        android:src="@drawable/more"/>
 </LinearLayout>

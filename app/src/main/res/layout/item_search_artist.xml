@@ -26,8 +26,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="1dp"
             android:paddingBottom="1dp"
-            android:lines="1"
-            android:ellipsize="end"
             android:textSize="16sp"
             tools:text="歌名"/>
 
@@ -36,17 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:lines="1"
-            android:ellipsize="end"
             android:textSize="13sp"
             android:textColor="#bbbbbb"
             tools:text="歌手-专辑"/>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv_more"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="center"
-        android:src="@drawable/more"/>
 </LinearLayout>

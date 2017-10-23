@@ -48,17 +48,31 @@
                 <com.tc.audioplayer.widget.ClearableEditText
                     android:id="@+id/cet_search"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/corner_white_side_search"
+                    android:drawableLeft="@drawable/abc_ic_searchview_search"
                     android:hint="@string/search_hint"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:textColor="#ffffff"
-                    android:textColorHint="#f78474"
+                    android:paddingLeft="10dp"
+                    android:textColor="#212121"
+                    android:textColorHint="@color/search"
+                    android:textCursorDrawable="@drawable/edit_cursor_color"
                     android:textSize="16sp"
-                    android:theme="@style/AppTheme.CompatEditText"
-                    android:visibility="gone" />
+                    android:theme="@style/AppTheme.CompatEditText" />
 
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center_vertical"
+                    android:gravity="center"
+                    android:text="取消"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
             </FrameLayout>
 
             <TextView
@@ -73,4 +87,10 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

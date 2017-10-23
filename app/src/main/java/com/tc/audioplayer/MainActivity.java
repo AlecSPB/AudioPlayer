@@ -125,6 +125,7 @@ public class MainActivity extends BaseActivity
             minibar.bindData();
         }, 500);
         vpContentMain.addOnPageChangeListener(pageChangeListener);
+        vpContentMain.setOffscreenPageLimit(5);
         onVPageSelected(0);
     }
 

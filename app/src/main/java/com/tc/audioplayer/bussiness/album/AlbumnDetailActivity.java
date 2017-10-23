@@ -45,8 +45,6 @@ public class AlbumnDetailActivity extends ToolbarActivity {
 
         albumnid = getIntent().getStringExtra("albumnid");
 
-        flToolbarContent.setVisibility(View.VISIBLE);
-
         presenter = new AlbumnDetailPresenter(albumnid);
         presenter.attachView(this);
         adapter = new AlbumnDetailAdapter(this);
@@ -60,9 +58,11 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         });
         initHeaderView();
         swipeRefreshLayout.setOnRefreshListener(() -> {
+            progressBar.setVisibility(View.VISIBLE);
             presenter.loadData(true);
         });
 
+        progressBar.setVisibility(View.VISIBLE);
         presenter.loadData(false);
     }
 
