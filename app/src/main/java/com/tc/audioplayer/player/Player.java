@@ -50,6 +50,8 @@ public class Player implements IPlayer {
     public static final int PLAY_BUFFERING_PAUSE = 11; //buffer暂停
     public static final int PLAY_REQUEST_SUCCESS = 12;
 
+    public static final int ERROR_CODE_NULL = 404;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DEFAULT, INIT, PLAY_IDLE, PLAY_BUFFERING, PLAY_PREPARING, PLAY_START, PLAY_PAUSE,
             PLAY_SEEKTO, PLAY_STOP, PLAY_ERROR, PLAY_REQUEST, PLAY_COMPLETION, PLAY_BUFFERING_PAUSE,
@@ -253,6 +255,7 @@ public class Player implements IPlayer {
     public boolean play(SongEntity song) {
         if (playList == null) {
             playList = new PlayList();
+            playList.setPlayingIndex(0);
         }
         playList.clear();
         playList.addSong(song);
@@ -354,6 +357,14 @@ public class Player implements IPlayer {
      * 加载
      */
     private void loadMusicDetail(SongEntity entity) {
+        if (entity == null) {
+            for (int i = 0; i < playerListeners.size(); i++) {
+                PlayerListener listener = playerListeners.get(i);
+                listener.onError(ERROR_CODE_NULL);
+            }
+            return;
+        }
+
         TLogger.d(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
@@ -134,6 +136,8 @@ public class PlayerDetailDialog extends DialogFragment {
     }
 
     private void showLrc(String lrclink, long time) {
+        if (TextUtils.isEmpty(lrclink))
+            return;
         File file = getLrcFile(lrclink);
         if (file.exists()) {
             lrcView.loadLrc(file, time);
@@ -147,7 +151,7 @@ public class PlayerDetailDialog extends DialogFragment {
      */
     private void loadServerLrc(String lrclink) {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
-            if (saveLrcSuccess) {
+            if (saveLrcSuccess && !TextUtils.isEmpty(lrclink)) {
                 File file = getLrcFile(lrclink);
                 lrcView.loadLrc(file);
             }
@@ -327,6 +331,12 @@ public class PlayerDetailDialog extends DialogFragment {
         public void onCompletion() {
             TLogger.d(TAG, "onCompletion");
             ivPlayPause.setImageResource(R.drawable.selector_pause);
+        }
+
+        @Override
+        public void onError(int errorCode) {
+            super.onError(errorCode);
+            Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     }
 }

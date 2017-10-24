@@ -84,7 +84,7 @@ dependencies {
     compile 'com.google.firebase:firebase-ads:10.0.0'
 
     //bugly
-    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:crashreport:2.6.5'
 }
 
 

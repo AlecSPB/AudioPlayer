@@ -96,6 +96,8 @@ public class LrcFragment extends BaseFragment {
     }
 
     private void showLrc(String lrclink) {
+        if (TextUtils.isEmpty(lrclink))
+            return;
         File file = getLrcFile(lrclink);
         if (file.exists()) {
             lrcView.loadLrc(file);
@@ -109,7 +111,7 @@ public class LrcFragment extends BaseFragment {
      */
     private void loadServerLrc(String lrclink) {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
-            if (saveLrcSuccess) {
+            if (saveLrcSuccess && !TextUtils.isEmpty(lrclink)) {
                 File file = FileUtil.getLrcFile(lrclink);
                 lrcView.loadLrc(file);
             }
