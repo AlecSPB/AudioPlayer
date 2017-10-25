@@ -19,12 +19,25 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 public class DaoMaster extends AbstractDaoMaster {
     public static final int SCHEMA_VERSION = 3;
 
+    public DaoMaster(SQLiteDatabase db) {
+        this(new StandardDatabase(db));
+    }
+
+    public DaoMaster(Database db) {
+        super(db, SCHEMA_VERSION);
+        registerDaoClass(ArtistEntityDao.class);
+        registerDaoClass(CollectSongDao.class);
+        registerDaoClass(SongEntityDao.class);
+        registerDaoClass(CommonEntityDao.class);
+        registerDaoClass(SongInfoEntityDao.class);
+    }
+
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         ArtistEntityDao.createTable(db, ifNotExists);
         CollectSongDao.createTable(db, ifNotExists);
-        CommonEntityDao.createTable(db, ifNotExists);
         SongEntityDao.createTable(db, ifNotExists);
+        CommonEntityDao.createTable(db, ifNotExists);
         SongInfoEntityDao.createTable(db, ifNotExists);
     }
 
@@ -32,8 +45,8 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void dropAllTables(Database db, boolean ifExists) {
         ArtistEntityDao.dropTable(db, ifExists);
         CollectSongDao.dropTable(db, ifExists);
-        CommonEntityDao.dropTable(db, ifExists);
         SongEntityDao.dropTable(db, ifExists);
+        CommonEntityDao.dropTable(db, ifExists);
         SongInfoEntityDao.dropTable(db, ifExists);
     }
 
@@ -45,19 +58,6 @@ public class DaoMaster extends AbstractDaoMaster {
         Database db = new DevOpenHelper(context, name).getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
         return daoMaster.newSession();
-    }
-
-    public DaoMaster(SQLiteDatabase db) {
-        this(new StandardDatabase(db));
-    }
-
-    public DaoMaster(Database db) {
-        super(db, SCHEMA_VERSION);
-        registerDaoClass(ArtistEntityDao.class);
-        registerDaoClass(CollectSongDao.class);
-        registerDaoClass(CommonEntityDao.class);
-        registerDaoClass(SongEntityDao.class);
-        registerDaoClass(SongInfoEntityDao.class);
     }
 
     public DaoSession newSession() {

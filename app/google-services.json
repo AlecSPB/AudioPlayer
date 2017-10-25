@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "106492494446",
-    "firebase_url": "https://china-music-7ef9b.firebaseio.com",
-    "project_id": "china-music-7ef9b",
-    "storage_bucket": "china-music-7ef9b.appspot.com"
+    "project_number": "265001241836",
+    "firebase_url": "https://huarenmusic-8dbbe.firebaseio.com",
+    "project_id": "huarenmusic-8dbbe",
+    "storage_bucket": "huarenmusic-8dbbe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:106492494446:android:7afc419cf74aefbe",
+        "mobilesdk_app_id": "1:265001241836:android:075aa0abf62a6d8e",
         "android_client_info": {
-          "package_name": "com.tc.audioplayer"
+          "package_name": "com.xuefeng.huarenmusic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "106492494446-0se5u2va0tvafhhgqo767p0e0p5moqg5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.tc.audioplayer",
-            "certificate_hash": "e5aa192ba66ac6593751bb11c9e5338d377ab0dd"
-          }
-        },
-        {
-          "client_id": "106492494446-mmtsu9kbllicn52m4i2c80noajpineu6.apps.googleusercontent.com",
+          "client_id": "265001241836-js889nks1g6bigbkn20oll8ahp76m2qg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA9y4HrrUUX1dDxg8QKk4RLtXLvllzPlZI"
+          "current_key": "AIzaSyD_5Nyge0IrHWF6iVKtEc00XINVXtwU1Zo"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "106492494446-mmtsu9kbllicn52m4i2c80noajpineu6.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

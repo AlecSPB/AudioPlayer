@@ -7,7 +7,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.tc.audioplayer"
+        applicationId 'com.xuefeng.huarenmusic'
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -19,11 +19,10 @@ android {
     //签名
     signingConfigs {
         release {
-            storeFile file("../../audioplayer.keystore")
+            storeFile file('audioplayer.keystore')
             storePassword "888888"
             keyAlias "player"
             keyPassword "888888"
-
             // 如果要支持最新版的系统 Android N(7.0)
             // 这一行必须加，否则安装时会提示没有签名
             // 作用是只使用旧版签名，禁用V2版签名模式
@@ -40,49 +39,42 @@ android {
             signingConfig signingConfigs.release
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':base')
     compile project(':model')
     compile project(':libpermission')
     compile project(':librecyclerview')
     compile 'com.android.support:multidex:1.0.1'
-
     //TabLayout
-//    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     compile 'io.reactivex:rxjava:1.1.5'
     compile 'io.reactivex:rxandroid:1.2.0'
-
     compile('com.jakewharton:butterknife:8.4.0') {
         exclude group: 'com.adnroid.support', module: 'support-annotations'
     }
     compile('com.jakewharton:butterknife-compiler:8.4.0') {
         exclude group: 'com.adnroid.support', module: 'support-annotations'
     }
-
     //glide
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'jp.wasabeef:glide-transformations:1.2.1'
-
     //eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
-
     apt 'com.zhy:mpermission-compiler:1.0.0'
-
     //firebase登录
     compile 'com.google.firebase:firebase-core:10.0.0'
     compile 'com.google.firebase:firebase-auth:10.0.0'
     compile 'com.google.android.gms:play-services-auth:10.0.0'
     compile 'com.google.firebase:firebase-ads:10.0.0'
-
     //bugly
     compile 'com.tencent.bugly:crashreport:2.6.5'
 }
