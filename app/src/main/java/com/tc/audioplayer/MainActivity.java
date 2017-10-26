@@ -28,7 +28,6 @@ import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
 import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.search.SearchHistoryFragment;
-import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -78,7 +77,6 @@ public class MainActivity extends BaseActivity
         initData();
         initUI();
         initUserinfo();
-        AdMobUtils.activityLoop();
     }
 
     @Override
@@ -134,6 +132,12 @@ public class MainActivity extends BaseActivity
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             tvUsername.setText(user.getEmail());
+            navigationView.getHeaderView(0).setOnClickListener(null);
+        } else {
+            tvUsername.setText(getString(R.string.unlogin));
+            navigationView.getHeaderView(0).setOnClickListener((v) -> {
+                Navigator.toLoginActivity(MainActivity.this);
+            });
         }
     }
 
@@ -190,7 +194,6 @@ public class MainActivity extends BaseActivity
     }
 
 
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -225,17 +228,19 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_model_single:
-                Toast.makeText(this, "简单模式功能暂未上线", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_timer:
-                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.nav_model_single:
+//                Toast.makeText(this, "简单模式功能暂未上线", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.nav_timer:
+//                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.nav_about:
                 Toast.makeText(this, "关于软件功能暂未上线", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.nav_share:
-                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
+//            case R.id.nav_share:
+//                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
+//                break;
+            case R.id.nav_fav:
                 break;
             case R.id.nav_exit:
                 finish();
@@ -244,4 +249,14 @@ public class MainActivity extends BaseActivity
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    @Override
+//    protected int configDefaultRigsterFlags() {
+//        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+//    }
+
+//    @Subscribe
+//    public void onEventMainThread(LoginEvent event){
+//        initUserinfo();
+//    }
 }

@@ -291,6 +291,8 @@ public class PlayerDetailDialog extends DialogFragment {
                 PlayList playList = PlayerManager.getInstance().getPlayList();
                 SongEntity song = playList.getCurrentSong();
                 int totalDuration = song.file_duration;
+                if (totalDuration == 0)
+                    return;
                 int progress = seektoDuration * 100 / totalDuration;
                 PlayerManager.getInstance().seekTo(progress);
             }

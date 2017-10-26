@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
@@ -181,6 +182,12 @@ public class Minibar extends LinearLayout {
         public void onCompletion() {
 //            progressBar.setPlayState(false);
             ivPlayPause.setSelected(false);
+        }
+
+        @Override
+        public void onError(int errorCode) {
+            super.onError(errorCode);
+            Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     }
 }

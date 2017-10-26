@@ -52,6 +52,7 @@ public class Player implements IPlayer {
     public static final int PLAY_REQUEST_SUCCESS = 12;
 
     public static final int ERROR_CODE_NULL = 404;
+    public static final int ERROR_CODE_LOAD_INFO_FAIL = 405;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({DEFAULT, INIT, PLAY_IDLE, PLAY_BUFFERING, PLAY_PREPARING, PLAY_START, PLAY_PAUSE,
@@ -272,6 +273,7 @@ public class Player implements IPlayer {
         }
         playList.clear();
         playList.addSong(song);
+        play();
         return false;
     }
 
@@ -403,6 +405,10 @@ public class Player implements IPlayer {
             }
         };
         Action1<Throwable> onError = (throwable) -> {
+            for (int i = 0; i < playerListeners.size(); i++) {
+                PlayerListener listener = playerListeners.get(i);
+                listener.onError(ERROR_CODE_LOAD_INFO_FAIL);
+            }
             TLogger.e(TAG, "getMusic error: " + throwable);
         };
         onlineCase.getMusicInfo(entity.song_id)

@@ -44,4 +44,12 @@
     <string name="album_language">语种：%s</string>
     <string name="album_company">唱片公司：%s</string>
     <string name="album_time">发布时间：%s</string>
+
+    <string name="unlogin">未登录</string>
+    //drawer menu
+    <string name="menu_about">关于软件</string>
+    <string name="menu_fav">我的收藏</string>
+    <string name="menu_apps">推荐应用</string>
+    <string name="menu_version">版本(1.0.0)</string>
+    <string name="menu_exit">退出</string>
 </resources>
