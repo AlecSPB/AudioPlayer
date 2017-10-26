@@ -33,8 +33,9 @@ public class MediaListener implements MediaPlayer.OnInfoListener,
     @Override
     public void onPrepared(MediaPlayer mp) {
         TLogger.d(TAG, "onPrepared");
+        mp.start();
         player.resetProgressa();
-        player.startUpdateProgress();
+        player.onPrepared();
     }
 
     @Override

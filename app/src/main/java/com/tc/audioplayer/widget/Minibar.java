@@ -148,14 +148,14 @@ public class Minibar extends LinearLayout {
     private class MibarPlayerListener extends SimplePlayerListener {
         @Override
         public void onPreparingStart() {
-
+            ivPlayPause.setSelected(false);
+            bindData();
+            PlayerManager.getInstance().updatePlaylistToDB();
         }
 
         @Override
         public void onPlay() {
             ivPlayPause.setSelected(true);
-            PlayerManager.getInstance().updatePlaylistToDB();
-            bindData();
 //            progressBar.setPlayState(true);
         }
 

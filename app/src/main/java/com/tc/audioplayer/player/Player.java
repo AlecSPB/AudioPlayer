@@ -23,6 +23,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
+import static android.R.attr.path;
 import static com.tc.model.entity.PlayList.LOOP;
 import static com.tc.model.entity.PlayList.SHUFFLE;
 import static com.tc.model.entity.PlayList.SINGLE;
@@ -94,6 +95,18 @@ public class Player implements IPlayer {
 
     void stopUpdateProgress() {
         compositeSubscription.clear();
+    }
+
+    void onPrepared() {
+        if (seekToDuration == 0) {
+            startUpdateProgress();
+            TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
+            startUpdateProgress();
+            for (int i = 0; i < playerListeners.size(); i++) {
+                PlayerListener listener = playerListeners.get(i);
+                listener.onPlay();
+            }
+        }
     }
 
     void startUpdateProgress() {
@@ -379,22 +392,12 @@ public class Player implements IPlayer {
                 stopUpdateProgress();
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(path);
-                mediaPlayer.prepare();
-//                if (currentDuration > 0) {
-//                    mediaPlayer.seekTo(currentDuration * 1000);
-//                } else {
-//                    mediaPlayer.start();
-//                }
-                if (seekToDuration == 0) {
-                    mediaPlayer.start();
-                    startUpdateProgress();
-                    TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
-                    List<PlayerListener> listenerList = playerListeners;
-                    for (int i = 0; i < listenerList.size(); i++) {
-                        PlayerListener listener = listenerList.get(i);
-                        listener.onPlay();
-                    }
+                for (int i = 0; i < playerListeners.size(); i++) {
+                    PlayerListener listener = playerListeners.get(i);
+                    listener.onPreparingStart();
                 }
+                mediaPlayer.prepareAsync();
+
             } catch (Exception e) {
                 TLogger.e(TAG, "play Exception: ", e);
             }
