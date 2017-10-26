@@ -21,7 +21,7 @@ android {
         release {
             storeFile file('audioplayer.keystore')
             storePassword "888888"
-            keyAlias "player"
+            keyAlias "test"
             keyPassword "888888"
             // 如果要支持最新版的系统 Android N(7.0)
             // 这一行必须加，否则安装时会提示没有签名
