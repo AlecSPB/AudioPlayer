@@ -10,6 +10,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
+import com.tc.audioplayer.base.Constant;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.BillboardEntity;
@@ -89,8 +90,16 @@ public class BillboardListFragment extends BaseListFragment {
         adapter.setData(list);
         if (!hasAdShown) {
             InterstitialAd mInterstitialAd = new InterstitialAd(getContext());
-            mInterstitialAd.setAdUnitId("ca-app-pub-7199806726993025/1680469023");
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            mInterstitialAd.setAdUnitId(Constant.AdmobInterID);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("EFDE3632F6D6F87801F68CAB10796A46")
+                    .addTestDevice("DA6DE3BE84FC5D12846B2AD377CED73E")
+                    .addTestDevice("126101F178936B6BA282A3EB81EF29F0")
+                    .addTestDevice("FE3E29B85E2D0BC813D0AF1A53390C44")
+                    .addTestDevice("B2952405032D73534E695FE8897CC4B1")
+                    .addTestDevice("C357783CA84A3BDEAE79C5801DD2A323")
+                    .build();
+            mInterstitialAd.loadAd(adRequest);
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdClosed() {

@@ -5,14 +5,20 @@
       <module fileurl="file://$PROJECT_DIR$/AudioPlayer.iml" filepath="$PROJECT_DIR$/AudioPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/HuarenMusic_Android.iml" filepath="$PROJECT_DIR$/HuarenMusic_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/HuarenMusic_Android.iml" filepath="$PROJECT_DIR$/HuarenMusic_Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HuarenMusic_Android.iml" filepath="$PROJECT_DIR$/HuarenMusic_Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libpermission/libpermission.iml" filepath="$PROJECT_DIR$/libpermission/libpermission.iml" />
       <module fileurl="file://$PROJECT_DIR$/libpermission/libpermission.iml" filepath="$PROJECT_DIR$/libpermission/libpermission.iml" />
       <module fileurl="file://$PROJECT_DIR$/libpermission/libpermission.iml" filepath="$PROJECT_DIR$/libpermission/libpermission.iml" />
       <module fileurl="file://$PROJECT_DIR$/librecyclerview/librecyclerview.iml" filepath="$PROJECT_DIR$/librecyclerview/librecyclerview.iml" />
       <module fileurl="file://$PROJECT_DIR$/librecyclerview/librecyclerview.iml" filepath="$PROJECT_DIR$/librecyclerview/librecyclerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/librecyclerview/librecyclerview.iml" filepath="$PROJECT_DIR$/librecyclerview/librecyclerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
       <module fileurl="file://$PROJECT_DIR$/model/model.iml" filepath="$PROJECT_DIR$/model/model.iml" />
     </modules>
