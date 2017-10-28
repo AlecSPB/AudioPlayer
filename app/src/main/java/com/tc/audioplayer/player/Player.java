@@ -2,6 +2,7 @@ package com.tc.audioplayer.player;
 
 import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
+import android.util.Log;
 
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.PlayList;
@@ -33,9 +34,6 @@ import static com.tc.model.entity.PlayList.SINGLE;
  */
 
 public class Player implements IPlayer {
-    private static final String TAG = "Player";
-    private static volatile Player sInstance;
-
     public static final int DEFAULT = -1;
     public static final int INIT = 0;          //初始化
     public static final int PLAY_IDLE = 1;          // setDataSource            Idle等待中
@@ -50,21 +48,13 @@ public class Player implements IPlayer {
     public static final int PLAY_COMPLETION = 10;   // 播放完成
     public static final int PLAY_BUFFERING_PAUSE = 11; //buffer暂停
     public static final int PLAY_REQUEST_SUCCESS = 12;
-
     public static final int ERROR_CODE_NULL = 404;
     public static final int ERROR_CODE_LOAD_INFO_FAIL = 405;
-
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({DEFAULT, INIT, PLAY_IDLE, PLAY_BUFFERING, PLAY_PREPARING, PLAY_START, PLAY_PAUSE,
-            PLAY_SEEKTO, PLAY_STOP, PLAY_ERROR, PLAY_REQUEST, PLAY_COMPLETION, PLAY_BUFFERING_PAUSE,
-            PLAY_REQUEST_SUCCESS})
-    public @interface PlayState {
-
-    }
-
+    private static final String TAG = "Player";
+    private static volatile Player sInstance;
+    List<PlayerListener> playerListeners;
     private MediaPlayer mediaPlayer;
     private MediaListener mediaListener;
-    List<PlayerListener> playerListeners;
     private PlayList playList;
     private OnlineCase onlineCase;
     // Player status
@@ -73,11 +63,36 @@ public class Player implements IPlayer {
     private int playMode;
     @PlayState
     private int playState = DEFAULT;
-
     private CompositeSubscription compositeSubscription;
     private int currentDuration;
     private int seekToDuration;
     private int progress;
+
+    private Player() {
+        mediaPlayer = new MediaPlayer();
+        playList = new PlayList();
+        mediaListener = new MediaListener(this);
+        playerListeners = new ArrayList<>();
+        mediaPlayer.setOnInfoListener(mediaListener);
+        mediaPlayer.setOnPreparedListener(mediaListener);
+        mediaPlayer.setOnBufferingUpdateListener(mediaListener);
+        mediaPlayer.setOnSeekCompleteListener(mediaListener);
+        mediaPlayer.setOnCompletionListener(mediaListener);
+        mediaPlayer.setOnErrorListener(mediaListener);
+        onlineCase = new OnlineCase();
+        compositeSubscription = new CompositeSubscription();
+    }
+
+    public static Player getInstance() {
+        if (sInstance == null) {
+            synchronized (Player.class) {
+                if (sInstance == null) {
+                    sInstance = new Player();
+                }
+            }
+        }
+        return sInstance;
+    }
 
     public int getCurrentDuration() {
         return currentDuration;
@@ -165,33 +180,6 @@ public class Player implements IPlayer {
         return playMode;
     }
 
-
-    private Player() {
-        mediaPlayer = new MediaPlayer();
-        playList = new PlayList();
-        mediaListener = new MediaListener(this);
-        playerListeners = new ArrayList<>();
-        mediaPlayer.setOnInfoListener(mediaListener);
-        mediaPlayer.setOnPreparedListener(mediaListener);
-        mediaPlayer.setOnBufferingUpdateListener(mediaListener);
-        mediaPlayer.setOnSeekCompleteListener(mediaListener);
-        mediaPlayer.setOnCompletionListener(mediaListener);
-        mediaPlayer.setOnErrorListener(mediaListener);
-        onlineCase = new OnlineCase();
-        compositeSubscription = new CompositeSubscription();
-    }
-
-    public static Player getInstance() {
-        if (sInstance == null) {
-            synchronized (Player.class) {
-                if (sInstance == null) {
-                    sInstance = new Player();
-                }
-            }
-        }
-        return sInstance;
-    }
-
     @Override
     public PlayList getPlayList() {
         return this.playList;
@@ -212,6 +200,14 @@ public class Player implements IPlayer {
         this.playList.setCurrentDuration(currentDuration);
         this.currentDuration = currentDuration;
         this.seekToDuration = currentDuration;
+
+        if (playList.getSongList().size() == 0) {
+            Log.i(TAG, "Playlist size = 0");
+            return;
+        }
+        if (startIndex >= playList.getSongList().size()) {
+            startIndex = 0;
+        }
         SongEntity song = playList.getSongList().get(startIndex);
         float progress = playList.getCurrentDuration() * 100f / song.getFile_duration();
         this.progress = (int) progress;
@@ -341,26 +337,26 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public void setPlayMode(@PlayList.PlayMode int playMode) {
-        this.playMode = playMode;
-        this.playList.setPlayMode(playMode);
-    }
-
-    @Override
     @PlayList.PlayMode
     public int getPlayMode() {
         return playMode;
     }
 
     @Override
-    public void setPlayState(@PlayState int playState) {
-        this.playState = playState;
+    public void setPlayMode(@PlayList.PlayMode int playMode) {
+        this.playMode = playMode;
+        this.playList.setPlayMode(playMode);
     }
 
     @Override
     @PlayState
     public int getPlayState() {
         return playState;
+    }
+
+    @Override
+    public void setPlayState(@PlayState int playState) {
+        this.playState = playState;
     }
 
     @Override
@@ -380,7 +376,7 @@ public class Player implements IPlayer {
             return;
         }
 
-        TLogger.d(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
+        TLogger.i(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;
             SongEntity songEntity = playList.getCurrentSong();
@@ -415,6 +411,14 @@ public class Player implements IPlayer {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext, onError);
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({DEFAULT, INIT, PLAY_IDLE, PLAY_BUFFERING, PLAY_PREPARING, PLAY_START, PLAY_PAUSE,
+            PLAY_SEEKTO, PLAY_STOP, PLAY_ERROR, PLAY_REQUEST, PLAY_COMPLETION, PLAY_BUFFERING_PAUSE,
+            PLAY_REQUEST_SUCCESS})
+    public @interface PlayState {
+
     }
 
 
