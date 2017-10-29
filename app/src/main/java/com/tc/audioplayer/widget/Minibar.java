@@ -44,6 +44,8 @@ public class Minibar extends LinearLayout {
     TextView tvAuthor;
     @BindView(R.id.iv_next)
     ImageView ivNext;
+    @BindView(R.id.loading)
+    MetroLoadingView loadingView;
 
     private static final String TAG = Minibar.class.getSimpleName();
 
@@ -131,22 +133,12 @@ public class Minibar extends LinearLayout {
         super.onDetachedFromWindow();
     }
 
-//    @Subscribe
-//    public void onEventMainThread(PlayEvent event) {
-//        if (event.songDetail == null)
-//            return;
-//        switch (event.playState) {
-//            case Player.PLAY_START:
-//                bindData(event.songDetail.songinfo);
-//                break;
-//            case Player.PLAY_PAUSE:
-//                break;
-//            case Player.PLAY_STOP:
-//                break;
-//        }
-//    }
-
     private class MibarPlayerListener extends SimplePlayerListener {
+        @Override
+        public void onInit(PlayList currentPlaylist) {
+            loadingView.start();
+        }
+
         @Override
         public void onPreparingStart() {
             ivPlayPause.setSelected(false);
@@ -157,6 +149,7 @@ public class Minibar extends LinearLayout {
         @Override
         public void onPlay() {
             ivPlayPause.setSelected(true);
+            loadingView.stop();
 //            progressBar.setPlayState(true);
         }
 
@@ -175,7 +168,7 @@ public class Minibar extends LinearLayout {
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
 //            progressBar.setProgress(progress);
-
+            loadingView.stop();
         }
 
         @Override
@@ -187,6 +180,7 @@ public class Minibar extends LinearLayout {
         @Override
         public void onError(int errorCode) {
             super.onError(errorCode);
+            loadingView.stop();
             Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     }

@@ -196,15 +196,23 @@ public class PlayerDetailDialog extends DialogFragment {
         int playMode = PlayerManager.getInstance().getPlayMode();
         updatePlayModeUI(playMode);
         String pic = song.getPic_small();
-        int index = pic.indexOf(",w_");
-        if (index > 0) {
-            pic = pic.substring(0, index) + ",w_300,h_267";
+        if (pic == null) {
+            Glide.with(this)
+                    .load(R.drawable.default_cover)
+                    .asBitmap()
+                    .transform(new RoundedCornersTransformation(getContext(), 20, 0))
+                    .into(ivAvatar);
+        } else {
+            int index = pic.indexOf(",w_");
+            if (index > 0) {
+                pic = pic.substring(0, index) + ",w_300,h_267";
+            }
+            Glide.with(this)
+                    .load(pic)
+                    .asBitmap()
+                    .transform(new RoundedCornersTransformation(getContext(), 20, 0))
+                    .into(ivAvatar);
         }
-        Glide.with(this)
-                .load(pic)
-                .asBitmap()
-                .transform(new RoundedCornersTransformation(getContext(), 20, 0))
-                .into(ivAvatar);
     }
 
     @Override

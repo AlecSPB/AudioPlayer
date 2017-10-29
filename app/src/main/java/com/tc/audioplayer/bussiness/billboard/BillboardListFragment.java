@@ -98,6 +98,8 @@ public class BillboardListFragment extends BaseListFragment {
                     .addTestDevice("FE3E29B85E2D0BC813D0AF1A53390C44")
                     .addTestDevice("B2952405032D73534E695FE8897CC4B1")
                     .addTestDevice("C357783CA84A3BDEAE79C5801DD2A323")
+                    .addTestDevice("40a940a6200eff90bd875a6b1df06c70")
+                    .addTestDevice("40A940A6200EFF90BD875A6B1DF06C70")
                     .build();
             mInterstitialAd.loadAd(adRequest);
             mInterstitialAd.setAdListener(new AdListener() {

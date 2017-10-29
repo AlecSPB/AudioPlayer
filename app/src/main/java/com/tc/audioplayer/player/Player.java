@@ -106,6 +106,7 @@ public class Player implements IPlayer {
     void resetProgressa() {
         progress = 0;
         currentDuration = 0;
+        seekToDuration = 0;
         stopUpdateProgress();
     }
 
@@ -114,7 +115,7 @@ public class Player implements IPlayer {
     }
 
     void onPrepared() {
-        if (seekToDuration == 0) {
+//        if (seekToDuration == 0) {
             startUpdateProgress();
             TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
             startUpdateProgress();
@@ -122,7 +123,7 @@ public class Player implements IPlayer {
                 PlayerListener listener = playerListeners.get(i);
                 listener.onPlay();
             }
-        }
+//        }
     }
 
     void startUpdateProgress() {
@@ -165,6 +166,7 @@ public class Player implements IPlayer {
 
     @PlayList.PlayMode
     public int switchNextMode(@PlayList.PlayMode int current) {
+        seekToDuration = 0;
         switch (current) {
             case LOOP:
                 playMode = SHUFFLE;
@@ -377,6 +379,10 @@ public class Player implements IPlayer {
         }
 
         TLogger.i(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
+        for (int i = 0; i < playerListeners.size(); i++) {
+            PlayerListener listener = playerListeners.get(i);
+            listener.onInit(getPlayList());
+        }
         Action1 onNext = (result) -> {
             SongDetail songDetail = (SongDetail) result;
             SongEntity songEntity = playList.getCurrentSong();

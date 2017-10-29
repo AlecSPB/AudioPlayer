@@ -1,61 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingBottom="2dp"
-    android:paddingTop="2dp">
-
-    <ImageView
-        android:id="@+id/iv_avatar"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginLeft="8dp"
-        android:src="@drawable/default_cover" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            tools:text="歌名" />
-
-        <TextView
-            android:id="@+id/tv_author"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:textColor="#bbbbbb"
-            android:textSize="13sp"
-            tools:text="歌手" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
 
-        <RelativeLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/default_cover" />
 
-            <!--<com.tc.audioplayer.widget.CircularProgressBar-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                tools:text="歌名" />
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:textColor="#bbbbbb"
+                android:textSize="13sp"
+                tools:text="歌手" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <!--<com.tc.audioplayer.widget.CircularProgressBar-->
                 <!--android:id="@+id/miniProgressBar"-->
                 <!--android:layout_width="28dp"-->
                 <!--android:layout_height="28dp"-->
@@ -66,20 +71,29 @@
                 <!--app:progressbar_color="@color/colorPrimary"-->
                 <!--app:progressbar_width="1dp" />-->
 
+                <ImageView
+                    android:id="@+id/iv_play_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/selector_play_pause" />
+
+            </RelativeLayout>
+
             <ImageView
-                android:id="@+id/iv_play_pause"
+                android:id="@+id/iv_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/selector_play_pause"/>
-
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/iv_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_skip_next_black_24dp" />
+                android:src="@drawable/ic_skip_next_black_24dp" />
+        </LinearLayout>
     </LinearLayout>
 
-</merge>
+    <com.tc.audioplayer.widget.MetroLoadingView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        app:indicator_height="2dp"
+        app:indicator_width="200dp"
+        app:indicator="circle"
+        app:transform_color="#a1a3a6" />
+</LinearLayout>
