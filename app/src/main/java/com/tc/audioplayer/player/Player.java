@@ -116,13 +116,13 @@ public class Player implements IPlayer {
 
     void onPrepared() {
 //        if (seekToDuration == 0) {
-            startUpdateProgress();
-            TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
-            startUpdateProgress();
-            for (int i = 0; i < playerListeners.size(); i++) {
-                PlayerListener listener = playerListeners.get(i);
-                listener.onPlay();
-            }
+        startUpdateProgress();
+        TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
+        startUpdateProgress();
+        for (int i = 0; i < playerListeners.size(); i++) {
+            PlayerListener listener = playerListeners.get(i);
+            listener.onPlay();
+        }
 //        }
     }
 
@@ -156,12 +156,15 @@ public class Player implements IPlayer {
 
     @Override
     public void addPlayerListener(PlayerListener listener) {
-        playerListeners.add(listener);
+        if (!playerListeners.contains(listener))
+            playerListeners.add(listener);
     }
 
     @Override
     public void removePlayerListener(PlayerListener listener) {
-        playerListeners.remove(listener);
+        if (playerListeners.contains(listener)) {
+            playerListeners.remove(listener);
+        }
     }
 
     @PlayList.PlayMode

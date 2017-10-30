@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion rootProject.sdkVersion
+    buildToolsVersion rootProject.toolsVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -21,8 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
+//    compile "com.android.support:appcompat-v7:${rootProject.supportVersion}"
+    compile "com.android.support:design:${rootProject.supportVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //logger
     compile 'com.orhanobut:logger:2.1.1'

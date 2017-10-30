@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.bussiness.FavHelper;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.audioplayer.utils.AudioDurationUtil;
@@ -53,7 +54,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private ImageView ivPlayPause;
     private ImageView ivPrev;
     private ImageView ivNext;
-    private ImageView ivList;
+    private ImageView ivFav;
     private TextView tvCurrentDuration;
     private TextView tvTotalDuration;
     private SeekBar seekBar;
@@ -84,7 +85,7 @@ public class PlayerDetailDialog extends DialogFragment {
         ivPlayPause = (ImageView) view.findViewById(R.id.iv_play_pause);
         ivPrev = (ImageView) view.findViewById(R.id.iv_prev);
         ivNext = (ImageView) view.findViewById(R.id.iv_next);
-        ivList = (ImageView) view.findViewById(R.id.iv_list);
+        ivFav = (ImageView) view.findViewById(R.id.iv_fav);
         seekBar = (SeekBar) view.findViewById(R.id.seekBar);
         lrcView = (LrcView) view.findViewById(R.id.lrc);
         tvCurrentDuration = (TextView) view.findViewById(R.id.tv_current_duration);
@@ -96,7 +97,7 @@ public class PlayerDetailDialog extends DialogFragment {
         ivPlayPause.setOnClickListener(onClickListener);
         ivPrev.setOnClickListener(onClickListener);
         ivNext.setOnClickListener(onClickListener);
-        ivList.setOnClickListener(onClickListener);
+        ivFav.setOnClickListener(onClickListener);
         ivClose.setOnClickListener(onClickListener);
         seekBar.setOnSeekBarChangeListener(seekbarListener);
 
@@ -250,7 +251,16 @@ public class PlayerDetailDialog extends DialogFragment {
             case R.id.iv_next:
                 PlayerManager.getInstance().playNext();
                 break;
-            case R.id.iv_list:
+            case R.id.iv_fav:
+                SongEntity songEntity = PlayerManager.getInstance().getPlayList().getCurrentSong();
+                boolean isFav = view.isSelected();
+                if (isFav) {
+                    FavHelper.unfavSong(songEntity);
+                    view.setSelected(false);
+                } else {
+                    FavHelper.favSong(getContext(), songEntity);
+                    view.setSelected(true);
+                }
                 break;
             case R.id.iv_arrow_down:
                 dismiss();

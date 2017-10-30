@@ -149,7 +149,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/iv_list"
+                android:id="@+id/iv_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

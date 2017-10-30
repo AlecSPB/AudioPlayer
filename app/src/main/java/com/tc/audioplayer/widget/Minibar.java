@@ -18,7 +18,6 @@ import com.tc.audioplayer.R;
 import com.tc.audioplayer.bussiness.player.PlayerDetailDialog;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
-import com.tc.base.utils.TLogger;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 
@@ -45,7 +44,8 @@ public class Minibar extends LinearLayout {
     @BindView(R.id.iv_next)
     ImageView ivNext;
     @BindView(R.id.loading)
-    MetroLoadingView loadingView;
+//    MetroLoadingView loadingView;
+            ProgressView loadingView;
 
     private static final String TAG = Minibar.class.getSimpleName();
 
@@ -83,10 +83,6 @@ public class Minibar extends LinearLayout {
             dialog.show(fragmentManager, "player_detail_dialog");
         });
         playerListener = new MibarPlayerListener();
-        postDelayed(() -> {
-            TLogger.d(TAG, "onAttachedToWindow");
-            PlayerManager.getInstance().addPlayListener(playerListener);
-        }, 500);
     }
 
     public void setFragmentManager(FragmentManager fragmentManager) {
@@ -125,6 +121,16 @@ public class Minibar extends LinearLayout {
     @OnClick(R.id.iv_next)
     public void onPlayNext(View view) {
         PlayerManager.getInstance().playNext();
+    }
+
+    @Override
+    public void setVisibility(int visibility) {
+        super.setVisibility(visibility);
+        if (visibility == VISIBLE) {
+            PlayerManager.getInstance().addPlayListener(playerListener);
+        } else {
+            PlayerManager.getInstance().removePlayListener(playerListener);
+        }
     }
 
     @Override
@@ -168,7 +174,6 @@ public class Minibar extends LinearLayout {
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
 //            progressBar.setProgress(progress);
-            loadingView.stop();
         }
 
         @Override
@@ -180,7 +185,8 @@ public class Minibar extends LinearLayout {
         @Override
         public void onError(int errorCode) {
             super.onError(errorCode);
-            loadingView.stop();
+            loadingView.setVisibility(View.INVISIBLE);
+//            loadingView.stop();
             Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     }

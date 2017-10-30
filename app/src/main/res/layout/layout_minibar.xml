@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="42dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,12 +87,17 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.tc.audioplayer.widget.MetroLoadingView
+    <!--<com.tc.audioplayer.widget.MetroLoadingView-->
+    <!--android:id="@+id/loading"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="2dp"-->
+    <!--app:indicator_height="2dp"-->
+    <!--app:indicator_width="200dp"-->
+    <!--app:indicator="circle"-->
+    <!--app:transform_color="#a1a3a6" />-->
+    <com.tc.audioplayer.widget.ProgressView
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        app:indicator_height="2dp"
-        app:indicator_width="200dp"
-        app:indicator="circle"
-        app:transform_color="#a1a3a6" />
-</LinearLayout>
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
