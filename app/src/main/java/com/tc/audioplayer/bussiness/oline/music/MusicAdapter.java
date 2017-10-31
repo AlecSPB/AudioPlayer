@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
-import com.tc.audioplayer.bussiness.FavHelper;
+import com.tc.audioplayer.bussiness.fav.FavHelper;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
 import com.tc.model.entity.SongEntity;

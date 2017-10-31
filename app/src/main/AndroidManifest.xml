@@ -71,6 +71,9 @@
         <activity
             android:name=".bussiness.billboard.BillboardDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".bussiness.fav.FavListActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".player.PlayService" />
 

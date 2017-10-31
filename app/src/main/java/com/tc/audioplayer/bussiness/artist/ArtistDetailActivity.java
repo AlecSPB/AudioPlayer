@@ -42,6 +42,8 @@ public class ArtistDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_base);
         setContentUnderToolbar();
+        minibar.setAutoVisibility(true);
+        minibar.bindData();
 
         setToolbarCenterTitle("歌手");
         albumnid = getIntent().getStringExtra("albumnid");

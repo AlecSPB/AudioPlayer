@@ -9,6 +9,7 @@ import com.tc.audioplayer.bussiness.account.RegisterActivity;
 import com.tc.audioplayer.bussiness.album.AlbumnDetailActivity;
 import com.tc.audioplayer.bussiness.artist.ArtistDetailActivity;
 import com.tc.audioplayer.bussiness.billboard.BillboardDetailActivity;
+import com.tc.audioplayer.bussiness.fav.FavListActivity;
 import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 import com.tc.audioplayer.bussiness.search.SearchActivity;
 
@@ -72,4 +73,10 @@ public class Navigator {
         intent.putExtra("title", title);
         context.startActivity(intent);
     }
+
+    public static void toFavListActivity(Context context){
+        Intent intent = new Intent(context, FavListActivity.class);
+        context.startActivity(intent);
+    }
+
 }

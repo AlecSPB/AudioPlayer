@@ -118,6 +118,7 @@ public class MainActivity extends BaseActivity
             tabLayout.getTabAt(i).setCustomView(createTabView(i));
         }
 
+        minibar.setAutoVisibility(true);
         minibar.setFragmentManager(getSupportFragmentManager());
         minibar.postDelayed(() -> {
             minibar.bindData();
@@ -241,6 +242,7 @@ public class MainActivity extends BaseActivity
 //                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.nav_fav:
+                Navigator.toFavListActivity(this);
                 break;
             case R.id.nav_exit:
                 finish();

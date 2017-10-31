@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
@@ -33,7 +32,7 @@ public class BillboardDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_base);
         setContentUnderToolbar();
-        minibar.setVisibility(View.VISIBLE);
+        minibar.setAutoVisibility(true);
         minibar.bindData();
 
         Intent intent = getIntent();
