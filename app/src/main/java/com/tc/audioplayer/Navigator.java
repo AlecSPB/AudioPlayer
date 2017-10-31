@@ -8,6 +8,7 @@ import com.tc.audioplayer.bussiness.account.LoginActivity;
 import com.tc.audioplayer.bussiness.account.RegisterActivity;
 import com.tc.audioplayer.bussiness.album.AlbumnDetailActivity;
 import com.tc.audioplayer.bussiness.artist.ArtistDetailActivity;
+import com.tc.audioplayer.bussiness.billboard.BillboardDetailActivity;
 import com.tc.audioplayer.bussiness.player.PlayerDetailActivity;
 import com.tc.audioplayer.bussiness.search.SearchActivity;
 
@@ -62,6 +63,13 @@ public class Navigator {
         intent.putExtra("author", author);
         intent.putExtra("authorImg", authorImg);
         intent.putExtra("country", country);
+        context.startActivity(intent);
+    }
+
+    public static void toBillboardDetailActivity(Context context, int type, String title){
+        Intent intent = new Intent(context, BillboardDetailActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("title", title);
         context.startActivity(intent);
     }
 }

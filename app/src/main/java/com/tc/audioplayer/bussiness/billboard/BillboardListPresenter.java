@@ -33,6 +33,14 @@ public class BillboardListPresenter extends LifePresenter {
         addSubscription(onlineCase.getSongInfo(songid), onNext, onError);
     }
 
+    /**
+     * 加载榜单列表
+     * @param type 榜单类型
+     */
+    public void loadBillboardList(int type, Action1 onNext){
+        addSubscription(onlineCase.getMusicList(type), onNext, getOnErrorAction());
+    }
+
     @Override
     protected Object formatData(Object data) {
         List<BillboardEntity> billboardEntities = (ArrayList<BillboardEntity>) data;

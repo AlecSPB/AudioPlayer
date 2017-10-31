@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
 import com.tc.audioplayer.base.Constant;
@@ -56,7 +57,8 @@ public class BillboardListFragment extends BaseListFragment {
                 songEntity.song_source = "";
                 PlayerManager.getInstance().play(songEntity);
             } else if (object instanceof BillboardEntity) {
-
+                BillboardEntity billboard = (BillboardEntity) object;
+                Navigator.toBillboardDetailActivity(getContext(), billboard.type, billboard.name);
             }
         });
     }

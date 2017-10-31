@@ -68,6 +68,9 @@
         <activity
             android:name=".bussiness.artist.ArtistDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".bussiness.billboard.BillboardDetailActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".player.PlayService" />
 

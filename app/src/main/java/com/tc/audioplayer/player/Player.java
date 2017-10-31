@@ -394,7 +394,7 @@ public class Player implements IPlayer {
             songEntity.setAuthor(songInfo.author);
             songEntity.setLrclink(songInfo.lrclink);
             songEntity.setPic_small(songInfo.pic_small);
-            String path = songDetail.songurl.url.get(0).show_link;
+            String path = songDetail.bitrate.file_link;
             try {
                 stopUpdateProgress();
                 mediaPlayer.reset();

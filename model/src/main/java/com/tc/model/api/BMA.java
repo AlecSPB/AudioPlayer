@@ -200,7 +200,7 @@ public class BMA {
             StringBuffer sb = new StringBuffer(BASE);
             String str = "songid=" + songid + "&ts=" + System.currentTimeMillis();
             String e = AESTools.encrpty(str);
-            sb.append("&method=").append("baidu.ting.song.getInfos")
+            sb.append("&method=").append("baidu.ting.song.play")
                     .append("&").append(str)
                     .append("&e=").append(e);
             return sb.toString();
