@@ -1,4 +1,4 @@
-package com.tc.audioplayer.bussiness;
+package com.tc.audioplayer.bussiness.fav;
 
 import android.content.Context;
 import android.widget.Toast;
@@ -15,6 +15,7 @@ import com.tc.model.entity.SongEntity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,11 @@ import java.util.List;
 
 public class FavHelper {
 
+    /**
+     * 收藏歌曲
+     * @param context
+     * @param songEntity
+     * */
     public static boolean favSong(Context context, SongEntity songEntity) {
         if (songEntity == null) {
             Toast.makeText(context, "收藏失败!", Toast.LENGTH_SHORT).show();
@@ -40,7 +46,7 @@ public class FavHelper {
                 .build()
                 .list();
         if (CollectionUtil.isEmpty(list)) {
-            if (songEntityDao.getKey(songEntity) == null) {
+            if (songEntityDao.load(songEntity.getSong_id()) == null) {
                 songEntityDao.insert(songEntity);
             }
             dao.insert(collectSong);
@@ -51,6 +57,10 @@ public class FavHelper {
         return false;
     }
 
+    /**
+     * 取消收藏歌曲
+     * @param songEntity
+     * */
     public static boolean unfavSong(SongEntity songEntity) {
         if (songEntity == null) {
             return false;
@@ -72,6 +82,10 @@ public class FavHelper {
         return false;
     }
 
+    /**
+     * 是否收藏歌曲
+     * @param songEntity
+     * */
     public static boolean isFav(SongEntity songEntity) {
         CollectSong collectSong = new CollectSong();
         collectSong.setSongid(songEntity.getSong_id());
@@ -88,9 +102,31 @@ public class FavHelper {
         return false;
     }
 
+    /**
+     * 是否收藏歌曲
+     * @param contentBean
+     * */
     public static boolean isFav(BillboardEntity.ContentBean contentBean) {
         SongEntity songEntity = revert(contentBean);
         return isFav(songEntity);
+    }
+
+    /**
+     * 获取收藏歌曲列表
+     * */
+    public static List<SongEntity> getFavList() {
+        CollectSongDao dao = DBManager.getInstance(AudioApplication.getInstance())
+                .getDaoSession().getCollectSongDao();
+        List<CollectSong> list = dao.queryBuilder()
+                .build()
+                .list();
+        if (list == null)
+            return null;
+        List<SongEntity> songEntities = new ArrayList<>();
+        list.forEach(collectSong -> {
+            songEntities.add(collectSong.getSong());
+        });
+        return songEntities;
     }
 
     public static SongEntity revert(BillboardEntity.ContentBean contentBean) {

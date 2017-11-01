@@ -49,7 +49,7 @@ public class Minibar extends LinearLayout {
 
     private static final String TAG = Minibar.class.getSimpleName();
 
-    private boolean autoVisibility = true;
+    private boolean autoVisibility = false;
     private MibarPlayerListener playerListener;
     private int progress;
     private FragmentManager fragmentManager;
@@ -91,6 +91,9 @@ public class Minibar extends LinearLayout {
 
     public void setAutoVisibility(boolean autoVisibility) {
         this.autoVisibility = autoVisibility;
+        if (autoVisibility) {
+            PlayerManager.getInstance().addPlayListener(playerListener);
+        }
     }
 
     public void bindData() {
@@ -126,11 +129,11 @@ public class Minibar extends LinearLayout {
     @Override
     public void setVisibility(int visibility) {
         super.setVisibility(visibility);
-        if (visibility == VISIBLE) {
-            PlayerManager.getInstance().addPlayListener(playerListener);
-        } else {
-            PlayerManager.getInstance().removePlayListener(playerListener);
-        }
+//        if (visibility == VISIBLE) {
+//            PlayerManager.getInstance().addPlayListener(playerListener);
+//        } else {
+//            PlayerManager.getInstance().removePlayListener(playerListener);
+//        }
     }
 
     @Override
@@ -142,6 +145,7 @@ public class Minibar extends LinearLayout {
     private class MibarPlayerListener extends SimplePlayerListener {
         @Override
         public void onInit(PlayList currentPlaylist) {
+            setVisibility(View.VISIBLE);
             loadingView.start();
         }
 

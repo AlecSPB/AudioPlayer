@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
-import com.tc.audioplayer.bussiness.FavHelper;
+import com.tc.audioplayer.bussiness.fav.FavHelper;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
 import com.tc.audioplayer.utils.AudioDurationUtil;
