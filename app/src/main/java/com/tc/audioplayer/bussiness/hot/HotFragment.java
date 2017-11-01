@@ -49,7 +49,7 @@ public class HotFragment extends BaseListFragment {
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             presenter.loadData(true);
-            presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
+            presenter.loadAlbum(true, onLoadHeaderSuccess, onLoadHeaderFail);
         });
         swipeRefreshLayout.setRefreshing(true);
 
@@ -103,7 +103,7 @@ public class HotFragment extends BaseListFragment {
         adapter.addHeaderView(adView);
         addHotAlbumHeader();
         presenter.loadData(false);
-        presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
+        presenter.loadAlbum(false, onLoadHeaderSuccess, onLoadHeaderFail);
     }
 
     private void addHotAlbumHeader() {
@@ -130,7 +130,7 @@ public class HotFragment extends BaseListFragment {
     @Override
     protected void onRefresh() {
         presenter.loadData(false);
-        presenter.loadAlbum(onLoadHeaderSuccess, onLoadHeaderFail);
+        presenter.loadAlbum(true, onLoadHeaderSuccess, onLoadHeaderFail);
     }
 
     private Action1 onLoadHeaderSuccess = (data) -> {

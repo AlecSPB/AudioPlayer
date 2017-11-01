@@ -23,7 +23,7 @@ public class BillboardListPresenter extends LifePresenter {
 
     @Override
     public void loadData(boolean refresh) {
-        addSubscription(onlineCase.getBillboardCategory(), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getBillboardCategory(refresh), getOnNextAction(), getOnErrorAction());
     }
 
     /**
@@ -37,8 +37,8 @@ public class BillboardListPresenter extends LifePresenter {
      * 加载榜单列表
      * @param type 榜单类型
      */
-    public void loadBillboardList(int type, Action1 onNext){
-        addSubscription(onlineCase.getMusicList(type), onNext, getOnErrorAction());
+    public void loadBillboardList(boolean refresh, int type, Action1 onNext){
+        addSubscription(onlineCase.getMusicList(refresh, type), onNext, getOnErrorAction());
     }
 
     @Override

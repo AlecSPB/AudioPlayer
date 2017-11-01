@@ -18,10 +18,10 @@ public class HotPresenter extends LifePresenter {
 
     @Override
     public void loadData(boolean refresh) {
-        addSubscription(onlineCase.getMusicList(2), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getMusicList(refresh, 2), getOnNextAction(), getOnErrorAction());
     }
 
-    public void loadAlbum(Action1 onNext, Action1 onError){
-        addSubscription(onlineCase.getAlbumnList(1), onNext, onError);
+    public void loadAlbum(boolean refresh, Action1 onNext, Action1 onError){
+        addSubscription(onlineCase.getAlbumnList(refresh, 1), onNext, onError);
     }
 }

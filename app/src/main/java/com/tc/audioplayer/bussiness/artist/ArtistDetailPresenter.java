@@ -20,6 +20,6 @@ public class ArtistDetailPresenter extends LifePresenter {
 
     @Override
     public void loadData(boolean refresh) {
-        addSubscription(onlineCase.getArtistSongList(tinguid, albumnid, 1), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getArtistSongList(refresh, tinguid, albumnid, 1), getOnNextAction(), getOnErrorAction());
     }
 }

@@ -44,12 +44,12 @@ public class BillboardDetailActivity extends ToolbarActivity {
         presenter.attachView(this);
         adapter = new ArtistDetailAdapter(this);
         swipeRefreshLayout.setOnRefreshListener(()->{
-            presenter.loadBillboardList(type, onNext);
+            presenter.loadBillboardList(true, type, onNext);
         });
 
         setToolbarCenterTitle(title);
         swipeRefreshLayout.setRefreshing(true);
-        presenter.loadBillboardList(type, onNext);
+        presenter.loadBillboardList(false, type, onNext);
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

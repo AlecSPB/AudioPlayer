@@ -18,6 +18,6 @@ public class AlbumnDetailPresenter extends LifePresenter {
 
     @Override
     public void loadData(boolean refresh) {
-        addSubscription(onlineCase.getAlbumnDetail(albumnid), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getAlbumnDetail(refresh, albumnid), getOnNextAction(), getOnErrorAction());
     }
 }

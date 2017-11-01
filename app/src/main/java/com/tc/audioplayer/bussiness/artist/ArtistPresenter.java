@@ -19,6 +19,6 @@ public class ArtistPresenter extends LifePresenter {
     public void loadData(boolean refresh) {
         if (refresh)
             page = 1;
-        addSubscription(onlineCase.getArtistList(page), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getArtistList(refresh, page), getOnNextAction(), getOnErrorAction());
     }
 }

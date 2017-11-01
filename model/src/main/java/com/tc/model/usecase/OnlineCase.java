@@ -28,98 +28,98 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
     private static final int PAGE_SIZE = 30;
     private static final String TAG = OnlineCase.class.getSimpleName();
 
-    public Observable<SongList> getMusicList(int type) {
+    public Observable<SongList> getMusicList(boolean refresh, int type) {
         String url = BMA.Billboard.billSongList(type, 0, PAGE_SIZE);
         TLogger.d(TAG, "getMusicList: " + url);
-        return api.requestOnlineMusicList(url);
+        return api.requestOnlineMusicList(url, refresh);
     }
 
     public Observable<SongDetail> getMusicInfo(String songid) {
         String url = BMA.Song.songInfo(songid);
         TLogger.d(TAG, "getMusicInfo: " + url);
-        return api.requestOnlineMusicInfo(url);
+        return api.requestOnlineMusicInfo(url, false);
     }
 
     public Observable<ResponseBody> getMusicLrc(String lrclink) {
         TLogger.d(TAG, "getMusicLrc: " + lrclink);
-        return api.requestLrc(lrclink);
+        return api.requestLrc(lrclink, false);
     }
 
     public Observable<SearchWrapper> getSearch(String query) {
         String url = BMA.Search.searchMerge(query, 1, PAGE_SIZE);
         TLogger.d(TAG, "getSearch: " + url);
-        return api.requestSearch(url);
+        return api.requestSearch(url, false);
     }
 
     public Observable<List<HotSearch>> getHotSearch() {
         String url = BMA.Search.hotWord();
         TLogger.d(TAG, "getHotSearch " + url);
-        return api.requestHotSearch(url);
+        return api.requestHotSearch(url, false);
     }
 
-    public Observable<String> getGedanCategory() {
+    public Observable<String> getGedanCategory(boolean refresh) {
         String url = BMA.GeDan.geDanCategory();
         TLogger.d(TAG, "getGedanCategory: " + url);
-        return api.requestGedanCatetory(url);
+        return api.requestGedanCatetory(url, refresh);
     }
 
-    public Observable<String> getGedanByTag(String tag, int pageno) {
+    public Observable<String> getGedanByTag(boolean refresh, String tag, int pageno) {
         String url = BMA.GeDan.geDanByTag(tag, pageno, 10);
         TLogger.d(TAG, "geGedanByTag: " + url);
-        return api.requestGeDanByTag(url);
+        return api.requestGeDanByTag(url, refresh);
     }
 
-    public Observable<String> getGeDan(int pageNo, int pageSize) {
+    public Observable<String> getGeDan(boolean refresh, int pageNo, int pageSize) {
         String url = BMA.GeDan.geDan(pageNo, pageSize);
         TLogger.d(TAG, "geDan: " + url);
-        return api.requestGedan(url);
+        return api.requestGedan(url, refresh);
     }
 
-    public Observable<List<BillboardEntity>> getBillboardCategory() {
+    public Observable<List<BillboardEntity>> getBillboardCategory(boolean refresh) {
         String url = BMA.Billboard.billCategory();
         TLogger.d(TAG, "getBillboardCategory: " + url);
-        return api.requestBillboardCategory(url);
+        return api.requestBillboardCategory(url, refresh);
     }
 
     public Observable<SongEntity> getSongInfo(String songid) {
         String url = BMA.Song.songInfo(songid);
         TLogger.d(TAG, "getSongBaseInfo: " + url);
-        return api.requestSongInfo(url);
+        return api.requestSongInfo(url, false);
     }
 
-    public Observable<AlbumList> getAlbumnList(int page) {
+    public Observable<AlbumList> getAlbumnList(boolean refresh, int page) {
         page = page >= 1 ? page - 1 : 0;
         int limit = 50;
         String url = BMA.Album.recommendAlbum(limit * page, limit);
         TLogger.d(TAG, "getAlbumnList: " + url);
-        return api.requestAlbumnList(url);
+        return api.requestAlbumnList(url, refresh);
     }
 
-    public Observable<AlbumDetailEntity> getAlbumnDetail(String albumnid) {
+    public Observable<AlbumDetailEntity> getAlbumnDetail(boolean refresh, String albumnid) {
         String url = BMA.Album.albumInfo(albumnid);
         TLogger.d(TAG, "getAlbumnDetail: " + url);
-        return api.requetAlbumnDetail(url);
+        return api.requetAlbumnDetail(url, refresh);
     }
 
-    public Observable<ArtistList> getArtistList(int page) {
+    public Observable<ArtistList> getArtistList(boolean refresh, int page) {
         page = page >= 1 ? page - 1 : 0;
         int limit = 50;
         String url = BMA.Artist.artistList(limit * page, limit, 6, 0, 0, "a-z");
         TLogger.d(TAG, "getArtistList: " + url);
-        return api.requestArtistList(url);
+        return api.requestArtistList(url,refresh);
     }
 
-    public Observable<ArtistEntity> getArtistDetail(String tinguid, String artistid) {
+    public Observable<ArtistEntity> getArtistDetail(boolean refresh, String tinguid, String artistid) {
         String url = BMA.Artist.artistInfo(tinguid, artistid);
         TLogger.d(TAG, "getArtistDetail: " + url);
-        return api.requestArtistDetail(url);
+        return api.requestArtistDetail(url, refresh);
     }
 
-    public Observable<ArtistSongList> getArtistSongList(String tinguid, String artistid, int page) {
+    public Observable<ArtistSongList> getArtistSongList(boolean refresh, String tinguid, String artistid, int page) {
         page = page >= 1 ? page - 1 : 0;
         int limit = 50;
         String url = BMA.Artist.artistSongList(tinguid, artistid, limit * page, limit);
         TLogger.d(TAG, "getArtistSongList");
-        return api.requestArtistSongList(url);
+        return api.requestArtistSongList(url, refresh);
     }
 }

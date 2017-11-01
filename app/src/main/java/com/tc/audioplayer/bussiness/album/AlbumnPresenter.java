@@ -19,6 +19,6 @@ public class AlbumnPresenter extends LifePresenter {
     public void loadData(boolean refresh) {
         if (refresh)
             page = 2;
-        addSubscription(onlineCase.getAlbumnList(page), getOnNextAction(), getOnErrorAction());
+        addSubscription(onlineCase.getAlbumnList(refresh, page), getOnNextAction(), getOnErrorAction());
     }
 }

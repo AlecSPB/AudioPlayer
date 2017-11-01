@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
+import com.tc.audioplayer.config.CacheInterceptor;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.BuglyUtils;
 import com.tc.audioplayer.utils.FileUtil;
@@ -53,7 +54,8 @@ public class AudioApplication extends MultiDexApplication {
     }
 
     private OkHttpClient getModelConfig() {
-        return new OkHttpClient.Builder()
+        CacheInterceptor cacheInterceptor = new CacheInterceptor();
+        OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
@@ -64,11 +66,13 @@ public class AudioApplication extends MultiDexApplication {
                         return chain.proceed(request);
                     }
                 })
+                .addInterceptor(cacheInterceptor)
+                .addNetworkInterceptor(cacheInterceptor)
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .retryOnConnectionFailure(true)
                 .build();
-
+        return client;
     }
 
     /**
