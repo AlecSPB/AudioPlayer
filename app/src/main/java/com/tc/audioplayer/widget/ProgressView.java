@@ -75,7 +75,7 @@ public class ProgressView extends View implements Runnable {
         }
         float section = 1f;
         rectProgressBg.right = mWidth * section;
-        rectProgressBg.bottom = mHeight - 1;
+        rectProgressBg.bottom = mHeight;
         LinearGradient shader = new LinearGradient(3, 0, (mWidth - 3)
                 * section, mHeight, SECTION_COLORS, positions,
                 Shader.TileMode.MIRROR);
@@ -101,12 +101,14 @@ public class ProgressView extends View implements Runnable {
             thread = new Thread(this);
             thread.start();
         }
+        setVisibility(View.VISIBLE);
     }
 
     public void stop() {
         threadStart = false;
         thread = null;
         mHandler.sendEmptyMessage(0);
+        setVisibility(View.GONE);
     }
 
     @Override

@@ -18,6 +18,8 @@ public interface PlayerListener {
 
     void onBufferingUpdate(int percent);//音频缓冲进度
 
+    void onBufferingError();
+
     void onPlay();//当前音频开始播放
 
     void onPause();//当前音频暂停

@@ -67,6 +67,12 @@ public class MediaListener implements MediaPlayer.OnInfoListener,
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         TLogger.d(TAG, "onError: what=" + what + " extra=" + extra);
+        mp.reset();
+        List<PlayerListener> listenerList = player.playerListeners;
+        for (int i = 0; i < listenerList.size(); i++) {
+            PlayerListener listener = listenerList.get(i);
+            listener.onBufferingError();
+        }
         return false;
     }
 }

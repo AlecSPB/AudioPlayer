@@ -406,6 +406,11 @@ public class Player implements IPlayer {
                 mediaPlayer.prepareAsync();
 
             } catch (Exception e) {
+                for (int i = 0; i < playerListeners.size(); i++) {
+                    PlayerListener listener = playerListeners.get(i);
+                    listener.onBufferingError();
+                }
+                mediaPlayer.reset();
                 TLogger.e(TAG, "play Exception: ", e);
             }
         };

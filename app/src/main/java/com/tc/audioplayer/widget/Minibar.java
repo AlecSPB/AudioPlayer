@@ -157,6 +157,12 @@ public class Minibar extends LinearLayout {
         }
 
         @Override
+        public void onBufferingError() {
+            loadingView.stop();
+            Toast.makeText(getContext(), getContext().getString(R.string.error_buffering), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
         public void onPlay() {
             ivPlayPause.setSelected(true);
             loadingView.stop();
@@ -189,9 +195,9 @@ public class Minibar extends LinearLayout {
         @Override
         public void onError(int errorCode) {
             super.onError(errorCode);
-            loadingView.setVisibility(View.INVISIBLE);
-//            loadingView.stop();
-            Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
+            loadingView.stop();
+            Toast.makeText(getContext(), getContext().getString(R.string.error_load_music_info, errorCode),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

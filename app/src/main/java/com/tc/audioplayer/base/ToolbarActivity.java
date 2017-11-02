@@ -76,6 +76,8 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         toolbar.setNavigationOnClickListener((v) -> finish());
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         tvCancel.setOnClickListener((v) -> finish());
+        tvRetry.setOnClickListener((v) -> onRefresh());
+        swipeRefreshLayout.setOnRefreshListener(() -> onRefresh());
     }
 
     protected void setContentUnderToolbar() {
@@ -160,7 +162,12 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
 
     @Override
     public void setData(Object data) {
+        tvRetry.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    protected void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
     }
 }

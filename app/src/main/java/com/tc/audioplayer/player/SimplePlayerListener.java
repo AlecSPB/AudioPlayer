@@ -18,6 +18,11 @@ public class SimplePlayerListener implements PlayerListener {
     }
 
     @Override
+    public void onBufferingError() {
+
+    }
+
+    @Override
     public void currentPlaylist(PlayList currentPlaylist) {
 
     }

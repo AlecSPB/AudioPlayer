@@ -41,7 +41,7 @@ import okio.BufferedSource;
 public class CacheInterceptor implements Interceptor {
 
     private static final Charset UTF8 = Charset.forName("UTF-8");
-    private static final int CACHE_TIME = 24 * 60 * 3600;
+    private static final int CACHE_TIME = 60 * 3600;
 
     @Override
     public Response intercept(Chain chain) throws IOException {

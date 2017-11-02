@@ -36,6 +36,7 @@ public class ArtistDetailActivity extends ToolbarActivity {
     private TextView tvAuthor;
     private TextView tvLanguage;
     private TextView tvPlayAll;
+    private View headerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,21 +65,17 @@ public class ArtistDetailActivity extends ToolbarActivity {
             PlayerManager.getInstance().play(playList, 0);
         });
         initHeaderView();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            progressBar.setVisibility(View.VISIBLE);
-            presenter.loadData(true);
-        });
 
         progressBar.setVisibility(View.VISIBLE);
         presenter.loadData(false);
     }
 
     private void initHeaderView() {
-        View view = LayoutInflater.from(this).inflate(R.layout.header_artist_detail, recyclerView, false);
-        ivAlbumn = (ImageView) view.findViewById(R.id.iv_albumn);
-        tvAuthor = (TextView) view.findViewById(R.id.tv_author);
-        tvLanguage = (TextView) view.findViewById(R.id.tv_language);
-        tvPlayAll = (TextView) view.findViewById(R.id.tv_play_all);
+        headerView = LayoutInflater.from(this).inflate(R.layout.header_artist_detail, recyclerView, false);
+        ivAlbumn = (ImageView) headerView.findViewById(R.id.iv_albumn);
+        tvAuthor = (TextView) headerView.findViewById(R.id.tv_author);
+        tvLanguage = (TextView) headerView.findViewById(R.id.tv_language);
+        tvPlayAll = (TextView) headerView.findViewById(R.id.tv_play_all);
         tvPlayAll.setOnClickListener((v) -> {
             if (CollectionUtil.isEmpty(adapter.getData()))
                 return;
@@ -86,7 +83,8 @@ public class ArtistDetailActivity extends ToolbarActivity {
             playList.addSongList(adapter.getData());
             PlayerManager.getInstance().play(playList, 0);
         });
-        adapter.addHeaderView(view);
+        headerView.setVisibility(View.GONE);
+        adapter.addHeaderView(headerView);
 
         Glide.with(this)
                 .load(authorImg)
@@ -100,8 +98,14 @@ public class ArtistDetailActivity extends ToolbarActivity {
     @Override
     public void setData(Object data) {
         super.setData(data);
+        headerView.setVisibility(View.VISIBLE);
         ArtistSongList songListWrapper = (ArtistSongList) data;
         adapter.setData(songListWrapper.songlist);
     }
 
+    @Override
+    protected void onRefresh() {
+        super.onRefresh();
+        presenter.loadData(true);
+    }
 }

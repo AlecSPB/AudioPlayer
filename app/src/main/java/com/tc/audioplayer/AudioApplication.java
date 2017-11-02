@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -55,6 +56,8 @@ public class AudioApplication extends MultiDexApplication {
 
     private OkHttpClient getModelConfig() {
         CacheInterceptor cacheInterceptor = new CacheInterceptor();
+        File cacheFile = new File(getCacheDir(), "[缓存目录]");
+        Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -71,6 +74,7 @@ public class AudioApplication extends MultiDexApplication {
                 .followRedirects(true)
                 .followSslRedirects(true)
                 .retryOnConnectionFailure(true)
+                .cache(cache)
                 .build();
         return client;
     }

@@ -36,6 +36,7 @@ public class AlbumnDetailActivity extends ToolbarActivity {
     private TextView tvCompany;
     private TextView tvTime;
     private TextView tvPlayAll;
+    private View headerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,24 +58,20 @@ public class AlbumnDetailActivity extends ToolbarActivity {
             PlayerManager.getInstance().play(playList, 0);
         });
         initHeaderView();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            progressBar.setVisibility(View.VISIBLE);
-            presenter.loadData(true);
-        });
 
         progressBar.setVisibility(View.VISIBLE);
         presenter.loadData(false);
     }
 
     private void initHeaderView() {
-        View view = LayoutInflater.from(this).inflate(R.layout.header_album_detail, recyclerView, false);
-        ivAlbumn = (ImageView) view.findViewById(R.id.iv_albumn);
-        tvTitle = (TextView) view.findViewById(R.id.tv_title);
-        tvAuthor = (TextView) view.findViewById(R.id.tv_author);
-        tvLanguage = (TextView) view.findViewById(R.id.tv_language);
-        tvCompany = (TextView) view.findViewById(R.id.tv_company);
-        tvTime = (TextView) view.findViewById(R.id.tv_time);
-        tvPlayAll = (TextView) view.findViewById(R.id.tv_play_all);
+        headerView = LayoutInflater.from(this).inflate(R.layout.header_album_detail, recyclerView, false);
+        ivAlbumn = (ImageView) headerView.findViewById(R.id.iv_albumn);
+        tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
+        tvAuthor = (TextView) headerView.findViewById(R.id.tv_author);
+        tvLanguage = (TextView) headerView.findViewById(R.id.tv_language);
+        tvCompany = (TextView) headerView.findViewById(R.id.tv_company);
+        tvTime = (TextView) headerView.findViewById(R.id.tv_time);
+        tvPlayAll = (TextView) headerView.findViewById(R.id.tv_play_all);
         tvPlayAll.setOnClickListener((v) -> {
             if (CollectionUtil.isEmpty(adapter.getData()))
                 return;
@@ -82,10 +79,12 @@ public class AlbumnDetailActivity extends ToolbarActivity {
             playList.addSongList(adapter.getData());
             PlayerManager.getInstance().play(playList, 0);
         });
-        adapter.addHeaderView(view);
+        headerView.setVisibility(View.GONE);
+        adapter.addHeaderView(headerView);
     }
 
     private void updateHeader(Album album) {
+        headerView.setVisibility(View.VISIBLE);
         Glide.with(this)
                 .load(album.pic_radio)
                 .asBitmap()
@@ -106,4 +105,9 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         adapter.setData(detailEntity.songlist);
     }
 
+    @Override
+    protected void onRefresh() {
+        super.onRefresh();
+        presenter.loadData(true);
+    }
 }

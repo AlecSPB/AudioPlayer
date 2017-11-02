@@ -54,4 +54,6 @@
     <string name="menu_exit">退出</string>
 
     <string name="title_fav">收藏列表</string>
+    <string name="error_load_music_info">播放失败，错误码:%d</string>
+    <string name="error_buffering">缓冲失败，请检查网络</string>
 </resources>
