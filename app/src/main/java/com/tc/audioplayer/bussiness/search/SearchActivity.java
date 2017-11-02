@@ -39,6 +39,8 @@ public class SearchActivity extends ToolbarActivity {
             InputMethodUtil.hidden(cetSearch);
             searchResultFragment.search(keyword);
             cetSearch.setText(keyword);
+        } else {
+            cetSearch.requestFocus();
         }
     }
 
@@ -51,8 +53,6 @@ public class SearchActivity extends ToolbarActivity {
         minibar.postDelayed(() -> {
             minibar.bindData();
         }, 500);
-        cetSearch.requestFocus();
-
     }
 
     @Override

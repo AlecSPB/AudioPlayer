@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
@@ -42,9 +43,6 @@ public class BillboardDetailActivity extends ToolbarActivity {
         presenter = new BillboardListPresenter();
         presenter.attachView(this);
         adapter = new ArtistDetailAdapter(this);
-        swipeRefreshLayout.setOnRefreshListener(()->{
-            presenter.loadBillboardList(true, type, onNext);
-        });
 
         setToolbarCenterTitle(title);
         swipeRefreshLayout.setRefreshing(true);
@@ -64,10 +62,16 @@ public class BillboardDetailActivity extends ToolbarActivity {
         @Override
         public void call(Object o) {
             swipeRefreshLayout.setRefreshing(false);
+            tvRetry.setVisibility(View.GONE);
             SongList songList = (SongList) o;
             adapter.setData(songList.song_list);
         }
     };
 
 
+    @Override
+    protected void onRefresh() {
+        super.onRefresh();
+        presenter.loadBillboardList(true, type, onNext);
+    }
 }

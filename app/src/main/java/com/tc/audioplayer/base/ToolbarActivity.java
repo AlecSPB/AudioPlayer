@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
@@ -40,7 +39,7 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
     @BindView(R.id.fl_content)
     protected FrameLayout flContent;
     @BindView(R.id.tv_retry)
-    TextView tvRetry;
+    protected TextView tvRetry;
     @BindView(R.id.minibar)
     protected Minibar minibar;
     @BindView(R.id.bg_header)
@@ -157,7 +156,6 @@ public abstract class ToolbarActivity extends BaseActivity implements IView {
         swipeRefreshLayout.setRefreshing(false);
         tvRetry.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
-        Toast.makeText(this, "出错了", Toast.LENGTH_SHORT).show();
     }
 
     @Override

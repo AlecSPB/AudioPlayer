@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseFragment;
@@ -103,6 +104,13 @@ public class SearchFragment extends BaseFragment {
         });
         SearchPresent.saveSearchKey(keyword);
         eventBus.post(new SearchEvent());
+    }
+
+    @Override
+    public void handleThrowable(Throwable t) {
+        super.handleThrowable(t);
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(), getString(R.string.net_error), Toast.LENGTH_SHORT).show();
     }
 
     class ContentPagerAdapter extends FragmentPagerAdapter {
