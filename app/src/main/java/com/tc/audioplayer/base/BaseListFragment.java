@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.widget.Minibar;
@@ -68,6 +67,5 @@ public class BaseListFragment extends BaseFragment {
     public void handleThrowable(Throwable t) {
         swipeRefreshLayout.setRefreshing(false);
         tvRetry.setVisibility(View.VISIBLE);
-        Toast.makeText(getContext(), "出错了", Toast.LENGTH_SHORT).show();
     }
 }

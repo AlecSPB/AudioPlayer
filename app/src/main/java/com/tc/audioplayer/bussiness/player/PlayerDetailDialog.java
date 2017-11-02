@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
@@ -356,7 +355,6 @@ public class PlayerDetailDialog extends DialogFragment {
         @Override
         public void onError(int errorCode) {
             super.onError(errorCode);
-            Toast.makeText(getContext(), "播放失败，错误码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     }
 }

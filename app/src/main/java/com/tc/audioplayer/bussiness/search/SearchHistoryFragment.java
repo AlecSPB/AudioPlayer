@@ -72,7 +72,7 @@ public class SearchHistoryFragment extends BaseListFragment {
         if (!CollectionUtil.isEmpty(hotSearchList))
             return hotSearchList;
         if (!CollectionUtil.isEmpty(hotSearchResult)) {
-            hotSearchList.add(new SearchHistoryAdapter.SearchHeader("热门搜索", 1));
+            hotSearchList.add(new SearchHistoryAdapter.SearchHeader(getString(R.string.search_hot), 1));
             hotSearchList.addAll(hotSearchResult);
         }
         return hotSearchList;
@@ -88,7 +88,7 @@ public class SearchHistoryFragment extends BaseListFragment {
             temp.addAll(history);
         }
         if (!CollectionUtil.isEmpty(temp)) {
-            data.add(new SearchHistoryAdapter.SearchHeader("历史搜索", 0));
+            data.add(new SearchHistoryAdapter.SearchHeader(getString(R.string.search_history), 0));
             data.addAll(temp);
         }
         return data;

@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -236,7 +235,6 @@ public class MainActivity extends BaseActivity
 //                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.nav_about:
-                Toast.makeText(this, "关于软件功能暂未上线", Toast.LENGTH_SHORT).show();
                 break;
 //            case R.id.nav_share:
 //                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();

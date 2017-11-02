@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.tc.audioplayer.AudioApplication;
+import com.tc.audioplayer.R;
 import com.tc.audioplayer.event.CollectEvent;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.model.db.DBManager;
@@ -31,7 +32,7 @@ public class FavHelper {
      * */
     public static boolean favSong(Context context, SongEntity songEntity) {
         if (songEntity == null) {
-            Toast.makeText(context, "收藏失败!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.fav_fail), Toast.LENGTH_SHORT).show();
             return false;
         }
         CollectSong collectSong = new CollectSong();
@@ -51,7 +52,7 @@ public class FavHelper {
             }
             dao.insert(collectSong);
             EventBus.getDefault().post(new CollectEvent(collectSong));
-            Toast.makeText(context, "收藏成功!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.fav_success), Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

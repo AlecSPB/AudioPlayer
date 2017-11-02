@@ -66,7 +66,7 @@ public class LrcView extends View {
         mNormalColor = ta.getColor(R.styleable.LrcView_lrcNormalTextColor, getResources().getColor(R.color.lrc_default));
         mCurrentColor = ta.getColor(R.styleable.LrcView_lrcCurrentTextColor, getResources().getColor(R.color.lrc_highlight));
         mLabel = ta.getString(R.styleable.LrcView_lrcLabel);
-        mLabel = TextUtils.isEmpty(mLabel) ? "暂无歌词" : mLabel;
+        mLabel = TextUtils.isEmpty(mLabel) ? getResources().getString(R.string.no_lrc) : mLabel;
         mLrcPadding = ta.getDimension(R.styleable.LrcView_lrcPadding, 0);
         ta.recycle();
 
