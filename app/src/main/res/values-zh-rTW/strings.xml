@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">華人音樂</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings1111</string>
+    <string-array name="main_tabs">
+        <item>榜單</item>
+        <item>專輯</item>
+        <item>藝術家</item>
+        <item>熱門</item>
+        <item>搜索</item>
+    </string-array>
+    <string-array name="online_tabs">
+        <item>熱歌</item>
+        <item>新曲</item>
+        <item>歌單</item>
+    </string-array>
+
+    <string-array name="search">
+        <item>歌曲</item>
+        <item>歌手</item>
+        <item>專輯</item>
+    </string-array>
+
+    <string name="search_hint">請輸入搜索關鍵詞</string>
+    <string name="status_loading">正在拼命加載...</string>
+    <string name="status_net_error">請連接網絡後點擊屏幕重試</string>
+    <string name="title_activity_login1">Sign in</string>
+
+    <string name="login_bottom">使用MU(音樂聯合賬號),您可以收藏喜愛的音樂到雲上,並且可以在任何一個有MU賬號的App、網站裏面讀取這些喜好</string>
+    <string name="auth_failed">註冊失敗</string>
+    <string name="auth_usename_empty">用戶名不能為空</string>
+    <string name="auth_password_empty">密碼不能為空</string>
+    <string name="auth_repassword_empty">請再次輸入密碼</string>
+    <string name="auth_repassword_not_match">兩次密碼不一致，請重新確認</string>
+    <string name="auth_login_failed">用戶名或密碼錯誤</string>
+
+    <string name="billboard_more">顯示全部</string>
+    <string name="net_error">網絡不太給力哦</string>
+
+    <string name="album_author">藝人：%s</string>
+    <string name="album_language">語種：%s</string>
+    <string name="album_company">唱片公司：%s</string>
+    <string name="album_time">發布時間：%s</string>
+
+    <string name="unlogin">未登錄</string>
+    //drawer menu
+    <string name="menu_about">關於軟件</string>
+    <string name="menu_fav">我的收藏</string>
+    <string name="menu_apps">推薦應用</string>
+    <string name="menu_version">版本(1.0.0)</string>
+    <string name="menu_exit">退出</string>
+
+    <string name="title_fav">收藏列表</string>
+    <string name="fav_fail">收藏失敗</string>
+    <string name="fav_success">收藏成功</string>
+
+    <string name="search_hot">熱門搜索</string>
+    <string name="search_history">歷史搜索</string>
+
+    <string name="error_load_music_info">播放失敗，錯誤碼:%d</string>
+    <string name="error_buffering">緩沖失敗，請檢查網絡</string>
+    <string name="no_lrc">暫無歌詞</string>
+</resources>
