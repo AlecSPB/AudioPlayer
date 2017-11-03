@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by itcayman on 2017/8/20.
  */
 
-public abstract class ToolbarActivity extends BaseActivity implements IView {
+public abstract class ToolbarActivity extends SwipeBackActivity implements IView {
     @BindView(R.id.coordinatorlayout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.swipeRefreshLayout)
