@@ -12,10 +12,15 @@ import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
 import com.tc.audioplayer.base.Constant;
+import com.tc.audioplayer.event.CollectEvent;
+import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SongEntity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +142,18 @@ public class BillboardListFragment extends BaseListFragment {
                 }
             });
             hasAdShown = true;
+        }
+    }
+
+    @Override
+    protected int configDefaultRigsterFlags() {
+        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCollectEvent(CollectEvent event) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 }

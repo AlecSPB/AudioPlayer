@@ -51,7 +51,7 @@ public class FavHelper {
                 songEntityDao.insert(songEntity);
             }
             dao.insert(collectSong);
-            EventBus.getDefault().post(new CollectEvent(collectSong));
+            EventBus.getDefault().post(new CollectEvent(collectSong, true));
             Toast.makeText(context, context.getString(R.string.fav_success), Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -76,6 +76,7 @@ public class FavHelper {
                     .where(CollectSongDao.Properties.Song_id.eq(songEntity.song_id))
                     .buildDelete()
                     .executeDeleteWithoutDetachingEntities();
+            EventBus.getDefault().post(new CollectEvent(collectSong, false));
             return true;
         } catch (Exception e) {
 

@@ -6,9 +6,14 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.tc.audioplayer.base.BaseListFragment;
-import com.tc.model.entity.PlayList;
+import com.tc.audioplayer.event.CollectEvent;
+import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongList;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -69,5 +74,17 @@ public class MusicFragment extends BaseListFragment {
     @Override
     protected void onRefresh() {
         presenter.loadData(false);
+    }
+
+    @Override
+    protected int configDefaultRigsterFlags() {
+        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCollectEvent(CollectEvent event) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

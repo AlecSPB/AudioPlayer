@@ -135,9 +135,9 @@ public class MainActivity extends BaseActivity
             navigationView.getHeaderView(0).setOnClickListener(null);
         } else {
             tvUsername.setText(getString(R.string.unlogin));
-            navigationView.getHeaderView(0).setOnClickListener((v) -> {
-                Navigator.toLoginActivity(MainActivity.this);
-            });
+//            navigationView.getHeaderView(0).setOnClickListener((v) -> {
+//                Navigator.toLoginActivity(MainActivity.this);
+//            });
         }
     }
 

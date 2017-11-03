@@ -154,6 +154,7 @@ public class PlayList {
 
     public void clear(){
         songList.clear();
+        playingIndex = 0;
     }
 
     /**

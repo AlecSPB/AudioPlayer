@@ -12,11 +12,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
+import com.tc.audioplayer.event.CollectEvent;
+import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.model.entity.Album;
 import com.tc.model.entity.AlbumDetailEntity;
 import com.tc.model.entity.PlayList;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -110,4 +115,17 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         super.onRefresh();
         presenter.loadData(true);
     }
+
+    @Override
+    protected int configDefaultRigsterFlags() {
+        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCollectEvent(CollectEvent event) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }

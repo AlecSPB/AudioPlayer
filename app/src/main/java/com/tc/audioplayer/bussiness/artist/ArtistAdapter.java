@@ -49,6 +49,7 @@ public class ArtistAdapter extends HeaderFooterAdapter<ArtistEntity> {
                 .load(pic)
                 .asBitmap()
                 .transform(new RoundedCornersTransformation(mContext, 0, 0))
+                .placeholder(R.drawable.default_cover)
                 .into(ivArtist);
         holder.setText(R.id.tv_title, item.name);
         holder.setText(R.id.tv_country, item.country);

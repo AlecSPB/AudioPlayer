@@ -8,9 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.ToolbarActivity;
 import com.tc.audioplayer.bussiness.artist.ArtistDetailAdapter;
+import com.tc.audioplayer.event.CollectEvent;
+import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -64,5 +69,17 @@ public class FavListActivity extends ToolbarActivity {
                     swipeRefreshLayout.setRefreshing(false);
                     adapter.setData(data);
                 });
+    }
+
+    @Override
+    protected int configDefaultRigsterFlags() {
+        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCollectEvent(CollectEvent event) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

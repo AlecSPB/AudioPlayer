@@ -25,10 +25,13 @@ public class SearchActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.common_push_up_in, 0);
         setContentView(R.layout.layout_empty);
+        setContentUnderToolbar();
+        minibar.setAutoVisibility(true);
+        minibar.bindData();
+
         keyword = getIntent().getStringExtra("keyword");
         flToolbarContent.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setEnabled(false);
-        setContentUnderToolbar();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         searchResultFragment = new SearchFragment();
@@ -41,6 +44,7 @@ public class SearchActivity extends ToolbarActivity {
             cetSearch.setText(keyword);
         } else {
             cetSearch.requestFocus();
+            InputMethodUtil.show(cetSearch);
         }
     }
 

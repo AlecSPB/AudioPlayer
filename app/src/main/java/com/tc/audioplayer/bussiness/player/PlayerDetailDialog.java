@@ -130,14 +130,16 @@ public class PlayerDetailDialog extends DialogFragment {
     }
 
     public void updateLrcTime(long time) {
-        if (lrcView == null)
+        if (lrcView == null) {
             return;
+        }
         lrcView.updateTime(time);
     }
 
     private void showLrc(String lrclink, long time) {
-        if (TextUtils.isEmpty(lrclink))
+        if (TextUtils.isEmpty(lrclink)) {
             return;
+        }
         File file = getLrcFile(lrclink);
         if (file.exists()) {
             lrcView.loadLrc(file, time);
@@ -176,8 +178,10 @@ public class PlayerDetailDialog extends DialogFragment {
     private void initPlayerStatus() {
         PlayList playList = PlayerManager.getInstance().getPlayList();
         SongEntity song = playList.getCurrentSong();
-        if (song == null)
+        if (song == null) {
             return;
+        }
+        //处理进度UI
         int progress = PlayerManager.getInstance().getProgress();
         int duration = progress * song.file_duration / 100;
         String currentDuration = AudioDurationUtil.secondsToString(duration);
@@ -185,11 +189,15 @@ public class PlayerDetailDialog extends DialogFragment {
         tvCurrentDuration.setText(currentDuration);
         tvTotalDuration.setText(totalDuration);
         seekBar.setProgress(progress);
+        //处理播放状态UI
         if (PlayerManager.getInstance().isPlaying()) {
             ivPlayPause.setImageResource(R.drawable.selector_play);
         } else {
             ivPlayPause.setImageResource(R.drawable.selector_pause);
         }
+        //处理歌曲信息UI
+        boolean isFav = FavHelper.isFav(song);
+        ivFav.setSelected(isFav);
         tvName.setText(song.title);
         tvAuthor.setText(song.author);
         setLrclink(song.lrclink, duration * 1000);
@@ -308,8 +316,9 @@ public class PlayerDetailDialog extends DialogFragment {
                 PlayList playList = PlayerManager.getInstance().getPlayList();
                 SongEntity song = playList.getCurrentSong();
                 int totalDuration = song.file_duration;
-                if (totalDuration == 0)
+                if (totalDuration == 0) {
                     return;
+                }
                 int progress = seektoDuration * 100 / totalDuration;
                 PlayerManager.getInstance().seekTo(progress);
             }
@@ -336,8 +345,9 @@ public class PlayerDetailDialog extends DialogFragment {
 
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
-            if (seekbarStarting || (progress == 0 && duration == 0 && secondProgress == 0))
+            if (seekbarStarting || (progress == 0 && duration == 0 && secondProgress == 0)){
                 return;
+            }
             TLogger.d(TAG, "onProgress: progress=" + progress + " duration=" + duration
                     + " secondProgress=" + secondProgress);
             seekBar.setProgress(progress);

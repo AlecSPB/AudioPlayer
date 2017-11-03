@@ -40,6 +40,7 @@ public class HeaderAlbumnAdapter extends HeaderFooterAdapter<Album> {
                 .load(pic)
                 .asBitmap()
                 .transform(new RoundedCornersTransformation(mContext, 10, 0))
+                .placeholder(R.drawable.default_cover)
                 .into(ivAlbumn);
         holder.setText(R.id.tv_title, item.title);
         holder.setText(R.id.tv_author, item.author);

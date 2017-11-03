@@ -90,8 +90,8 @@ public class SearchFragment extends BaseFragment {
     }
 
     public void search(String key) {
+        keyword = key;
         if (present == null) {
-            keyword = key;
             return;
         }
 

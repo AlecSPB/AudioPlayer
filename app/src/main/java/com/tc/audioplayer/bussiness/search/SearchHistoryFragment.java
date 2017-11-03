@@ -17,6 +17,7 @@ import com.tc.base.utils.CollectionUtil;
 import com.tc.model.entity.HotSearch;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class SearchHistoryFragment extends BaseListFragment {
         return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(SearchEvent event) {
         List<Object> data = new ArrayList<>();
         data.addAll(getHistory());

@@ -13,6 +13,8 @@ import com.google.android.gms.ads.AdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
+import com.tc.audioplayer.event.CollectEvent;
+import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.DimenUtils;
 import com.tc.base.utils.TLogger;
@@ -21,6 +23,9 @@ import com.tc.model.entity.Album;
 import com.tc.model.entity.AlbumList;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongList;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import rx.functions.Action1;
 
@@ -97,9 +102,11 @@ public class HotFragment extends BaseListFragment {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                adView.setVisibility(View.VISIBLE);
                 TLogger.d(TAG, "onAdLoaded");
             }
         });
+        adView.setVisibility(View.GONE);
         adapter.addHeaderView(adView);
         addHotAlbumHeader();
         presenter.loadData(false);
@@ -147,4 +154,15 @@ public class HotFragment extends BaseListFragment {
         }
     };
 
+    @Override
+    protected int configDefaultRigsterFlags() {
+        return EventBusRegisterFlags.NEED_DEFAULT_REGISTER;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCollectEvent(CollectEvent event) {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
 }
