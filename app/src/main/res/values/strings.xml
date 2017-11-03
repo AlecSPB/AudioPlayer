@@ -63,4 +63,5 @@
     <string name="error_load_music_info">播放失败，错误码:%d</string>
     <string name="error_buffering">缓冲失败，请检查网络</string>
     <string name="no_lrc">暂无歌词</string>
+    <string name="error_go_narket">天啊，您没安装应用市场，连浏览器也没有，您买个手机干啥？</string>
 </resources>

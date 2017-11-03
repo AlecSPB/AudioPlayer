@@ -63,4 +63,5 @@
     <string name="error_load_music_info">播放失敗，錯誤碼:%d</string>
     <string name="error_buffering">緩沖失敗，請檢查網絡</string>
     <string name="no_lrc">暫無歌詞</string>
+    <string name="error_go_narket">天啊，您沒安裝應用市場，連瀏覽器也沒有，您買個手機幹啥？</string>
 </resources>

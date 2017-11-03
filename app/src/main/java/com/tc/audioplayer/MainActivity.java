@@ -1,5 +1,7 @@
 package com.tc.audioplayer;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -235,6 +238,7 @@ public class MainActivity extends BaseActivity
 //                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.nav_about:
+                openApplicationMarket("com.xuefeng.huarenmusic");
                 break;
 //            case R.id.nav_share:
 //                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
@@ -248,6 +252,29 @@ public class MainActivity extends BaseActivity
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * 通过包名 在应用商店打开应用
+     *
+     * @param packageName 包名
+     */
+    private void openApplicationMarket(String packageName) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        try {
+            String str = "market://details?id=" + packageName;
+            intent.setData(Uri.parse(str));
+            startActivity(intent);
+        } catch (Exception e) {
+            // 打开应用商店失败 可能是没有手机没有安装应用市场
+            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+            //这里存在一个极端情况就是有些用户浏览器也没有，再判断一次
+            if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
+                startActivity(intent);
+            } else { //天哪，这还是智能手机吗？
+                Toast.makeText(this, "天啊，您没安装应用市场，连浏览器也没有，您买个手机干啥？", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 //    @Override
