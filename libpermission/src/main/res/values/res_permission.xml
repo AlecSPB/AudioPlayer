@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">>
     <!--权限控制-->
     <string name="permission_btn_good">好</string>
     <string name="permission_btn_ok">去设置</string>
