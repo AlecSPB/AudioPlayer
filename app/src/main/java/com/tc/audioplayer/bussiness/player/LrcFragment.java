@@ -120,7 +120,7 @@ public class LrcFragment extends BaseFragment {
             if (!isAdded())
                 return;
         };
-        onlineCase.getMusicLrc(lrclink)
+        onlineCase.getMusicFile(lrclink)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map((responseBody) -> {

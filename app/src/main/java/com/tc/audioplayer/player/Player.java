@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
 import android.util.Log;
 
+import com.tc.audioplayer.utils.FileUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongDetail;
@@ -11,6 +12,7 @@ import com.tc.model.entity.SongEntity;
 import com.tc.model.entity.SongInfoEntity;
 import com.tc.model.usecase.OnlineCase;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -397,13 +399,14 @@ public class Player implements IPlayer {
             String path = songDetail.bitrate.file_link;
             try {
                 stopUpdateProgress();
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(path);
-                for (int i = 0; i < playerListeners.size(); i++) {
-                    PlayerListener listener = playerListeners.get(i);
-                    listener.onPreparingStart();
-                }
-                mediaPlayer.prepareAsync();
+//                mediaPlayer.reset();
+//                mediaPlayer.setDataSource(path);
+//                for (int i = 0; i < playerListeners.size(); i++) {
+//                    PlayerListener listener = playerListeners.get(i);
+//                    listener.onPreparingStart();
+//                }
+//                mediaPlayer.prepareAsync();
+                loadMusicFile(path);
 
             } catch (Exception e) {
                 for (int i = 0; i < playerListeners.size(); i++) {
@@ -414,6 +417,13 @@ public class Player implements IPlayer {
                 TLogger.e(TAG, "play Exception: ", e);
             }
         };
+        onlineCase.getMusicInfo(entity.song_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(onNext, getOnError());
+    }
+
+    private Action1 getOnError() {
         Action1<Throwable> onError = (throwable) -> {
             for (int i = 0; i < playerListeners.size(); i++) {
                 PlayerListener listener = playerListeners.get(i);
@@ -421,10 +431,29 @@ public class Player implements IPlayer {
             }
             TLogger.e(TAG, "getMusic error: " + throwable);
         };
-        onlineCase.getMusicInfo(entity.song_id)
+        return onError;
+    }
+
+    private void loadMusicFile(String fileUrl) {
+        Action1<Boolean> onNext = (saveLrcSuccess) -> {
+            try {
+                File file = FileUtil.getLrcFile(fileUrl);
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(file.getAbsolutePath());
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (Exception e) {
+                TLogger.e(TAG, "parse MusicFile error: " + e);
+            }
+
+        };
+        onlineCase.getMusicFile(fileUrl)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(onNext, onError);
+                .map((responseBody) -> {
+                    return FileUtil.writeResponseBodyToDisk(responseBody, fileUrl);
+                })
+                .subscribe(onNext, getOnError());
     }
 
     @Retention(RetentionPolicy.SOURCE)

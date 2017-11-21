@@ -18,6 +18,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -32,8 +33,9 @@ public interface OnlineAPI {
     @GET
     Observable<SongDetail> requestOnlineMusicInfo(@Url String url, @Header(APIServiceProvider.IS_FRESH) boolean refresh);
 
+    @Streaming
     @GET
-    Observable<ResponseBody> requestLrc(@Url String url, @Header(APIServiceProvider.IS_FRESH) boolean refresh);
+    Observable<ResponseBody> requestFile(@Url String url, @Header(APIServiceProvider.IS_FRESH) boolean refresh);
 
     @GET
     Observable<SearchWrapper> requestSearch(@Url String url, @Header(APIServiceProvider.IS_FRESH) boolean refresh);

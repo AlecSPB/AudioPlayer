@@ -40,9 +40,9 @@ public class OnlineCase extends BaseCase<OnlineAPI> {
         return api.requestOnlineMusicInfo(url, false);
     }
 
-    public Observable<ResponseBody> getMusicLrc(String lrclink) {
+    public Observable<ResponseBody> getMusicFile(String lrclink) {
         TLogger.d(TAG, "getMusicLrc: " + lrclink);
-        return api.requestLrc(lrclink, false);
+        return api.requestFile(lrclink, false);
     }
 
     public Observable<SearchWrapper> getSearch(String query) {
