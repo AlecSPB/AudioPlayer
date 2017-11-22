@@ -48,10 +48,7 @@ public class AudioApplication extends MultiDexApplication {
         MobileAds.initialize(this, "ca-app-pub-7199806726993025~2598142485");
         BuglyUtils.init(this);
 
-        File cacheDir = new File(FileUtil.PATH_LRC);
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
-        }
+        FileUtil.checkCacheDir();
     }
 
     private OkHttpClient getModelConfig() {

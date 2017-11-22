@@ -27,9 +27,10 @@ public class FavHelper {
 
     /**
      * 收藏歌曲
+     *
      * @param context
      * @param songEntity
-     * */
+     */
     public static boolean favSong(Context context, SongEntity songEntity) {
         if (songEntity == null) {
             Toast.makeText(context, context.getString(R.string.fav_fail), Toast.LENGTH_SHORT).show();
@@ -60,8 +61,9 @@ public class FavHelper {
 
     /**
      * 取消收藏歌曲
+     *
      * @param songEntity
-     * */
+     */
     public static boolean unfavSong(SongEntity songEntity) {
         if (songEntity == null) {
             return false;
@@ -86,8 +88,9 @@ public class FavHelper {
 
     /**
      * 是否收藏歌曲
+     *
      * @param songEntity
-     * */
+     */
     public static boolean isFav(SongEntity songEntity) {
         CollectSong collectSong = new CollectSong();
         collectSong.setSongid(songEntity.getSong_id());
@@ -106,8 +109,9 @@ public class FavHelper {
 
     /**
      * 是否收藏歌曲
+     *
      * @param contentBean
-     * */
+     */
     public static boolean isFav(BillboardEntity.ContentBean contentBean) {
         SongEntity songEntity = revert(contentBean);
         return isFav(songEntity);
@@ -115,19 +119,20 @@ public class FavHelper {
 
     /**
      * 获取收藏歌曲列表
-     * */
+     */
     public static List<SongEntity> getFavList() {
         CollectSongDao dao = DBManager.getInstance(AudioApplication.getInstance())
                 .getDaoSession().getCollectSongDao();
         List<CollectSong> list = dao.queryBuilder()
                 .build()
                 .list();
-        if (list == null)
+        if (list == null) {
             return null;
+        }
         List<SongEntity> songEntities = new ArrayList<>();
-        list.forEach(collectSong -> {
+        for (CollectSong collectSong : list) {
             songEntities.add(collectSong.getSong());
-        });
+        }
         return songEntities;
     }
 

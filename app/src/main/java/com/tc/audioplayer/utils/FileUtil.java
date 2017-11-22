@@ -20,21 +20,34 @@ public class FileUtil {
     public static final String PATH_BASE = android.os.Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/AudioPlayer/";
     public static final String PATH_LRC = PATH_BASE + "lyrics";
+    public static final String PATH_MUSIC = PATH_BASE + "music";
 
     public static String key(String url) {
         return ByteString.encodeUtf8(url).md5().hex();
     }
 
+    public static void checkCacheDir() {
+        File cacheDir = new File(FileUtil.PATH_LRC);
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();
+        }
+        File musicCacheDir = new File(FileUtil.PATH_MUSIC);
+        if (!musicCacheDir.exists()) {
+            musicCacheDir.mkdirs();
+        }
+    }
+
     /**
      * 把流写进文件生成lrc
      *
-     * @param body    lrc流
-     * @param lrclink url
+     * @param body lrc流
+     * @param file file
      */
-    public static boolean writeResponseBodyToDisk(ResponseBody body, String lrclink) {
+    public static boolean writeResponseBodyToDisk(ResponseBody body, File file) {
         try {
-            File futureStudioIconFile = getLrcFile(lrclink);
-            if(!futureStudioIconFile.exists()){
+            checkCacheDir();
+            File futureStudioIconFile = file;
+            if (!futureStudioIconFile.exists()) {
                 futureStudioIconFile.createNewFile();
             }
             InputStream inputStream = null;
@@ -80,6 +93,23 @@ public class FileUtil {
     public static File getLrcFile(String lrclink) {
         String fileName = FileUtil.key(lrclink);
         File file = new File(FileUtil.PATH_LRC, fileName);
+        return file;
+    }
+
+    /**
+     * 获取音频文件
+     */
+    public static File getMusicFile(String fileName, int fileSize) {
+        File file = new File(FileUtil.PATH_MUSIC, fileName);
+        if (file.exists()) {
+            long localFileSize = file.length();
+            TLogger.e(TAG, "getMusicFile: fileSize=" + fileSize + "  localFileSize=" + localFileSize);
+            if (fileSize == localFileSize) {
+                return file;
+            } else {
+                file.delete();
+            }
+        }
         return file;
     }
 }

@@ -120,11 +120,12 @@ public class LrcFragment extends BaseFragment {
             if (!isAdded())
                 return;
         };
+        File lrcFile = FileUtil.getLrcFile(lrclink);
         onlineCase.getMusicFile(lrclink)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map((responseBody) -> {
-                    return FileUtil.writeResponseBodyToDisk(responseBody, lrclink);
+                    return FileUtil.writeResponseBodyToDisk(responseBody, lrcFile);
                 })
                 .subscribe(onNext, onError);
     }

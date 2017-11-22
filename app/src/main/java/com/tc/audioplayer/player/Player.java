@@ -2,7 +2,6 @@ package com.tc.audioplayer.player;
 
 import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
-import android.util.Log;
 
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.base.utils.TLogger;
@@ -50,8 +49,9 @@ public class Player implements IPlayer {
     public static final int PLAY_COMPLETION = 10;   // 播放完成
     public static final int PLAY_BUFFERING_PAUSE = 11; //buffer暂停
     public static final int PLAY_REQUEST_SUCCESS = 12;
-    public static final int ERROR_CODE_NULL = 404;
-    public static final int ERROR_CODE_LOAD_INFO_FAIL = 405;
+    public static final int ERROR_CODE_NULL = 404;//歌曲为空
+    public static final int ERROR_CODE_LOAD_INFO_FAIL = 405;//加载歌曲信息失败
+    public static final int ERROR_CODE_LOAD_LOCAL_FILE_FAIL = 406;//加载本地音频失败
     private static final String TAG = "Player";
     private static volatile Player sInstance;
     List<PlayerListener> playerListeners;
@@ -209,7 +209,7 @@ public class Player implements IPlayer {
         this.seekToDuration = currentDuration;
 
         if (playList.getSongList().size() == 0) {
-            Log.i(TAG, "Playlist size = 0");
+            TLogger.i(TAG, "Playlist size = 0");
             return;
         }
         if (startIndex >= playList.getSongList().size()) {
@@ -388,39 +388,31 @@ public class Player implements IPlayer {
             PlayerListener listener = playerListeners.get(i);
             listener.onInit(getPlayList());
         }
-        Action1 onNext = (result) -> {
-            SongDetail songDetail = (SongDetail) result;
-            SongEntity songEntity = playList.getCurrentSong();
-            SongInfoEntity songInfo = songDetail.songinfo;
-            songEntity.setTitle(songInfo.getTitle());
-            songEntity.setAuthor(songInfo.author);
-            songEntity.setLrclink(songInfo.lrclink);
-            songEntity.setPic_small(songInfo.pic_small);
-            String path = songDetail.bitrate.file_link;
-            try {
-                stopUpdateProgress();
-//                mediaPlayer.reset();
-//                mediaPlayer.setDataSource(path);
-//                for (int i = 0; i < playerListeners.size(); i++) {
-//                    PlayerListener listener = playerListeners.get(i);
-//                    listener.onPreparingStart();
-//                }
-//                mediaPlayer.prepareAsync();
-                loadMusicFile(path);
-
-            } catch (Exception e) {
-                for (int i = 0; i < playerListeners.size(); i++) {
-                    PlayerListener listener = playerListeners.get(i);
-                    listener.onBufferingError();
-                }
-                mediaPlayer.reset();
-                TLogger.e(TAG, "play Exception: ", e);
-            }
+        Action1 onNext = (songDetail) -> {
+            loadMusicFile((SongDetail) songDetail);
         };
         onlineCase.getMusicInfo(entity.song_id)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map((songDetail) -> {
+                    updateMusicInfo(songDetail);
+                    return songDetail;
+                })
                 .subscribe(onNext, getOnError());
+    }
+
+    private void updateMusicInfo(SongDetail songDetail) {
+        SongEntity songEntity = playList.getCurrentSong();
+        SongInfoEntity songInfo = songDetail.songinfo;
+        songEntity.setTitle(songInfo.getTitle());
+        songEntity.setAuthor(songInfo.author);
+        songEntity.setLrclink(songInfo.lrclink);
+        songEntity.setPic_small(songInfo.pic_small);
+        stopUpdateProgress();
+        for (int i = 0; i < playerListeners.size(); i++) {
+            PlayerListener listener = playerListeners.get(i);
+            listener.onPreparingStart();
+        }
     }
 
     private Action1 getOnError() {
@@ -434,26 +426,46 @@ public class Player implements IPlayer {
         return onError;
     }
 
-    private void loadMusicFile(String fileUrl) {
+    private void loadMusicFile(SongDetail songDetail) {
+        String fileUrl = songDetail.bitrate.file_link;
+        String fileName = songDetail.songinfo.author + "-" + songDetail.songinfo.album_title;
+        int fileSize = songDetail.bitrate.file_size;
+        File file = FileUtil.getMusicFile(fileName, fileSize);
+        if (file != null && file.exists()) {
+            playLocal(file.getAbsolutePath());
+            return;
+        }
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
-            try {
-                File file = FileUtil.getLrcFile(fileUrl);
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(file.getAbsolutePath());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (Exception e) {
-                TLogger.e(TAG, "parse MusicFile error: " + e);
-            }
-
+            playLocal(fileUrl);
         };
         onlineCase.getMusicFile(fileUrl)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
                 .map((responseBody) -> {
-                    return FileUtil.writeResponseBodyToDisk(responseBody, fileUrl);
+                    return FileUtil.writeResponseBodyToDisk(responseBody, file);
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext, getOnError());
+    }
+
+    private void playLocal(String fileUrl) {
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(fileUrl);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            resetProgressa();
+            onPrepared();
+        } catch (Exception e) {
+            TLogger.e(TAG, "parse MusicFile error: " + e);
+            File file = new File(fileUrl);
+            if (file.exists()) {
+                file.delete();
+            }
+            for (int i = 0; i < playerListeners.size(); i++) {
+                PlayerListener listener = playerListeners.get(i);
+                listener.onError(ERROR_CODE_LOAD_LOCAL_FILE_FAIL);
+            }
+        }
     }
 
     @Retention(RetentionPolicy.SOURCE)
