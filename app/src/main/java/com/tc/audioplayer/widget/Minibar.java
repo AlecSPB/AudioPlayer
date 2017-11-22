@@ -184,6 +184,7 @@ public class Minibar extends LinearLayout {
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
 //            progressBar.setProgress(progress);
+            ivPlayPause.setSelected(true);
         }
 
         @Override

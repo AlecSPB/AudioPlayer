@@ -250,6 +250,9 @@ public class MainActivity extends BaseActivity
                 finish();
                 break;
         }
+        item.setCheckable(false);
+        item.setChecked(false);
+        drawerLayout.closeDrawers();
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

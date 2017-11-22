@@ -68,6 +68,12 @@ public class BillboardListFragment extends BaseListFragment {
         });
     }
 
+    @Override
+    protected void onRefresh() {
+        super.onRefresh();
+        presenter.loadData(true);
+    }
+
     private Action1 getOnPlayAction() {
         Action1 onNext = (data) -> {
             if (isAdded()) {

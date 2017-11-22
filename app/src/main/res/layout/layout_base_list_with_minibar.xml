@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/minibar"
-        android:layout_marginTop="150dp"
+        android:paddingTop="150dp"
+
         android:background="@color/default_background"
         android:gravity="center_horizontal"
         android:text="请连接网络后点击屏幕重试"

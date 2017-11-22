@@ -43,6 +43,12 @@ public class AlbumListFragment extends BaseListFragment {
     }
 
     @Override
+    protected void onRefresh() {
+        super.onRefresh();
+        presenter.loadData(true);
+    }
+
+    @Override
     public void setData(Object data) {
         super.setData(data);
         AlbumList listWrapp = (AlbumList) data;

@@ -48,7 +48,6 @@ public class BaseListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         tvRetry.setOnClickListener((v) -> {
             swipeRefreshLayout.setRefreshing(true);
-            tvRetry.setVisibility(View.GONE);
             onRefresh();
         });
     }
@@ -61,6 +60,7 @@ public class BaseListFragment extends BaseFragment {
     public void setData(Object data) {
         super.setData(data);
         swipeRefreshLayout.setRefreshing(false);
+        tvRetry.setVisibility(View.GONE);
     }
 
     @Override
