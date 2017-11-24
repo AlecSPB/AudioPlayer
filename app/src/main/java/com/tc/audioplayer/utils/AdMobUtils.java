@@ -2,8 +2,14 @@ package com.tc.audioplayer.utils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.ads.formats.NativeAd;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.AudioApplication;
+import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.shell.CommandResult;
 import com.tc.audioplayer.utils.shell.ShellUtils;
 import com.tc.base.utils.TLogger;
@@ -92,5 +98,32 @@ public class AdMobUtils {
         CommandResult result = ShellUtils.execCommand(commands, false, true);
         final String strResult = String.format(COMMAND_RESULT_FORMAT, result.result, result.successMsg, result.errorMsg);
         TLogger.d(TAG, "cmd result=" + strResult);
+    }
+
+
+
+    /**
+     * Populates a {@link NativeContentAdView} object with data from a given
+     * {@link NativeContentAd}.
+     *
+     * @param nativeContentAd the object containing the ad's assets
+     * @param adView          the view to be populated
+     */
+    public static void populateContentAdView(NativeContentAd nativeContentAd,
+                                       NativeContentAdView adView) {
+        // Assign native ad object to the native view.
+        adView.setNativeAd(nativeContentAd);
+
+        adView.setHeadlineView(adView.findViewById(R.id.contentad_headline));
+        adView.setImageView(adView.findViewById(R.id.contentad_image));
+
+        // Some assets are guaranteed to be in every NativeContentAd.
+        ((TextView) adView.getHeadlineView()).setText(nativeContentAd.getHeadline());
+
+        List<NativeAd.Image> images = nativeContentAd.getImages();
+
+        if (images.size() > 0) {
+            ((ImageView) adView.getImageView()).setImageDrawable(images.get(0).getDrawable());
+        }
     }
 }

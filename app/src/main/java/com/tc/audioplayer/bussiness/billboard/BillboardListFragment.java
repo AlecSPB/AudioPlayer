@@ -5,9 +5,15 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.ads.mediation.facebook.FacebookAdapter;
 import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.formats.NativeAdOptions;
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
@@ -15,6 +21,7 @@ import com.tc.audioplayer.base.Constant;
 import com.tc.audioplayer.event.CollectEvent;
 import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.base.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.BillboardEntity;
 import com.tc.model.entity.SongEntity;
@@ -36,6 +43,7 @@ public class BillboardListFragment extends BaseListFragment {
     private BillboardListPresenter presenter;
     private BillboardListAdapter adapter;
     private boolean hasAdShown;
+    private NativeContentAdView nativeAdView;
 
     public static BillboardListFragment newInstance() {
         BillboardListFragment instance = new BillboardListFragment();
@@ -56,7 +64,6 @@ public class BillboardListFragment extends BaseListFragment {
             Object object = adapter.getItem(position);
             if (object instanceof BillboardEntity.ContentBean) {
                 BillboardEntity.ContentBean item = (BillboardEntity.ContentBean) adapter.getItem(position);
-//            presenter.loadSongInfo(item.song_id, getOnPlayAction(), getOnPlayErrorAction());
                 SongEntity songEntity = new SongEntity();
                 songEntity.song_id = item.song_id;
                 songEntity.song_source = "";
@@ -66,6 +73,52 @@ public class BillboardListFragment extends BaseListFragment {
                 Navigator.toBillboardDetailActivity(getContext(), billboard.type, billboard.name);
             }
         });
+
+        AdLoader adLoader = new AdLoader.Builder(getContext(), Constant.AdmobNativeID_Billboard)
+                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
+                    @Override
+                    public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
+                        TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
+                    }
+                })
+                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
+                    @Override
+                    public void onContentAdLoaded(NativeContentAd contentAd) {
+                        List<Object> data = adapter.getData();
+                        int index = 0;
+                        int count = 0;
+                        if (!CollectionUtil.isEmpty(data)) {
+                            for (int i = 0; i < data.size(); i++) {
+                                Object item = data.get(i);
+                                if (item instanceof String && count < 1) {
+                                    count++;
+                                    index = i;
+                                }
+                            }
+                        }
+                        data.add(index + 1, contentAd);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        TLogger.e(TAG, "onAdFailedToLoad: " + errorCode);
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build();
+        Bundle extras = new FacebookAdapter.FacebookExtrasBundleBuilder()
+                .setNativeAdChoicesIconExpandable(false)
+                .build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("42EA86278DBB5EFA08801AED100FD88F")
+                .addNetworkExtrasBundle(FacebookAdapter.class, extras)
+                .build();
+        adLoader.loadAd(adRequest);
     }
 
     @Override
@@ -112,9 +165,9 @@ public class BillboardListFragment extends BaseListFragment {
                     .addTestDevice("B2952405032D73534E695FE8897CC4B1")
                     .addTestDevice("C357783CA84A3BDEAE79C5801DD2A323")
                     .addTestDevice("40a940a6200eff90bd875a6b1df06c70")
-                    .addTestDevice("40A940A6200EFF90BD875A6B1DF06C70")
+                    .addTestDevice("42EA86278DBB5EFA08801AED100FD88F")
                     .build();
-            mInterstitialAd.loadAd(adRequest);
+//            mInterstitialAd.loadAd(adRequest);
             mInterstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdClosed() {

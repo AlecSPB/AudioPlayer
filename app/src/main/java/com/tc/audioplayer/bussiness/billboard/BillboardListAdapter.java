@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.bussiness.fav.FavHelper;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
 import com.tc.model.entity.BillboardEntity;
@@ -19,6 +22,7 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_CONTENT = 1;
     private static final int TYPE_LINE = 2;
+    private static final int TYPE_NATIVE_AD = 3;
 
     public BillboardListAdapter(Context context) {
         super(context);
@@ -32,6 +36,8 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             return mInflater.inflate(R.layout.item_billboard_content, parent, false);
         } else if (viewType == TYPE_LINE) {
             return mInflater.inflate(R.layout.item_billboard_line, parent, false);
+        } else if (viewType == TYPE_NATIVE_AD) {
+            return mInflater.inflate(R.layout.ad_billoard, parent, false);
         }
         return null;
     }
@@ -50,6 +56,8 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             holder.getView(R.id.iv_fav).setTag(content);
             holder.getView(R.id.iv_fav).setSelected(FavHelper.isFav(content));
             holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);
+        } else if (item instanceof NativeContentAd) {
+            AdMobUtils.populateContentAdView((NativeContentAd) item, (NativeContentAdView) holder.getView());
         }
     }
 
@@ -62,6 +70,8 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             return TYPE_CONTENT;
         } else if (item instanceof String) {
             return TYPE_LINE;
+        } else if (item instanceof NativeContentAd) {
+            return TYPE_NATIVE_AD;
         }
         return -1;
     }

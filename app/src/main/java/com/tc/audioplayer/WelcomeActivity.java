@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.tc.audioplayer.base.ToolbarActivity;
 import com.tc.audioplayer.permission.ExternalStoragePermission;
 import com.tc.audioplayer.permission.PermissionUtil;
+import com.tc.audioplayer.permission.PhoneStatePermission;
 import com.tc.base.utils.TLogger;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -25,6 +26,7 @@ public class WelcomeActivity extends ToolbarActivity {
     private static final String TAG = WelcomeActivity.class.getSimpleName();
 
     private ExternalStoragePermission mReadExternalStoragePermission;
+    private PhoneStatePermission mPhoneStatePermission;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean signedIn = false;
@@ -39,7 +41,8 @@ public class WelcomeActivity extends ToolbarActivity {
 
 
         mReadExternalStoragePermission = new ExternalStoragePermission(this);
-        PermissionUtil.requestPermissions(this, MUTI_PERMISSION_WINDOW, mReadExternalStoragePermission);
+        mPhoneStatePermission = new PhoneStatePermission(this);
+        PermissionUtil.requestPermissions(this, MUTI_PERMISSION_WINDOW, mReadExternalStoragePermission, mPhoneStatePermission);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override

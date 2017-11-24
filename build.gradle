@@ -4,6 +4,9 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
+        maven {
+            url "https://maven.google.com"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -13,6 +16,8 @@ buildscript {
         classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
         //firebase
         classpath 'com.google.gms:google-services:3.1.0'
+        classpath 'com.facebook.android:audience-network-sdk:4.26.1'
+        classpath 'com.google.ads.mediation:facebook:4.26.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -33,5 +38,5 @@ ext{
     toolsVersion ='25.0.3'
     minSdkVersion = 15
     targetSdkVersion = 25
-    supportVersion = '25.2.0'
+    supportVersion = '25.3.1'
 }
