@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'me.tatarka.retrolambda'
 
@@ -15,6 +15,7 @@ android {
         multiDexEnabled true
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     //签名
     signingConfigs {
@@ -45,6 +46,7 @@ android {
     }
     productFlavors {
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -61,7 +63,7 @@ dependencies {
     compile('com.jakewharton:butterknife:8.4.0') {
         exclude group: 'com.adnroid.support', module: 'support-annotations'
     }
-    compile('com.jakewharton:butterknife-compiler:8.4.0') {
+    annotationProcessor ('com.jakewharton:butterknife-compiler:8.4.0') {
         exclude group: 'com.adnroid.support', module: 'support-annotations'
     }
     //glide
@@ -69,7 +71,7 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:1.2.1'
     //eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
-    apt 'com.zhy:mpermission-compiler:1.0.0'
+    annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
     //firebase登录
     compile 'com.google.firebase:firebase-core:10.0.0'
     compile 'com.google.firebase:firebase-auth:10.0.0'

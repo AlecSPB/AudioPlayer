@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.bussiness.fav.FavHelper;
 import com.tc.audioplayer.player.PlayerManager;
@@ -58,6 +59,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private TextView tvTotalDuration;
     private SeekBar seekBar;
     private LrcView lrcView;
+    private NativeContentAdView adView;
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
     private DetailPlayerListener playerListener;
@@ -89,6 +91,7 @@ public class PlayerDetailDialog extends DialogFragment {
         lrcView = (LrcView) view.findViewById(R.id.lrc);
         tvCurrentDuration = (TextView) view.findViewById(R.id.tv_current_duration);
         tvTotalDuration = (TextView) view.findViewById(R.id.tv_total_duration);
+        adView = (NativeContentAdView) view.findViewById(R.id.ad_play);
 
         seekbarListener = new SeekbarListener();
 

@@ -99,11 +99,12 @@ public class LrcFragment extends BaseFragment {
         if (TextUtils.isEmpty(lrclink))
             return;
         File file = getLrcFile(lrclink);
-        if (file.exists()) {
-            lrcView.loadLrc(file);
-        } else {
-            loadServerLrc(lrclink);
-        }
+//        if (file.exists()) {
+//            lrcView.loadLrc(file);
+//        } else {
+//            loadServerLrc(lrclink);
+//        }
+        lrcView.loadLrc("");
     }
 
     /**
