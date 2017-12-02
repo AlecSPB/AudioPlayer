@@ -57,7 +57,7 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             holder.getView(R.id.iv_fav).setSelected(FavHelper.isFav(content));
             holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);
         } else if (item instanceof NativeContentAd) {
-            AdMobUtils.populateContentAdView((NativeContentAd) item, (NativeContentAdView) holder.getView());
+            AdMobUtils.populateContentAdView((NativeContentAd) item, (NativeContentAdView) holder.getView(), true);
         }
     }
 

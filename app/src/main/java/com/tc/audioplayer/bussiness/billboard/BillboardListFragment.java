@@ -84,6 +84,7 @@ public class BillboardListFragment extends BaseListFragment {
                 .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
                     @Override
                     public void onContentAdLoaded(NativeContentAd contentAd) {
+                        TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
                         List<Object> data = adapter.getData();
                         int index = 0;
                         int count = 0;

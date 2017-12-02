@@ -19,6 +19,7 @@ import com.tc.audioplayer.R;
 import com.tc.audioplayer.bussiness.fav.FavHelper;
 import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.player.SimplePlayerListener;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.audioplayer.utils.AudioDurationUtil;
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.audioplayer.widget.lrcview.LrcView;
@@ -144,11 +145,13 @@ public class PlayerDetailDialog extends DialogFragment {
             return;
         }
         File file = getLrcFile(lrclink);
-        if (file.exists()) {
-            lrcView.loadLrc(file, time);
-        } else {
-            loadServerLrc(lrclink);
-        }
+//        if (file.exists()) {
+//            lrcView.loadLrc(file, time);
+//        } else {
+//            loadServerLrc(lrclink);
+//        }
+        lrcView.loadLrc("");
+        AdMobUtils.showPlayerDialogAd(getContext(), adView);
     }
 
     /**
