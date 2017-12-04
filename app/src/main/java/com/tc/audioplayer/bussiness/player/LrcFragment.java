@@ -99,12 +99,11 @@ public class LrcFragment extends BaseFragment {
         if (TextUtils.isEmpty(lrclink))
             return;
         File file = getLrcFile(lrclink);
-//        if (file.exists()) {
-//            lrcView.loadLrc(file);
-//        } else {
-//            loadServerLrc(lrclink);
-//        }
-        lrcView.loadLrc("");
+        if (file.exists()) {
+            lrcView.loadLrc(file);
+        } else {
+            loadServerLrc(lrclink);
+        }
     }
 
     /**
@@ -114,12 +113,19 @@ public class LrcFragment extends BaseFragment {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
             if (saveLrcSuccess && !TextUtils.isEmpty(lrclink)) {
                 File file = FileUtil.getLrcFile(lrclink);
-                lrcView.loadLrc(file);
+                if (file.exists()) {
+                    lrcView.loadLrc(file);
+                } else {
+                    lrcView.loadLrc("");
+//                    AdMobUtils.showPlayerDialogAd(getContext(), adView);
+                }
             }
         };
         Action1<Throwable> onError = (throwable) -> {
-            if (!isAdded())
-                return;
+            if (isAdded()) {
+                lrcView.loadLrc("");
+//                AdMobUtils.showPlayerDialogAd(getContext(), adView);
+            }
         };
         File lrcFile = FileUtil.getLrcFile(lrclink);
         onlineCase.getMusicFile(lrclink)

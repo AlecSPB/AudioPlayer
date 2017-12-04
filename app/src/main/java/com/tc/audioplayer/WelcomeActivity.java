@@ -35,7 +35,7 @@ public class WelcomeActivity extends ToolbarActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        ivBg.setImageResource(R.drawable.welcome);
+//        ivBg.setImageResource(R.drawable.welcome);
         setBgImageFitScreen();
         toolbar.setVisibility(View.GONE);
 

@@ -65,4 +65,6 @@
     <string name="no_lrc">暂无歌词</string>
     <string name="error_go_narket">天啊，您没安装应用市场，连浏览器也没有，您买个手机干啥？</string>
     <string name="ad">详情</string>
+    <string name="press_back">再次点击退出</string>
+    <string name="share_title">清新的应用界面，里程碑式革新的播放器风格，百万海量免费正版高品质华语流行、经典歌曲，打造的属于华人的音乐。</string>
 </resources>

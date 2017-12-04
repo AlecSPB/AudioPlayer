@@ -139,6 +139,10 @@ public class PlayerManager {
         return player.isPlaying();
     }
 
+    public void close(Context context){
+        player.pause();
+    }
+
     public int getProgress() {
         return player.getProgress();
     }

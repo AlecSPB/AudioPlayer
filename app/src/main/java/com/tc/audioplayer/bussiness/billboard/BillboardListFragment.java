@@ -24,6 +24,7 @@ import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.BillboardEntity;
+import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -67,7 +68,11 @@ public class BillboardListFragment extends BaseListFragment {
                 SongEntity songEntity = new SongEntity();
                 songEntity.song_id = item.song_id;
                 songEntity.song_source = "";
-                PlayerManager.getInstance().play(songEntity);
+                List<SongEntity> songList = presenter.getPlayList();
+                int index = presenter.getCurrentIndex(songEntity, songList);
+                PlayList playList = new PlayList();
+                playList.addSongList(songList);
+                PlayerManager.getInstance().play(playList, index);
             } else if (object instanceof BillboardEntity) {
                 BillboardEntity billboard = (BillboardEntity) object;
                 Navigator.toBillboardDetailActivity(getContext(), billboard.type, billboard.name);

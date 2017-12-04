@@ -34,7 +34,7 @@ public class AlbumnAdapter extends HeaderFooterAdapter<Album> {
         String pic = item.pic_big;
         int index = pic.indexOf(",w_");
         if (index > 0) {
-            pic = pic.substring(0, index) + ",w_320,h_240";
+            pic = pic.substring(0, index) + ",w_320,h_320";
         }
         Glide.with(mContext)
                 .load(pic)

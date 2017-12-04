@@ -64,15 +64,18 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:textSize="16sp"
         android:textColor="#000000"
+        android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintLeft_toRightOf="@+id/iv_albumn"
         app:layout_constraintTop_toTopOf="@+id/iv_albumn"
-        tools:text="XXXX" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="子组件要实现占据父组件的宽度或者高度的固定百分比" />
 
 
     <View

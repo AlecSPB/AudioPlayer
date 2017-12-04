@@ -166,6 +166,7 @@ public class Minibar extends LinearLayout {
         public void onPlay() {
             ivPlayPause.setSelected(true);
             loadingView.stop();
+            bindData();
 //            progressBar.setPlayState(true);
         }
 

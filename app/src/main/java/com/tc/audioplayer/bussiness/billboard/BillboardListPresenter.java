@@ -3,6 +3,7 @@ package com.tc.audioplayer.bussiness.billboard;
 import com.tc.audioplayer.base.LifePresenter;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.model.entity.BillboardEntity;
+import com.tc.model.entity.SongEntity;
 import com.tc.model.usecase.OnlineCase;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import rx.functions.Action1;
 
 public class BillboardListPresenter extends LifePresenter {
     private OnlineCase onlineCase;
+    private List<BillboardEntity> data;
 
     public BillboardListPresenter() {
         onlineCase = new OnlineCase();
@@ -35,15 +37,17 @@ public class BillboardListPresenter extends LifePresenter {
 
     /**
      * 加载榜单列表
+     *
      * @param type 榜单类型
      */
-    public void loadBillboardList(boolean refresh, int type, Action1 onNext){
+    public void loadBillboardList(boolean refresh, int type, Action1 onNext) {
         addSubscription(onlineCase.getMusicList(refresh, type), onNext, getOnErrorAction());
     }
 
     @Override
     protected Object formatData(Object data) {
         List<BillboardEntity> billboardEntities = (ArrayList<BillboardEntity>) data;
+        this.data = billboardEntities;
         List<Object> result = new ArrayList<>();
         for (BillboardEntity entity : billboardEntities) {
             BillboardEntity temp = new BillboardEntity();
@@ -73,5 +77,32 @@ public class BillboardListPresenter extends LifePresenter {
             result.add("");
         }
         return result;
+    }
+
+    public List<SongEntity> getPlayList() {
+        List<SongEntity> result = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            List<BillboardEntity.ContentBean> contentList = data.get(i).content;
+            for (int j = 0; j < contentList.size(); j++) {
+                BillboardEntity.ContentBean contentBean = contentList.get(j);
+                SongEntity songEntity = new SongEntity();
+                songEntity.song_id = contentBean.song_id;
+                songEntity.title = contentBean.title;
+                songEntity.author = contentBean.author;
+                songEntity.song_source = "";
+                result.add(songEntity);
+            }
+        }
+        return result;
+    }
+
+    public int getCurrentIndex(SongEntity songEntity, List<SongEntity> list) {
+        for (int i = 0; i < list.size(); i++) {
+            SongEntity item = list.get(i);
+            if (songEntity.song_id.equals(item.song_id)) {
+                return i;
+            }
+        }
+        return 0;
     }
 }

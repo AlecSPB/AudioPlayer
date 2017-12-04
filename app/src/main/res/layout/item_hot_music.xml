@@ -46,10 +46,10 @@
 
     <TextView
         android:id="@+id/tv_author"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="10dp"
         android:ellipsize="end"
         android:lines="1"
         android:textColor="#bbbbbb"
@@ -57,7 +57,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/tv_title"
         app:layout_constraintLeft_toRightOf="@+id/tv_title"
         app:layout_constraintTop_toTopOf="@+id/tv_title"
-        tools:text="你还要我怎样" />
+        app:layout_constraintRight_toLeftOf="@+id/iv_fav"
+        tools:text="你还要我怎样你还要我怎样你还要我怎样" />
 
     <ImageView
         android:id="@+id/iv_fav"

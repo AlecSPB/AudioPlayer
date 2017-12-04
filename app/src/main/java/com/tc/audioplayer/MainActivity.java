@@ -30,6 +30,7 @@ import com.tc.audioplayer.bussiness.artist.ArtistListFragment;
 import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.search.SearchHistoryFragment;
+import com.tc.audioplayer.player.PlayerManager;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int MUTI_PERMISSION_WINDOW = 10;
+    private long backPressed = 0;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -201,8 +203,14 @@ public class MainActivity extends BaseActivity
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+            return;
+        }
+        if (System.currentTimeMillis() - backPressed < 2000) {
+            PlayerManager.getInstance().close(this);
+            finish();
         } else {
-            super.onBackPressed();
+            Toast.makeText(this, getString(R.string.press_back), Toast.LENGTH_SHORT).show();
+            backPressed = System.currentTimeMillis();
         }
     }
 
@@ -240,13 +248,22 @@ public class MainActivity extends BaseActivity
             case R.id.nav_about:
                 openApplicationMarket("com.xuefeng.huarenmusic");
                 break;
-//            case R.id.nav_share:
-//                Toast.makeText(this, "分享功能暂未上线", Toast.LENGTH_SHORT).show();
-//                break;
+            case R.id.nav_apps:
+                Intent share_intent = new Intent();
+                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+                share_intent.setType("text/plain");//设置分享内容的类型
+                share_intent.putExtra(Intent.EXTRA_SUBJECT, "");//添加分享内容标题
+                share_intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_title) +
+                        "https://play.google.com/store/apps/details?id=com.minyue.hulusiqu");//添加分享内容
+                //创建分享的Dialog
+                share_intent = Intent.createChooser(share_intent, "");
+                startActivity(share_intent);
+                break;
             case R.id.nav_fav:
                 Navigator.toFavListActivity(this);
                 break;
             case R.id.nav_exit:
+                PlayerManager.getInstance().close(this);
                 finish();
                 break;
         }

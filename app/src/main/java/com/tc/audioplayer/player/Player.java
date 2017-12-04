@@ -240,6 +240,7 @@ public class Player implements IPlayer {
             return true;
         }
         if (playList.prepare()) {
+            mediaPlayer.reset();
             stopUpdateProgress();
             SongEntity song = playList.getCurrentSong();
             loadMusicDetail(song);
@@ -382,6 +383,10 @@ public class Player implements IPlayer {
             }
             return;
         }
+        for (int i = 0; i < playerListeners.size(); i++) {
+            PlayerListener listener = playerListeners.get(i);
+            listener.onPreparingStart();
+        }
 
         TLogger.i(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
         for (int i = 0; i < playerListeners.size(); i++) {
@@ -389,7 +394,10 @@ public class Player implements IPlayer {
             listener.onInit(getPlayList());
         }
         Action1 onNext = (songDetail) -> {
-            loadMusicFile((SongDetail) songDetail);
+            String currentSongid = playList.getCurrentSong().song_id;
+            if (((SongDetail) songDetail).songinfo.song_id.equals(currentSongid)) {
+                loadMusicFile((SongDetail) songDetail);
+            }
         };
         onlineCase.getMusicInfo(entity.song_id)
                 .subscribeOn(Schedulers.io())
@@ -408,11 +416,8 @@ public class Player implements IPlayer {
         songEntity.setAuthor(songInfo.author);
         songEntity.setLrclink(songInfo.lrclink);
         songEntity.setPic_small(songInfo.pic_small);
+        songEntity.setFile_duration(songDetail.bitrate.file_duration);
         stopUpdateProgress();
-        for (int i = 0; i < playerListeners.size(); i++) {
-            PlayerListener listener = playerListeners.get(i);
-            listener.onPreparingStart();
-        }
     }
 
     private Action1 getOnError() {

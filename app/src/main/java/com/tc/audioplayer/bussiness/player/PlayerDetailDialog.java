@@ -145,13 +145,11 @@ public class PlayerDetailDialog extends DialogFragment {
             return;
         }
         File file = getLrcFile(lrclink);
-//        if (file.exists()) {
-//            lrcView.loadLrc(file, time);
-//        } else {
-//            loadServerLrc(lrclink);
-//        }
-        lrcView.loadLrc("");
-        AdMobUtils.showPlayerDialogAd(getContext(), adView);
+        if (file.exists()) {
+            lrcView.loadLrc(file, time);
+        } else {
+            loadServerLrc(lrclink);
+        }
     }
 
     /**
@@ -161,12 +159,19 @@ public class PlayerDetailDialog extends DialogFragment {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
             if (saveLrcSuccess && !TextUtils.isEmpty(lrclink)) {
                 File file = getLrcFile(lrclink);
-                lrcView.loadLrc(file);
+                if (file.exists()) {
+                    lrcView.loadLrc(file);
+                } else {
+                    lrcView.loadLrc("");
+                    AdMobUtils.showPlayerDialogAd(getContext(), adView);
+                }
             }
         };
         Action1<Throwable> onError = (throwable) -> {
-            if (!isAdded())
-                return;
+            if (isAdded()) {
+                lrcView.loadLrc("");
+                AdMobUtils.showPlayerDialogAd(getContext(), adView);
+            }
         };
         File lrcFile = FileUtil.getLrcFile(lrclink);
         onlineCase.getMusicFile(lrclink)
@@ -211,7 +216,7 @@ public class PlayerDetailDialog extends DialogFragment {
         int playMode = PlayerManager.getInstance().getPlayMode();
         updatePlayModeUI(playMode);
         String pic = song.getPic_small();
-        if (pic == null) {
+        if (TextUtils.isEmpty(pic)) {
             Glide.with(this)
                     .load(R.drawable.default_cover)
                     .asBitmap()
@@ -311,6 +316,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private class DetailPlayerListener extends SimplePlayerListener {
         @Override
         public void onPreparingStart() {
+            initPlayerStatus();
             TLogger.d(TAG, "onPreparingStart");
         }
 
@@ -352,7 +358,7 @@ public class PlayerDetailDialog extends DialogFragment {
 
         @Override
         public void onProgress(boolean isPlaying, int progress, int duration, int secondProgress) {
-            if (seekbarStarting || (progress == 0 && duration == 0 && secondProgress == 0)){
+            if (seekbarStarting || (progress == 0 && duration == 0 && secondProgress == 0)) {
                 return;
             }
             TLogger.d(TAG, "onProgress: progress=" + progress + " duration=" + duration
