@@ -1,14 +1,20 @@
 package com.tc.audioplayer;
 
+import android.content.ComponentName;
+import android.content.ContextWrapper;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
 import com.tc.audioplayer.config.CacheInterceptor;
-import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.player.PlayService;
 import com.tc.audioplayer.utils.BuglyUtils;
 import com.tc.audioplayer.utils.FileUtil;
 import com.tc.base.utils.SharedPreferencesUtil;
+import com.tc.base.utils.TLogger;
 import com.tc.model.net.APIServiceProvider;
 
 import java.io.File;
@@ -40,7 +46,6 @@ public class AudioApplication extends MultiDexApplication {
         if (instance == null) {
             instance = this;
         }
-        PlayerManager.getInstance().startPlayService();
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
         SharedPreferencesUtil.init(this);
@@ -49,6 +54,21 @@ public class AudioApplication extends MultiDexApplication {
         BuglyUtils.init(this);
 
         FileUtil.checkCacheDir();
+        TLogger.d(TAG, "application init service");
+        ServiceConnection serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                PlayService.PlayBinder binder = (PlayService.PlayBinder) service;
+                TLogger.d(TAG, "onServiceConnected");
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        Intent intent = new Intent(this, PlayService.class);
+        bindService(intent, serviceConnection, ContextWrapper.BIND_AUTO_CREATE);
     }
 
     private OkHttpClient getModelConfig() {

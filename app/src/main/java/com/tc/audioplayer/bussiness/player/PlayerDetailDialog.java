@@ -141,14 +141,26 @@ public class PlayerDetailDialog extends DialogFragment {
     }
 
     private void showLrc(String lrclink, long time) {
+        if(lrclink == null){
+            return;
+        }
         if (TextUtils.isEmpty(lrclink)) {
+            showLrcAd();
             return;
         }
         File file = getLrcFile(lrclink);
         if (file.exists()) {
+            adView.setVisibility(View.GONE);
             lrcView.loadLrc(file, time);
         } else {
             loadServerLrc(lrclink);
+        }
+    }
+
+    private void showLrcAd(){
+        lrcView.loadLrc("");
+        if(adView.getVisibility() == View.GONE){
+            AdMobUtils.showPlayerDialogAd(getContext(), adView);
         }
     }
 
@@ -160,17 +172,16 @@ public class PlayerDetailDialog extends DialogFragment {
             if (saveLrcSuccess && !TextUtils.isEmpty(lrclink)) {
                 File file = getLrcFile(lrclink);
                 if (file.exists()) {
+                    adView.setVisibility(View.GONE);
                     lrcView.loadLrc(file);
                 } else {
-                    lrcView.loadLrc("");
-                    AdMobUtils.showPlayerDialogAd(getContext(), adView);
+                    showLrcAd();
                 }
             }
         };
         Action1<Throwable> onError = (throwable) -> {
             if (isAdded()) {
-                lrcView.loadLrc("");
-                AdMobUtils.showPlayerDialogAd(getContext(), adView);
+                showLrcAd();
             }
         };
         File lrcFile = FileUtil.getLrcFile(lrclink);
@@ -252,6 +263,7 @@ public class PlayerDetailDialog extends DialogFragment {
             case PlayList.SHUFFLE:
                 ivPlayMode.setImageResource(R.drawable.selector_mode_random);
                 break;
+            default:
         }
     }
 
@@ -284,6 +296,7 @@ public class PlayerDetailDialog extends DialogFragment {
             case R.id.iv_arrow_down:
                 dismiss();
                 break;
+            default:
         }
     };
 

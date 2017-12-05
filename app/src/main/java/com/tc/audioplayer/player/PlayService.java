@@ -46,6 +46,7 @@ public class PlayService extends Service {
                     break;
                 case PlayActions.MEDIA_SKIP:
                     break;
+                default:
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -70,7 +71,7 @@ public class PlayService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new PlayBinder();
     }
 
     public class PlayBinder extends Binder {

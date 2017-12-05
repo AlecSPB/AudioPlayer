@@ -81,12 +81,15 @@ public class PlayerManager {
     }
 
     public void addPlayListener(PlayerListener listener) {
-        if (player != null)
+        if (player != null) {
             player.addPlayerListener(listener);
+        }
     }
 
     public void removePlayListener(PlayerListener listener) {
-        player.removePlayerListener(listener);
+        if (player != null) {
+            player.removePlayerListener(listener);
+        }
     }
 
     public void play(PlayList playList, int index) {
@@ -139,7 +142,7 @@ public class PlayerManager {
         return player.isPlaying();
     }
 
-    public void close(Context context){
+    public void close(Context context) {
         player.pause();
     }
 

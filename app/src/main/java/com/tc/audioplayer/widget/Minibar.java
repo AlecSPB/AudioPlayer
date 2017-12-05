@@ -98,11 +98,11 @@ public class Minibar extends LinearLayout {
 
     public void bindData() {
         PlayList playList = PlayerManager.getInstance().getPlayList();
-        SongEntity song = playList.getCurrentSong();
-        if (song == null) {
+        if (playList == null || playList.getCurrentSong() == null) {
             setVisibility(View.GONE);
             return;
         }
+        SongEntity song = playList.getCurrentSong();
         setVisibility(autoVisibility ? View.VISIBLE : View.GONE);
         tvTitle.setText(song.title);
         tvAuthor.setText(song.author);
