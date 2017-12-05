@@ -48,6 +48,8 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.common_base);
         setContentUnderToolbar();
+        minibar.setAutoVisibility(true);
+        minibar.bindData();
 
         albumnid = getIntent().getStringExtra("albumnid");
 

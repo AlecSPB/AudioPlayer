@@ -55,6 +55,9 @@ public class HotFragment extends BaseListFragment {
         swipeRefreshLayout.setOnRefreshListener(() -> {
             presenter.loadData(true);
             presenter.loadAlbum(true, onLoadHeaderSuccess, onLoadHeaderFail);
+            if (adapter.getHeaderCount() == 1) {
+                loadAd();
+            }
         });
         swipeRefreshLayout.setRefreshing(true);
 
@@ -68,6 +71,13 @@ public class HotFragment extends BaseListFragment {
             playList.addSongList(adapter.getData());
             PlayerManager.getInstance().play(playList, position);
         });
+        loadAd();
+        addHotAlbumHeader();
+        presenter.loadData(false);
+        presenter.loadAlbum(false, onLoadHeaderSuccess, onLoadHeaderFail);
+    }
+
+    private void loadAd() {
         AdView adView = new AdView(getContext());
         AdSize adSize = new AdSize(AdSize.FULL_WIDTH, DimenUtils.dp2px(getContext(), 50));
         adView.setAdSize(adSize);
@@ -84,6 +94,7 @@ public class HotFragment extends BaseListFragment {
             @Override
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
+                adView.setVisibility(View.GONE);
                 TLogger.d(TAG, "onAdFailedToLoad: " + i);
             }
 
@@ -103,14 +114,10 @@ public class HotFragment extends BaseListFragment {
             public void onAdLoaded() {
                 super.onAdLoaded();
                 adView.setVisibility(View.VISIBLE);
+                adapter.addHeaderView(0, adView);
                 TLogger.d(TAG, "onAdLoaded");
             }
         });
-        adView.setVisibility(View.GONE);
-        adapter.addHeaderView(adView);
-        addHotAlbumHeader();
-        presenter.loadData(false);
-        presenter.loadAlbum(false, onLoadHeaderSuccess, onLoadHeaderFail);
     }
 
     private void addHotAlbumHeader() {

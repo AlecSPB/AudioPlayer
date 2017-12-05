@@ -249,15 +249,22 @@ public class MainActivity extends BaseActivity
                 openApplicationMarket("com.xuefeng.huarenmusic");
                 break;
             case R.id.nav_apps:
-                Intent share_intent = new Intent();
-                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
-                share_intent.setType("text/plain");//设置分享内容的类型
-                share_intent.putExtra(Intent.EXTRA_SUBJECT, "");//添加分享内容标题
-                share_intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_title) +
-                        "https://play.google.com/store/apps/details?id=com.minyue.hulusiqu");//添加分享内容
-                //创建分享的Dialog
-                share_intent = Intent.createChooser(share_intent, "");
-                startActivity(share_intent);
+//                Intent share_intent = new Intent();
+//                share_intent.setAction(Intent.ACTION_SEND);//设置分享行为
+//                share_intent.setType("text/plain");//设置分享内容的类型
+//                share_intent.putExtra(Intent.EXTRA_SUBJECT, "");//添加分享内容标题
+//                share_intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_title) +
+//                        "https://play.google.com/store/apps/details?id=com.minyue.hulusiqu");//添加分享内容
+//                //创建分享的Dialog
+//                share_intent = Intent.createChooser(share_intent, "");
+//                startActivity(share_intent);
+                Uri marketUri = Uri.parse("market://search?q=pub:雪峰娱乐");
+                try {
+                    Intent i = new Intent(Intent.ACTION_VIEW, marketUri);
+                    startActivity(i);
+                } catch (Exception ex) {
+                    Toast.makeText(this, "不可用 not available", Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.nav_fav:
                 Navigator.toFavListActivity(this);

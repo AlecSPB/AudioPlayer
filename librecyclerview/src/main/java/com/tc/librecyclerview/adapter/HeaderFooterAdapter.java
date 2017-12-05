@@ -97,6 +97,19 @@ public abstract class HeaderFooterAdapter<D> extends QuickRcAdapter<D>
         notifyDataSetChanged();
     }
 
+    public void addHeaderView(int index, View view) {
+        if (mHeaderViews.size() >= MAX_HEADER_COUNT) {
+            throw new UnsupportedOperationException("HEADER COUNT CAN'T EXCEED MAX_HEADER_COUNT!");
+        }
+        if (index >= MAX_HEADER_COUNT || index<0) {
+            throw new UnsupportedOperationException("INDEX MUST BE RIGHT!");
+        }
+        if (view != null) {
+            mHeaderViews.add(index, new ViewPair(header_offset++, view));
+        }
+        notifyDataSetChanged();
+    }
+
     public void addFooterView(View view) {
         if (mFooterViews.size() >= MAX_FOOTER_COUNT) {
             throw new UnsupportedOperationException("FOOTER COUNT CAN'T EXCEED MAX_HEADER_COUNT!");
