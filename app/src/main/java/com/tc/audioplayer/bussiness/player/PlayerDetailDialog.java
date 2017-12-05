@@ -141,7 +141,7 @@ public class PlayerDetailDialog extends DialogFragment {
     }
 
     private void showLrc(String lrclink, long time) {
-        if(lrclink == null){
+        if (lrclink == null) {
             return;
         }
         if (TextUtils.isEmpty(lrclink)) {
@@ -157,9 +157,9 @@ public class PlayerDetailDialog extends DialogFragment {
         }
     }
 
-    private void showLrcAd(){
+    private void showLrcAd() {
         lrcView.loadLrc("");
-        if(adView.getVisibility() == View.GONE){
+        if (adView.getVisibility() == View.GONE) {
             AdMobUtils.showPlayerDialogAd(getContext(), adView);
         }
     }
@@ -322,6 +322,9 @@ public class PlayerDetailDialog extends DialogFragment {
         public void onStopTrackingTouch(SeekBar seekBar) {
             TLogger.d(TAG, "onStopTrackingTouch: progress=" + seekBar.getProgress());
             PlayerManager.getInstance().seekTo(seekBar.getProgress());
+            SongEntity song = PlayerManager.getInstance().getPlayList().getCurrentSong();
+            long time = seekBar.getProgress() * 10 * song.file_duration;
+            lrcView.onDrag(time);
             seekbarStarting = false;
         }
     }
