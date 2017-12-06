@@ -54,8 +54,9 @@ public class PlayerManager {
     }
 
     public PlayList getPlayList() {
-        if (player == null)
-            return null;
+        if (player == null) {
+            return new PlayList();
+        }
         PlayList playList = player.getPlayList();
         if (playList == null || CollectionUtil.isEmpty(playList.getSongList())) {
             PlayList dbPlaylist = getPlayListFromDB();
