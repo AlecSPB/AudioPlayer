@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.facebook.ads.Ad;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -37,6 +38,7 @@ public class BillboardDetailActivity extends ToolbarActivity {
     private RecyclerView recyclerView;
     private List<SongEntity> sourceData;
     private int type;
+    private boolean hasAddTopAd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,6 +103,9 @@ public class BillboardDetailActivity extends ToolbarActivity {
     }
 
     private void loadAd() {
+        if(hasAddTopAd){
+            return;
+        }
         AdMobUtils.loadNativeContentAd(this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
@@ -109,7 +114,8 @@ public class BillboardDetailActivity extends ToolbarActivity {
                         .from(BillboardDetailActivity.this)
                         .inflate(R.layout.ad_hot, recyclerView, false);
                 adapter.addHeaderView(0, view);
-                AdMobUtils.showNativeContentAd(BillboardDetailActivity.this, view);
+                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                hasAddTopAd = true;
             }
         });
     }

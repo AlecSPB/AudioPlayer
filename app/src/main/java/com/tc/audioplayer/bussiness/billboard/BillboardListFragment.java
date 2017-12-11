@@ -40,6 +40,7 @@ public class BillboardListFragment extends BaseListFragment {
     private BillboardListAdapter adapter;
     private boolean hasAdShown;
     private NativeContentAdView nativeAdView;
+    private boolean hasAddBottomAd;
 
     public static BillboardListFragment newInstance() {
         BillboardListFragment instance = new BillboardListFragment();
@@ -73,15 +74,6 @@ public class BillboardListFragment extends BaseListFragment {
                 Navigator.toBillboardDetailActivity(getContext(), billboard.type, billboard.name);
             }
         });
-
-        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID_Billboard,
-                new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd contentAd) {
-                        TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
-                        addAdAfterNewBillboard(contentAd);
-                    }
-                });
     }
 
     /**
@@ -108,13 +100,17 @@ public class BillboardListFragment extends BaseListFragment {
      * 加载底部广告
      */
     private void loadBottomAd() {
+        if(hasAddBottomAd){
+            return;
+        }
         AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
                 TLogger.e(TAG, "onContentAdLoaded");
                 NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
                 adapter.addFooterView(view);
-                AdMobUtils.showNativeContentAd(getContext(), view);
+                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                hasAddBottomAd = true;
             }
         });
     }
@@ -157,6 +153,14 @@ public class BillboardListFragment extends BaseListFragment {
             AdMobUtils.showHomeBigAd(getContext());
             hasAdShown = true;
         }
+        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID_Billboard,
+                new NativeContentAd.OnContentAdLoadedListener() {
+                    @Override
+                    public void onContentAdLoaded(NativeContentAd contentAd) {
+                        TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
+                        addAdAfterNewBillboard(contentAd);
+                    }
+                });
         loadBottomAd();
     }
 

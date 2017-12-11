@@ -74,8 +74,9 @@ public class ArtistDetailActivity extends ToolbarActivity {
             if(ob instanceof SongEntity){
                 SongEntity item = (SongEntity) ob;
                 PlayList playList = new PlayList();
-                playList.addSong(item);
-                PlayerManager.getInstance().play(playList, 0);
+                playList.addSongList(sourceData);
+                int index = sourceData.indexOf(item);
+                PlayerManager.getInstance().play(playList, index);
             }
         });
         initHeaderView();

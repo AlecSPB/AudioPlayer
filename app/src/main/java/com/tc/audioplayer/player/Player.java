@@ -62,7 +62,7 @@ public class Player implements IPlayer {
     // Player status
     private boolean isPaused;
     @PlayList.PlayMode
-    private int playMode;
+    private int playMode = PlayList.LOOP;
     @PlayState
     private int playState = DEFAULT;
     private CompositeSubscription compositeSubscription;
