@@ -118,7 +118,7 @@ public class AdMobUtils {
         InterstitialAd mInterstitialAd = new InterstitialAd(context);
         mInterstitialAd.setAdUnitId(Constant.AdmobInterID);
         AdRequest adRequest = getRequestBuilder().build();
-//            mInterstitialAd.loadAd(adRequest);
+            mInterstitialAd.loadAd(adRequest);
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
