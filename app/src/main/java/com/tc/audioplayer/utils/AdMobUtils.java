@@ -10,6 +10,7 @@ import com.google.ads.mediation.facebook.FacebookAdapter;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.NativeAppInstallAd;
@@ -61,7 +62,10 @@ public class AdMobUtils {
         adView.setVisibility(View.VISIBLE);
     }
 
-    public static void showPlayerDialogAd(Context context, final NativeContentAdView adView) {
+    /**
+     * 播放器歌词页面的广告
+     */
+    public static void showNativeContentAd(Context context, final NativeContentAdView adView) {
         AdLoader adLoader = new AdLoader.Builder(context, Constant.AdmobNativeID_Billboard)
                 .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
                     @Override
@@ -92,6 +96,87 @@ public class AdMobUtils {
                 .build();
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice("42EA86278DBB5EFA08801AED100FD88F")
+                .addNetworkExtrasBundle(FacebookAdapter.class, extras)
+                .build();
+        adLoader.loadAd(adRequest);
+    }
+
+    public static AdRequest.Builder getRequestBuilder() {
+        return new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("EFDE3632F6D6F87801F68CAB10796A46")
+                .addTestDevice("DA6DE3BE84FC5D12846B2AD377CED73E")
+                .addTestDevice("126101F178936B6BA282A3EB81EF29F0")
+                .addTestDevice("FE3E29B85E2D0BC813D0AF1A53390C44")
+                .addTestDevice("B2952405032D73534E695FE8897CC4B1")
+                .addTestDevice("C357783CA84A3BDEAE79C5801DD2A323")
+                .addTestDevice("40a940a6200eff90bd875a6b1df06c70")
+                .addTestDevice("42EA86278DBB5EFA08801AED100FD88F");
+    }
+
+    public static void showHomeBigAd(Context context) {
+        InterstitialAd mInterstitialAd = new InterstitialAd(context);
+        mInterstitialAd.setAdUnitId(Constant.AdmobInterID);
+        AdRequest adRequest = getRequestBuilder().build();
+//            mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                TLogger.d(TAG, "onAdClosed");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                TLogger.d(TAG, "onAdFailedToLoad: " + i);
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                TLogger.d(TAG, "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                TLogger.d(TAG, "onAdOpened");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                mInterstitialAd.show();
+                TLogger.d(TAG, "onAdLoaded");
+            }
+        });
+    }
+
+    public static void loadNativeContentAd(Context context, String adId, NativeContentAd.OnContentAdLoadedListener contentAdLoadedListener) {
+        AdLoader adLoader = new AdLoader.Builder(context, adId)
+                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
+                    @Override
+                    public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
+                        TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
+                    }
+                })
+                .forContentAd(contentAdLoadedListener)
+                .withAdListener(new AdListener() {
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        TLogger.e(TAG, "onAdFailedToLoad: " + errorCode);
+                    }
+                })
+                .withNativeAdOptions(new NativeAdOptions.Builder()
+                        // Methods in the NativeAdOptions.Builder class can be
+                        // used here to specify individual options settings.
+                        .build())
+                .build();
+        Bundle extras = new FacebookAdapter.FacebookExtrasBundleBuilder()
+                .setNativeAdChoicesIconExpandable(false)
+                .build();
+        AdRequest adRequest = AdMobUtils.getRequestBuilder()
                 .addNetworkExtrasBundle(FacebookAdapter.class, extras)
                 .build();
         adLoader.loadAd(adRequest);

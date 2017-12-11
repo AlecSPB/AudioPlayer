@@ -160,7 +160,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private void showLrcAd() {
         lrcView.loadLrc("");
         if (adView.getVisibility() == View.GONE) {
-            AdMobUtils.showPlayerDialogAd(getContext(), adView);
+            AdMobUtils.showNativeContentAd(getContext(), adView);
         }
     }
 

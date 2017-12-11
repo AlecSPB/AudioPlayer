@@ -17,6 +17,7 @@ import com.tc.model.entity.SongEntity;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -29,6 +30,7 @@ import rx.schedulers.Schedulers;
 
 public class FavListActivity extends ToolbarActivity {
     private ArtistDetailAdapter adapter;
+    private List<SongEntity> sourceData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,10 +49,12 @@ public class FavListActivity extends ToolbarActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
-            List<SongEntity> data = adapter.getData();
-            PlayList playList = new PlayList();
-            playList.addSongList(data);
-            PlayerManager.getInstance().play(playList, position);
+            if (adapter.getItem(position) instanceof SongEntity) {
+                PlayList playList = new PlayList();
+                playList.addSongList(sourceData);
+                int index = sourceData.indexOf(adapter.getItem(position));
+                PlayerManager.getInstance().play(playList, index);
+            }
         });
 
         loadData();
@@ -67,7 +71,10 @@ public class FavListActivity extends ToolbarActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((data) -> {
                     swipeRefreshLayout.setRefreshing(false);
-                    adapter.setData(data);
+                    sourceData = data;
+                    List<Object> obList = new ArrayList<>();
+                    obList.addAll(data);
+                    adapter.setData(obList);
                 });
     }
 

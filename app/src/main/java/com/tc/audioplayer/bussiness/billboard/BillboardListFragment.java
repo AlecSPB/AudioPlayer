@@ -2,16 +2,10 @@ package com.tc.audioplayer.bussiness.billboard;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.ads.mediation.facebook.FacebookAdapter;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.formats.NativeAdOptions;
-import com.google.android.gms.ads.formats.NativeAppInstallAd;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
@@ -21,6 +15,7 @@ import com.tc.audioplayer.base.Constant;
 import com.tc.audioplayer.event.CollectEvent;
 import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.entity.BillboardEntity;
@@ -79,53 +74,51 @@ public class BillboardListFragment extends BaseListFragment {
             }
         });
 
-        AdLoader adLoader = new AdLoader.Builder(getContext(), Constant.AdmobNativeID_Billboard)
-                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
-                    @Override
-                    public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
-                        TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
-                    }
-                })
-                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
+        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID_Billboard,
+                new NativeContentAd.OnContentAdLoadedListener() {
                     @Override
                     public void onContentAdLoaded(NativeContentAd contentAd) {
                         TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
-                        List<Object> data = adapter.getData();
-                        int index = 0;
-                        int count = 0;
-                        if (!CollectionUtil.isEmpty(data)) {
-                            for (int i = 0; i < data.size(); i++) {
-                                Object item = data.get(i);
-                                if (item instanceof String && count < 1) {
-                                    count++;
-                                    index = i;
-                                }
-                            }
-                        }
-                        data.add(index + 1, contentAd);
-                        adapter.notifyDataSetChanged();
+                        addAdAfterNewBillboard(contentAd);
                     }
-                })
-                .withAdListener(new AdListener() {
-                    @Override
-                    public void onAdFailedToLoad(int errorCode) {
-                        TLogger.e(TAG, "onAdFailedToLoad: " + errorCode);
-                    }
-                })
-                .withNativeAdOptions(new NativeAdOptions.Builder()
-                        // Methods in the NativeAdOptions.Builder class can be
-                        // used here to specify individual options settings.
-                        .build())
-                .build();
-        Bundle extras = new FacebookAdapter.FacebookExtrasBundleBuilder()
-                .setNativeAdChoicesIconExpandable(false)
-                .build();
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("42EA86278DBB5EFA08801AED100FD88F")
-                .addNetworkExtrasBundle(FacebookAdapter.class, extras)
-                .build();
-        adLoader.loadAd(adRequest);
+                });
     }
+
+    /**
+     * 在新歌榜后面加广告
+     */
+    private void addAdAfterNewBillboard(NativeContentAd contentAd) {
+        List<Object> data = adapter.getData();
+        int index = 0;
+        int count = 0;
+        if (!CollectionUtil.isEmpty(data)) {
+            for (int i = 0; i < data.size(); i++) {
+                Object item = data.get(i);
+                if (item instanceof String && count < 1) {
+                    count++;
+                    index = i;
+                }
+            }
+        }
+        data.add(index + 1, contentAd);
+        adapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 加载底部广告
+     */
+    private void loadBottomAd() {
+        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
+            @Override
+            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                TLogger.e(TAG, "onContentAdLoaded");
+                NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
+                adapter.addFooterView(view);
+                AdMobUtils.showNativeContentAd(getContext(), view);
+            }
+        });
+    }
+
 
     @Override
     protected void onRefresh() {
@@ -161,53 +154,10 @@ public class BillboardListFragment extends BaseListFragment {
         List<Object> list = (ArrayList<Object>) data;
         adapter.setData(list);
         if (!hasAdShown) {
-            InterstitialAd mInterstitialAd = new InterstitialAd(getContext());
-            mInterstitialAd.setAdUnitId(Constant.AdmobInterID);
-            AdRequest adRequest = new AdRequest.Builder()
-                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("EFDE3632F6D6F87801F68CAB10796A46")
-                    .addTestDevice("DA6DE3BE84FC5D12846B2AD377CED73E")
-                    .addTestDevice("126101F178936B6BA282A3EB81EF29F0")
-                    .addTestDevice("FE3E29B85E2D0BC813D0AF1A53390C44")
-                    .addTestDevice("B2952405032D73534E695FE8897CC4B1")
-                    .addTestDevice("C357783CA84A3BDEAE79C5801DD2A323")
-                    .addTestDevice("40a940a6200eff90bd875a6b1df06c70")
-                    .addTestDevice("42EA86278DBB5EFA08801AED100FD88F")
-                    .build();
-//            mInterstitialAd.loadAd(adRequest);
-            mInterstitialAd.setAdListener(new AdListener() {
-                @Override
-                public void onAdClosed() {
-                    super.onAdClosed();
-                    TLogger.d(TAG, "onAdClosed");
-                }
-
-                @Override
-                public void onAdFailedToLoad(int i) {
-                    super.onAdFailedToLoad(i);
-                    TLogger.d(TAG, "onAdFailedToLoad: " + i);
-                }
-
-                @Override
-                public void onAdLeftApplication() {
-                    super.onAdLeftApplication();
-                    TLogger.d(TAG, "onAdLeftApplication");
-                }
-
-                @Override
-                public void onAdOpened() {
-                    super.onAdOpened();
-                    TLogger.d(TAG, "onAdOpened");
-                }
-
-                @Override
-                public void onAdLoaded() {
-                    super.onAdLoaded();
-                    mInterstitialAd.show();
-                    TLogger.d(TAG, "onAdLoaded");
-                }
-            });
+            AdMobUtils.showHomeBigAd(getContext());
             hasAdShown = true;
         }
+        loadBottomAd();
     }
 
     @Override

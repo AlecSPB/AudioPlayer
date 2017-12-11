@@ -6,17 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.BaseListFragment;
+import com.tc.audioplayer.base.Constant;
 import com.tc.audioplayer.event.CollectEvent;
 import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.player.PlayerManager;
-import com.tc.audioplayer.utils.DimenUtils;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.base.utils.TLogger;
 import com.tc.librecyclerview.LinearRecyclerView;
 import com.tc.model.entity.Album;
@@ -78,44 +77,13 @@ public class HotFragment extends BaseListFragment {
     }
 
     private void loadAd() {
-        AdView adView = new AdView(getContext());
-        AdSize adSize = new AdSize(AdSize.FULL_WIDTH, DimenUtils.dp2px(getContext(), 50));
-        adView.setAdSize(adSize);
-        adView.setAdUnitId("ca-app-pub-7199806726993025/1864479462");
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
-        adView.setAdListener(new AdListener() {
+        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-                TLogger.d(TAG, "onAdClosed");
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                adView.setVisibility(View.GONE);
-                TLogger.d(TAG, "onAdFailedToLoad: " + i);
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                TLogger.d(TAG, "onAdLeftApplication");
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                TLogger.d(TAG, "onAdOpened");
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                adView.setVisibility(View.VISIBLE);
-                adapter.addHeaderView(0, adView);
-                TLogger.d(TAG, "onAdLoaded");
+            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                TLogger.e(TAG, "onContentAdLoaded");
+                NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
+                adapter.addHeaderView(0, view);
+                AdMobUtils.showNativeContentAd(getContext(), view);
             }
         });
     }

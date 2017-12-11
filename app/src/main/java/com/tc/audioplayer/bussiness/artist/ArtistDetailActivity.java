@@ -18,9 +18,13 @@ import com.tc.audioplayer.player.PlayerManager;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.model.entity.ArtistSongList;
 import com.tc.model.entity.PlayList;
+import com.tc.model.entity.SongEntity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -42,6 +46,7 @@ public class ArtistDetailActivity extends ToolbarActivity {
     private TextView tvLanguage;
     private TextView tvPlayAll;
     private View headerView;
+    private List<SongEntity> sourceData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,9 +70,13 @@ public class ArtistDetailActivity extends ToolbarActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
-            PlayList playList = new PlayList();
-            playList.addSong(adapter.getItem(position));
-            PlayerManager.getInstance().play(playList, 0);
+            Object ob = adapter.getItem(position);
+            if(ob instanceof SongEntity){
+                SongEntity item = (SongEntity) ob;
+                PlayList playList = new PlayList();
+                playList.addSong(item);
+                PlayerManager.getInstance().play(playList, 0);
+            }
         });
         initHeaderView();
 
@@ -85,7 +94,7 @@ public class ArtistDetailActivity extends ToolbarActivity {
             if (CollectionUtil.isEmpty(adapter.getData()))
                 return;
             PlayList playList = new PlayList();
-            playList.addSongList(adapter.getData());
+            playList.addSongList(sourceData);
             PlayerManager.getInstance().play(playList, 0);
         });
         headerView.setVisibility(View.GONE);
@@ -105,7 +114,10 @@ public class ArtistDetailActivity extends ToolbarActivity {
         super.setData(data);
         headerView.setVisibility(View.VISIBLE);
         ArtistSongList songListWrapper = (ArtistSongList) data;
-        adapter.setData(songListWrapper.songlist);
+        sourceData = songListWrapper.songlist;
+        List<Object> obList = new ArrayList<>();
+        obList.addAll(sourceData);
+        adapter.setData(obList);
     }
 
     @Override

@@ -35,6 +35,10 @@ public class BillboardListPresenter extends LifePresenter {
         addSubscription(onlineCase.getSongInfo(songid), onNext, onError);
     }
 
+    public List<BillboardEntity> getSourceData(){
+        return data;
+    }
+
     /**
      * 加载榜单列表
      *

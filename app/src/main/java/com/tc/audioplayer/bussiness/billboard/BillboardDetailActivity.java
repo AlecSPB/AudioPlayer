@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.base.Constant;
 import com.tc.audioplayer.base.ToolbarActivity;
 import com.tc.audioplayer.bussiness.artist.ArtistDetailAdapter;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.AdMobUtils;
+import com.tc.base.utils.TLogger;
 import com.tc.model.entity.PlayList;
 import com.tc.model.entity.SongEntity;
 import com.tc.model.entity.SongList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.functions.Action1;
@@ -24,8 +31,11 @@ import rx.functions.Action1;
  */
 
 public class BillboardDetailActivity extends ToolbarActivity {
+    private static final String TAG = BillboardDetailActivity.class.getSimpleName();
     private BillboardListPresenter presenter;
     private ArtistDetailAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<SongEntity> sourceData;
     private int type;
 
     @Override
@@ -47,14 +57,14 @@ public class BillboardDetailActivity extends ToolbarActivity {
         setToolbarCenterTitle(title);
         swipeRefreshLayout.setRefreshing(true);
         presenter.loadBillboardList(false, type, onNext);
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position)->{
-            List<SongEntity> data = adapter.getData();
             PlayList playList = new PlayList();
-            playList.addSongList(data);
-            PlayerManager.getInstance().play(playList, position);
+            playList.addSongList(sourceData);
+            int index = sourceData.indexOf(adapter.getItem(position));
+            PlayerManager.getInstance().play(playList, index);
         });
     }
 
@@ -64,7 +74,22 @@ public class BillboardDetailActivity extends ToolbarActivity {
             swipeRefreshLayout.setRefreshing(false);
             tvRetry.setVisibility(View.GONE);
             SongList songList = (SongList) o;
-            adapter.setData(songList.song_list);
+            sourceData = songList.song_list;
+            List<Object> data = new ArrayList<>();
+            data.addAll(sourceData);
+            adapter.setData(data);
+            loadAd();
+            if (songList.song_list != null && songList.song_list.size() > 20) {
+                AdMobUtils.loadNativeContentAd(BillboardDetailActivity.this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
+                    @Override
+                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                        TLogger.e(TAG, "onContentAdLoaded");
+                        List<Object> result = adapter.getData();
+                        result.add(14, nativeContentAd);
+                        adapter.setData(result);
+                    }
+                });
+            }
         }
     };
 
@@ -74,4 +99,19 @@ public class BillboardDetailActivity extends ToolbarActivity {
         super.onRefresh();
         presenter.loadBillboardList(true, type, onNext);
     }
+
+    private void loadAd() {
+        AdMobUtils.loadNativeContentAd(this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
+            @Override
+            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                TLogger.e(TAG, "onContentAdLoaded");
+                NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                        .from(BillboardDetailActivity.this)
+                        .inflate(R.layout.ad_hot, recyclerView, false);
+                adapter.addHeaderView(0, view);
+                AdMobUtils.showNativeContentAd(BillboardDetailActivity.this, view);
+            }
+        });
+    }
+
 }

@@ -7,7 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
+import com.tc.audioplayer.utils.AdMobUtils;
 import com.tc.audioplayer.utils.StringUtils;
 import com.tc.librecyclerview.adapter.HeaderFooterAdapter;
 import com.tc.librecyclerview.adapter.RecyclerViewHolder;
@@ -23,6 +26,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
     public static final int TYPE_SONG = 0;
     public static final int TYPE_ARTIST = 1;
     public static final int TYPE_ALBUM = 2;
+    public static final int TYPE_AD = 3;
 
     public SearchResultAdapter(Context context) {
         super(context);
@@ -37,6 +41,8 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
                 return mInflater.inflate(R.layout.item_search_artist, parent, false);
             case TYPE_ALBUM:
                 return mInflater.inflate(R.layout.item_search_album, parent, false);
+            case TYPE_AD:
+                return mInflater.inflate(R.layout.ad_hot, parent, false);
         }
         return mInflater.inflate(R.layout.item_music, parent, false);
     }
@@ -50,6 +56,8 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
             return TYPE_ARTIST;
         } else if (object instanceof SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean) {
             return TYPE_ALBUM;
+        } else if (object instanceof NativeContentAd) {
+            return TYPE_AD;
         }
         return super.getListItemViewHolderType(dataIndex);
     }
@@ -66,6 +74,11 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
                 break;
             case TYPE_ALBUM:
                 bindAlbum(dataIndex, holder);
+                break;
+            case TYPE_AD:
+                NativeContentAdView view = (NativeContentAdView) holder.getView();
+                NativeContentAd ad = (NativeContentAd) getItem(dataIndex);
+                AdMobUtils.populateContentAdView(ad, view, false);
                 break;
         }
     }
