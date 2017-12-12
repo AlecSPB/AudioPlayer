@@ -61,8 +61,8 @@ public class AlbumnDetailActivity extends ToolbarActivity {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
             PlayList playList = new PlayList();
-            playList.addSong(adapter.getItem(position));
-            PlayerManager.getInstance().play(playList, 0);
+            playList.addSongList(adapter.getData());
+            PlayerManager.getInstance().play(playList, position);
         });
         initHeaderView();
 

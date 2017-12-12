@@ -47,6 +47,7 @@ public class HotFragment extends BaseListFragment {
     private View layoutAlbum;
     private LinearRecyclerView rcyAlbum;
     private HeaderAlbumnAdapter albumnAdapter;
+    private boolean hasAddTopAd;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -77,13 +78,17 @@ public class HotFragment extends BaseListFragment {
     }
 
     private void loadAd() {
+        if(hasAddTopAd){
+            return;
+        }
         AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
                 TLogger.e(TAG, "onContentAdLoaded");
                 NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
                 adapter.addHeaderView(0, view);
-                AdMobUtils.showNativeContentAd(getContext(), view);
+                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                hasAddTopAd = true;
             }
         });
     }

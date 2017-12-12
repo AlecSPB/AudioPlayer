@@ -36,9 +36,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="5dp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textColor="#a6a2a2"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        tools:text="陈小春，郑伊健，徐若瑄，刘德华，梅艳芳，吴宗宪，周杰伦，彭佳慧"/>
 
     <FrameLayout
         android:layout_width="200dp"

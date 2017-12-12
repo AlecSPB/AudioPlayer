@@ -156,10 +156,12 @@ public abstract class ToolbarActivity extends SwipeBackActivity implements IView
         swipeRefreshLayout.setRefreshing(false);
         tvRetry.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
+        flContent.setVisibility(View.GONE);
     }
 
     @Override
     public void setData(Object data) {
+        flContent.setVisibility(View.VISIBLE);
         tvRetry.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);

@@ -126,6 +126,11 @@ public class Minibar extends LinearLayout {
         PlayerManager.getInstance().playNext();
     }
 
+    @OnClick(R.id.iv_prev)
+    public void onPlayPrev(View view){
+        PlayerManager.getInstance().playPrev();
+    }
+
     @Override
     public void setVisibility(int visibility) {
         super.setVisibility(visibility);
