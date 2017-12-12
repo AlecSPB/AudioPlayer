@@ -45,6 +45,7 @@ public class LrcView extends View {
     private int mCurrentLine = 0;
     private Object mFlag;
     private long mDefaultTime = 0;
+    private boolean hasRest;
 
     public LrcView(Context context) {
         this(context, null);
@@ -93,6 +94,11 @@ public class LrcView extends View {
         float centerY = getHeight() / 2;
 
         mPaint.setColor(mCurrentColor);
+
+        if (hasRest) {
+            hasRest = false;
+            return;
+        }
 
         // 无歌词文件
         if (!hasLrc()) {
@@ -305,6 +311,7 @@ public class LrcView extends View {
     }
 
     private void reset() {
+        hasRest = true;
         mLrcEntryList.clear();
         mCurrentLine = 0;
         mNextTime = 0L;
