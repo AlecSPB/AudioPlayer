@@ -47,10 +47,10 @@
 
     <string name="unlogin">未登录</string>
     //drawer menu
-    <string name="menu_about">关于软件</string>
+    <string name="menu_about">关于应用</string>
     <string name="menu_fav">我的收藏</string>
     <string name="menu_apps">推荐应用</string>
-    <string name="menu_version">版本(1.0.0)</string>
+    <string name="menu_version">版本(%s)</string>
     <string name="menu_exit">退出</string>
 
     <string name="title_fav">收藏列表</string>

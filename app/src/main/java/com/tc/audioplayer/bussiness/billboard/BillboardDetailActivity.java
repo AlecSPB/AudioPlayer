@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.facebook.ads.Ad;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -59,10 +58,10 @@ public class BillboardDetailActivity extends ToolbarActivity {
         setToolbarCenterTitle(title);
         swipeRefreshLayout.setRefreshing(true);
         presenter.loadBillboardList(false, type, onNext);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener((v, position)->{
+        adapter.setOnItemClickListener((v, position) -> {
             PlayList playList = new PlayList();
             playList.addSongList(sourceData);
             int index = sourceData.indexOf(adapter.getItem(position));
@@ -103,17 +102,20 @@ public class BillboardDetailActivity extends ToolbarActivity {
     }
 
     private void loadAd() {
-        if(hasAddTopAd){
+        if (hasAddTopAd) {
             return;
         }
         AdMobUtils.loadNativeContentAd(this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                if (hasAddTopAd) {
+                    return;
+                }
                 TLogger.e(TAG, "onContentAdLoaded");
                 NativeContentAdView view = (NativeContentAdView) LayoutInflater
                         .from(BillboardDetailActivity.this)
                         .inflate(R.layout.ad_hot, recyclerView, false);
-                adapter.addHeaderView(0, view);
+                adapter.addFooterView(view);
                 AdMobUtils.populateContentAdView(nativeContentAd, view, false);
                 hasAddTopAd = true;
             }

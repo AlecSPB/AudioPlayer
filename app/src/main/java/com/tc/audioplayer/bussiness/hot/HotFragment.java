@@ -84,6 +84,9 @@ public class HotFragment extends BaseListFragment {
         AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
             @Override
             public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+                if(hasAddTopAd){
+                    return;
+                }
                 TLogger.e(TAG, "onContentAdLoaded");
                 NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
                 adapter.addHeaderView(0, view);

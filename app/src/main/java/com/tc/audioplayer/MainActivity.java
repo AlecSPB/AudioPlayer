@@ -31,6 +31,7 @@ import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.search.SearchHistoryFragment;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.NetUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
 
@@ -63,6 +64,7 @@ public class MainActivity extends BaseActivity
     CoordinatorLayout coordinatorLayout;
     ImageView ivAvatar;
     TextView tvUsername;
+    TextView tvVersion;
 
     private MainPagerAdapter adapter;
     private List<Fragment> fragmentList;
@@ -81,6 +83,9 @@ public class MainActivity extends BaseActivity
         initData();
         initUI();
         initUserinfo();
+        if (!NetUtils.isNetworkAvailable()) {
+            Navigator.toFavListActivity(this);
+        }
     }
 
     @Override
@@ -108,9 +113,12 @@ public class MainActivity extends BaseActivity
         View headerView = navigationView.getHeaderView(0);
         ivAvatar = (ImageView) headerView.findViewById(R.id.iv_avatar);
         tvUsername = (TextView) headerView.findViewById(R.id.tv_username);
+        tvVersion = (TextView) headerView.findViewById(R.id.tv_version);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
+        String version = BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE;
+        tvVersion.setText(getString(R.string.menu_version, version));
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
