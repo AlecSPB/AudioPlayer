@@ -10,7 +10,7 @@ android {
         applicationId 'com.xuefeng.huarenmusic'
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 4
+        versionCode 8
         versionName "1.0"
         multiDexEnabled true
         renderscriptTargetApi 20
@@ -32,11 +32,14 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.release
         }
     }
