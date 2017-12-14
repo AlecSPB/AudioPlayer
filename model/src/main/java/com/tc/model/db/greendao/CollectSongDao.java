@@ -27,11 +27,11 @@ public class CollectSongDao extends AbstractDao<CollectSong, Integer> {
     /**
      * Properties of entity CollectSong.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, Integer.class, "id", true, "ID");
         public final static Property Song_id = new Property(1, String.class, "song_id", false, "SONG_ID");
-    };
+    }
 
     private DaoSession daoSession;
 
@@ -127,6 +127,11 @@ public class CollectSongDao extends AbstractDao<CollectSong, Integer> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(CollectSong entity) {
+        return entity.getId() != null;
     }
 
     @Override

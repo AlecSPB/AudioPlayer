@@ -16,6 +16,10 @@ android {
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
         vectorDrawables.useSupportLibrary = true
+
+        jackOptions {
+            enabled true
+        }
     }
     //签名
     signingConfigs {
@@ -38,9 +42,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -73,6 +78,8 @@ dependencies {
     //glide
     compile 'com.github.bumptech.glide:glide:3.6.1'
     compile 'jp.wasabeef:glide-transformations:1.2.1'
+    // If you want to use the GPU Filters
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     //eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'

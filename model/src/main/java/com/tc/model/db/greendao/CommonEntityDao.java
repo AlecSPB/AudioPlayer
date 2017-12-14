@@ -22,12 +22,12 @@ public class CommonEntityDao extends AbstractDao<CommonEntity, Long> {
     /**
      * Properties of entity CommonEntity.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Id = new Property(0, long.class, "id", true, "_id");
         public final static Property Content = new Property(1, String.class, "content", false, "CONTENT");
         public final static Property Type = new Property(2, String.class, "type", false, "TYPE");
-    };
+    }
 
 
     public CommonEntityDao(DaoConfig config) {
@@ -120,6 +120,11 @@ public class CommonEntityDao extends AbstractDao<CommonEntity, Long> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(CommonEntity entity) {
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

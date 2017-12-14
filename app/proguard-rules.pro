@@ -40,6 +40,9 @@
 -keep class **$$ViewInjector { *; }
 -keep class **$$ViewBinder { *; }
 
+-dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
+
 ########## Glide ##########
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.AppGlideModule
@@ -48,7 +51,7 @@
   public *;
 }
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
 ########## Permission ##########
 -dontwarn com.zhy.m.**
@@ -66,3 +69,39 @@
 
 ########## facebook ##########
 -dontwarn com.google.ads.mediation.**
+
+########## greendao ##########
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+# If you do not use SQLCipher:
+-dontwarn org.greenrobot.greendao.database.**
+# If you do not use Rx:
+-dontwarn rx.**
+-keep public class net.sqlcipher.** {
+    *;
+}
+-keep public class net.sqlcipher.database.** {
+    *;
+}
+
+
+########## okhttp3 ##########
+-dontwarn org.xmlpull.v1.**
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
+########## eventbus ##########
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}

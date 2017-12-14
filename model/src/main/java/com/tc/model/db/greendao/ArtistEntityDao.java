@@ -25,7 +25,7 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
     /**
      * Properties of entity ArtistEntity.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Artist_id = new Property(0, String.class, "artist_id", true, "ARTIST_ID");
         public final static Property Avatar_mini = new Property(1, String.class, "avatar_mini", false, "AVATAR_MINI");
@@ -51,7 +51,7 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         public final static Property Avatar_big = new Property(21, String.class, "avatar_big", false, "AVATAR_BIG");
         public final static Property Albums_total = new Property(22, int.class, "albums_total", false, "ALBUMS_TOTAL");
         public final static Property Songs_total = new Property(23, int.class, "songs_total", false, "SONGS_TOTAL");
-    };
+    }
 
     private Query<ArtistEntity> songInfoEntity_Artist_listQuery;
 
@@ -369,6 +369,11 @@ public class ArtistEntityDao extends AbstractDao<ArtistEntity, String> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(ArtistEntity entity) {
+        return entity.getArtist_id() != null;
     }
 
     @Override

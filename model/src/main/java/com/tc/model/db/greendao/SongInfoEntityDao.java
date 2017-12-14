@@ -22,7 +22,7 @@ public class SongInfoEntityDao extends AbstractDao<SongInfoEntity, String> {
     /**
      * Properties of entity SongInfoEntity.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property Song_id = new Property(0, String.class, "song_id", true, "SONG_ID");
         public final static Property Resource_type_ext = new Property(1, String.class, "resource_type_ext", false, "RESOURCE_TYPE_EXT");
@@ -94,7 +94,7 @@ public class SongInfoEntityDao extends AbstractDao<SongInfoEntity, String> {
         public final static Property Info = new Property(67, String.class, "info", false, "INFO");
         public final static Property Havehigh = new Property(68, int.class, "havehigh", false, "HAVEHIGH");
         public final static Property Bitrate = new Property(69, String.class, "bitrate", false, "BITRATE");
-    };
+    }
 
     private DaoSession daoSession;
 
@@ -978,6 +978,11 @@ public class SongInfoEntityDao extends AbstractDao<SongInfoEntity, String> {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean hasKey(SongInfoEntity entity) {
+        return entity.getSong_id() != null;
     }
 
     @Override

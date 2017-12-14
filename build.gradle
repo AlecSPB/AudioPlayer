@@ -14,7 +14,7 @@ buildscript {
 //        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.0.0'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
         //firebase
         classpath 'com.google.gms:google-services:3.1.0'
         classpath 'com.facebook.android:audience-network-sdk:4.26.1'
