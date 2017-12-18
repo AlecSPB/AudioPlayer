@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "265001241836",
-    "firebase_url": "https://huarenmusic-8dbbe.firebaseio.com",
-    "project_id": "huarenmusic-8dbbe",
-    "storage_bucket": "huarenmusic-8dbbe.appspot.com"
+    "project_number": "522534293104",
+    "firebase_url": "https://huaren-music.firebaseio.com",
+    "project_id": "huaren-music",
+    "storage_bucket": "huaren-music.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:265001241836:android:075aa0abf62a6d8e",
+        "mobilesdk_app_id": "1:522534293104:android:075aa0abf62a6d8e",
         "android_client_info": {
           "package_name": "com.xuefeng.huarenmusic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "265001241836-js889nks1g6bigbkn20oll8ahp76m2qg.apps.googleusercontent.com",
+          "client_id": "522534293104-v7ltth2809o61021mk6o4lldes4skc5m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_5Nyge0IrHWF6iVKtEc00XINVXtwU1Zo"
+          "current_key": "AIzaSyBU_MalVmAf4cqTiKCg4rkimaBLg_ixVvA"
         }
       ],
       "services": {

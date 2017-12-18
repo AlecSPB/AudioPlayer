@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
@@ -74,6 +75,7 @@ public class BillboardListFragment extends BaseListFragment {
                 Navigator.toBillboardDetailActivity(getContext(), billboard.type, billboard.name);
             }
         });
+        Crashlytics.getInstance().crash();
     }
 
     /**

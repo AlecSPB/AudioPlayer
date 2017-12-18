@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 //apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion rootProject.sdkVersion
@@ -95,6 +96,9 @@ dependencies {
     //facebook Ads
     compile 'com.facebook.android:audience-network-sdk:4.26.0'
     compile 'com.google.ads.mediation:facebook:4.26.0.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
