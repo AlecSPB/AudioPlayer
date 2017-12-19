@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
@@ -78,22 +78,35 @@ public class HotFragment extends BaseListFragment {
     }
 
     private void loadAd() {
-        if(hasAddTopAd){
+        if (hasAddTopAd) {
             return;
         }
-        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-            @Override
-            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                if(hasAddTopAd){
-                    return;
+        AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
+                (nativeAppInstallAd) -> {
+                    if (hasAddTopAd) {
+                        return;
+                    }
+                    TLogger.e(TAG, "onAppInstallAdLoaded");
+                    NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                    adapter.addHeaderView(0, view);
+                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                    hasAddTopAd = true;
                 }
-                TLogger.e(TAG, "onContentAdLoaded");
-                NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
-                adapter.addHeaderView(0, view);
-                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
-                hasAddTopAd = true;
-            }
-        });
+                ,
+                (nativeContentAd) -> {
+                    if (hasAddTopAd) {
+                        return;
+                    }
+                    TLogger.e(TAG, "onContentAdLoaded");
+                    NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_content, recyclerView, false);
+                    adapter.addHeaderView(0, view);
+                    AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                    hasAddTopAd = true;
+                });
     }
 
     private void addHotAlbumHeader() {

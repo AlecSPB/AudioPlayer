@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -22,7 +24,8 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_CONTENT = 1;
     private static final int TYPE_LINE = 2;
-    private static final int TYPE_NATIVE_AD = 3;
+    private static final int TYPE_NATIVE_AD_CONTENT = 3;
+    private static final int TYPE_NATIVE_AD_INSTALL = 4;
 
     public BillboardListAdapter(Context context) {
         super(context);
@@ -36,8 +39,10 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             return mInflater.inflate(R.layout.item_billboard_content, parent, false);
         } else if (viewType == TYPE_LINE) {
             return mInflater.inflate(R.layout.item_billboard_line, parent, false);
-        } else if (viewType == TYPE_NATIVE_AD) {
+        } else if (viewType == TYPE_NATIVE_AD_CONTENT) {
             return mInflater.inflate(R.layout.ad_billoard, parent, false);
+        } else if (viewType == TYPE_NATIVE_AD_INSTALL) {
+            return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
         }
         return null;
     }
@@ -58,6 +63,8 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
             holder.getView(R.id.iv_fav).setOnClickListener(favClickListener);
         } else if (item instanceof NativeContentAd) {
             AdMobUtils.populateContentAdView((NativeContentAd) item, (NativeContentAdView) holder.getView(), true);
+        } else if (item instanceof NativeAppInstallAd) {
+            AdMobUtils.populateInstallAdView((NativeAppInstallAd) item, (NativeAppInstallAdView) holder.getView());
         }
     }
 
@@ -71,7 +78,9 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
         } else if (item instanceof String) {
             return TYPE_LINE;
         } else if (item instanceof NativeContentAd) {
-            return TYPE_NATIVE_AD;
+            return TYPE_NATIVE_AD_CONTENT;
+        } else if (item instanceof NativeAppInstallAd) {
+            return TYPE_NATIVE_AD_INSTALL;
         }
         return -1;
     }

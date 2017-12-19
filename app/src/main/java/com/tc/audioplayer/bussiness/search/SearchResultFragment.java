@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
@@ -73,15 +73,23 @@ public class SearchResultFragment extends BaseListFragment {
      * 加载底部广告
      */
     private void loadBottomAd() {
-        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-            @Override
-            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                TLogger.e(TAG, "onContentAdLoaded");
-                NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
-                adapter.addFooterView(view);
-                AdMobUtils.showNativeContentAd(getContext(), view);
-            }
-        });
+        AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
+                (nativeAppInstallAd) -> {
+                    TLogger.e(TAG, "onAppInstallAdLoaded");
+                    NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                },
+                (nativeContentAd) -> {
+                    TLogger.e(TAG, "onContentAdLoaded");
+                    NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_content, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.showNativeContentAd(getContext(), view);
+                });
     }
 
     @Override
@@ -89,15 +97,19 @@ public class SearchResultFragment extends BaseListFragment {
         super.setData(data);
         adapter.setData((ArrayList) data);
         if (data != null && ((ArrayList) data).size() > 20) {
-            AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-                @Override
-                public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                    TLogger.e(TAG, "onContentAdLoaded");
-                    List<Object> result = adapter.getData();
-                    result.add(14, nativeContentAd);
-                    adapter.setData(result);
-                }
-            });
+            AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
+                    (nativeAppInstallAd) -> {
+                        TLogger.e(TAG, "onAppInstallAdLoaded");
+                        List<Object> result = adapter.getData();
+                        result.add(14, nativeAppInstallAd);
+                        adapter.setData(result);
+                    },
+                    (nativeContentAd) -> {
+                        TLogger.e(TAG, "onContentAdLoaded");
+                        List<Object> result = adapter.getData();
+                        result.add(14, nativeContentAd);
+                        adapter.setData(result);
+                    });
         }
     }
 }

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -20,7 +22,8 @@ import com.tc.model.entity.SongEntity;
 public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
     private boolean favVisiable = true;
     public static final int TYPE_ITEM = 0;
-    public static final int TYPE_AD = 1;
+    public static final int TYPE_AD_CONTENT = 1;
+    public static final int TYPE_AD_INSTALL = 2;
 
     public ArtistDetailAdapter(Context context) {
         super(context);
@@ -31,8 +34,10 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
         switch (viewType) {
             case TYPE_ITEM:
                 return mInflater.inflate(R.layout.item_artist_detail, parent, false);
-            case TYPE_AD:
-                return mInflater.inflate(R.layout.ad_hot, parent, false);
+            case TYPE_AD_CONTENT:
+                return mInflater.inflate(R.layout.ad_native_content, parent, false);
+            case TYPE_AD_INSTALL:
+                return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
         }
         return mInflater.inflate(R.layout.item_artist_detail, parent, false);
     }
@@ -44,7 +49,9 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
         if (object instanceof SongEntity) {
             return TYPE_ITEM;
         } else if (object instanceof NativeContentAd) {
-            return TYPE_AD;
+            return TYPE_AD_CONTENT;
+        } else if(object instanceof NativeAppInstallAd){
+            return TYPE_AD_INSTALL;
         }
         return TYPE_ITEM;
     }
@@ -74,6 +81,10 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
             NativeContentAdView view = (NativeContentAdView) holder.getView();
             NativeContentAd ad = (NativeContentAd) ob;
             AdMobUtils.populateContentAdView(ad, view, false);
+        } else if(ob instanceof NativeAppInstallAd){
+            NativeAppInstallAdView installAdView = (NativeAppInstallAdView) holder.getView();
+            NativeAppInstallAd ad = (NativeAppInstallAd) ob;
+            AdMobUtils.populateInstallAdView(ad, installAdView);
         }
     }
 

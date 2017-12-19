@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.Navigator;
 import com.tc.audioplayer.R;
@@ -79,7 +79,7 @@ public class BillboardListFragment extends BaseListFragment {
     /**
      * 在新歌榜后面加广告
      */
-    private void addAdAfterNewBillboard(NativeContentAd contentAd) {
+    private void addAdAfterNewBillboard(Object contentAd) {
         List<Object> data = adapter.getData();
         int index = 0;
         int count = 0;
@@ -100,19 +100,28 @@ public class BillboardListFragment extends BaseListFragment {
      * 加载底部广告
      */
     private void loadBottomAd() {
-        if(hasAddBottomAd){
+        if (hasAddBottomAd) {
             return;
         }
-        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-            @Override
-            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                TLogger.e(TAG, "onContentAdLoaded");
-                NativeContentAdView view = (NativeContentAdView) LayoutInflater.from(getContext()).inflate(R.layout.ad_hot, recyclerView, false);
-                adapter.addFooterView(view);
-                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
-                hasAddBottomAd = true;
-            }
-        });
+        AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
+                (nativeAppInstallAd) -> {
+                    TLogger.e(TAG, "onAppInstallAdLoaded");
+                    NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                    hasAddBottomAd = true;
+                }
+                , (nativeContentAd) -> {
+                    TLogger.e(TAG, "onContentAdLoaded");
+                    NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                            .from(getContext())
+                            .inflate(R.layout.ad_native_content, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                    hasAddBottomAd = true;
+                });
     }
 
 
@@ -153,13 +162,14 @@ public class BillboardListFragment extends BaseListFragment {
             AdMobUtils.showHomeBigAd(getContext());
             hasAdShown = true;
         }
-        AdMobUtils.loadNativeContentAd(getContext(), Constant.AdmobNativeID_Billboard,
-                new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd contentAd) {
-                        TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
-                        addAdAfterNewBillboard(contentAd);
-                    }
+        AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID_Billboard,
+                (nativeAppInstallAd)->{
+                    TLogger.e(TAG, "onAppInstallAdLoaded");
+                    addAdAfterNewBillboard(nativeAppInstallAd);
+                },
+                (contentAd) -> {
+                    TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
+                    addAdAfterNewBillboard(contentAd);
                 });
         loadBottomAd();
     }

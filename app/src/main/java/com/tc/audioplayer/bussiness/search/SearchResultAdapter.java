@@ -42,7 +42,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
             case TYPE_ALBUM:
                 return mInflater.inflate(R.layout.item_search_album, parent, false);
             case TYPE_AD:
-                return mInflater.inflate(R.layout.ad_hot, parent, false);
+                return mInflater.inflate(R.layout.ad_native_content, parent, false);
         }
         return mInflater.inflate(R.layout.item_music, parent, false);
     }

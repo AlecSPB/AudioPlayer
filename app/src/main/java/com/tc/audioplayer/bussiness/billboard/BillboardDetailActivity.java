@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.android.gms.ads.formats.NativeContentAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.base.Constant;
@@ -81,15 +81,19 @@ public class BillboardDetailActivity extends ToolbarActivity {
             adapter.setData(data);
             loadAd();
             if (songList.song_list != null && songList.song_list.size() > 20) {
-                AdMobUtils.loadNativeContentAd(BillboardDetailActivity.this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                        TLogger.e(TAG, "onContentAdLoaded");
-                        List<Object> result = adapter.getData();
-                        result.add(14, nativeContentAd);
-                        adapter.setData(result);
-                    }
-                });
+                AdMobUtils.loadNativeAd(BillboardDetailActivity.this, Constant.AdmobNativeID,
+                        (nativeAppInstallAd) -> {
+                            TLogger.e(TAG, "onAppInstallAdLoaded");
+                            List<Object> result = adapter.getData();
+                            result.add(14, nativeAppInstallAd);
+                            adapter.setData(result);
+                        },
+                        (nativeContentAd) -> {
+                            TLogger.e(TAG, "onContentAdLoaded");
+                            List<Object> result = adapter.getData();
+                            result.add(14, nativeContentAd);
+                            adapter.setData(result);
+                        });
             }
         }
     };
@@ -105,21 +109,31 @@ public class BillboardDetailActivity extends ToolbarActivity {
         if (hasAddTopAd) {
             return;
         }
-        AdMobUtils.loadNativeContentAd(this, Constant.AdmobNativeID, new NativeContentAd.OnContentAdLoadedListener() {
-            @Override
-            public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                if (hasAddTopAd) {
-                    return;
-                }
-                TLogger.e(TAG, "onContentAdLoaded");
-                NativeContentAdView view = (NativeContentAdView) LayoutInflater
-                        .from(BillboardDetailActivity.this)
-                        .inflate(R.layout.ad_hot, recyclerView, false);
-                adapter.addFooterView(view);
-                AdMobUtils.populateContentAdView(nativeContentAd, view, false);
-                hasAddTopAd = true;
-            }
-        });
+        AdMobUtils.loadNativeAd(this, Constant.AdmobNativeID,
+                (nativeAppInstallAd) -> {
+                    if (hasAddTopAd) {
+                        return;
+                    }
+                    TLogger.e(TAG, "onAppInstallAdLoaded");
+                    NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
+                            .from(BillboardDetailActivity.this)
+                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                    hasAddTopAd = true;
+                },
+                (nativeContentAd) -> {
+                    if (hasAddTopAd) {
+                        return;
+                    }
+                    TLogger.e(TAG, "onContentAdLoaded");
+                    NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                            .from(BillboardDetailActivity.this)
+                            .inflate(R.layout.ad_native_content, recyclerView, false);
+                    adapter.addFooterView(view);
+                    AdMobUtils.populateContentAdView(nativeContentAd, view, false);
+                    hasAddTopAd = true;
+                });
     }
 
 }

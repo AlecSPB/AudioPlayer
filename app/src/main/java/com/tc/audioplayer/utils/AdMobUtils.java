@@ -14,6 +14,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -58,6 +59,21 @@ public class AdMobUtils {
         View topLayout = adView.findViewById(R.id.layout_top);
         if (topLayout != null) {
             topLayout.setVisibility(showTopLayout ? View.VISIBLE : View.GONE);
+        }
+        adView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 安装广告
+     */
+    public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
+                                             NativeAppInstallAdView adView) {
+        adView.setNativeAd(appInstallAd);
+        adView.setImageView(adView.findViewById(R.id.contentad_image));
+        List<NativeAd.Image> images = appInstallAd.getImages();
+        ((ImageView) adView.getImageView()).setScaleType(ImageView.ScaleType.FIT_XY);
+        if (images.size() > 0) {
+            ((ImageView) adView.getImageView()).setImageDrawable(images.get(0).getDrawable());
         }
         adView.setVisibility(View.VISIBLE);
     }
@@ -153,14 +169,14 @@ public class AdMobUtils {
         });
     }
 
-    public static void loadNativeContentAd(Context context, String adId, NativeContentAd.OnContentAdLoadedListener contentAdLoadedListener) {
+    /**
+     * 显示native广告
+     */
+    public static void loadNativeAd(Context context, String adId,
+                                    NativeAppInstallAd.OnAppInstallAdLoadedListener appInstallAdLoadedListener,
+                                    NativeContentAd.OnContentAdLoadedListener contentAdLoadedListener) {
         AdLoader adLoader = new AdLoader.Builder(context, adId)
-                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
-                    @Override
-                    public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
-                        TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
-                    }
-                })
+                .forAppInstallAd(appInstallAdLoadedListener)
                 .forContentAd(contentAdLoadedListener)
                 .withAdListener(new AdListener() {
                     @Override
