@@ -76,6 +76,9 @@ public class SearchResultFragment extends BaseListFragment {
         AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
                 (nativeAppInstallAd) -> {
                     TLogger.e(TAG, "onAppInstallAdLoaded");
+                    if(getContext() == null){
+                        return;
+                    }
                     NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
                             .from(getContext())
                             .inflate(R.layout.ad_native_app_install, recyclerView, false);
@@ -84,6 +87,9 @@ public class SearchResultFragment extends BaseListFragment {
                 },
                 (nativeContentAd) -> {
                     TLogger.e(TAG, "onContentAdLoaded");
+                    if(getContext() == null){
+                        return;
+                    }
                     NativeContentAdView view = (NativeContentAdView) LayoutInflater
                             .from(getContext())
                             .inflate(R.layout.ad_native_content, recyclerView, false);
@@ -100,12 +106,18 @@ public class SearchResultFragment extends BaseListFragment {
             AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
                     (nativeAppInstallAd) -> {
                         TLogger.e(TAG, "onAppInstallAdLoaded");
+                        if(getContext() == null){
+                            return;
+                        }
                         List<Object> result = adapter.getData();
                         result.add(14, nativeAppInstallAd);
                         adapter.setData(result);
                     },
                     (nativeContentAd) -> {
                         TLogger.e(TAG, "onContentAdLoaded");
+                        if(getContext() == null){
+                            return;
+                        }
                         List<Object> result = adapter.getData();
                         result.add(14, nativeContentAd);
                         adapter.setData(result);

@@ -45,6 +45,7 @@ public class SearchHistoryFragment extends BaseListFragment {
         adapter.addHeaderView(getHeaderView());
         recyclerView.setAdapter(adapter);
         present = new SearchPresent();
+        present.attachView(this);
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(() -> searchHot());
         adapter.setOnItemClickListener((v, positon) -> {

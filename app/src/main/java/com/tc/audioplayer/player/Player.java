@@ -136,7 +136,10 @@ public class Player implements IPlayer {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
                     this.playList.setCurrentDuration(currentDuration);
                     int duration = mediaPlayer.getDuration() / 1000;
-                    getPlayingSong().setFile_duration(duration);
+                    SongEntity current = getPlayingSong();
+                    if (current != null) {
+                        current.setFile_duration(duration);
+                    }
                     progress = (int) (currentDuration * 100f / duration);
                     for (int i = 0; i < playerListeners.size(); i++) {
                         PlayerListener listener = playerListeners.get(i);

@@ -152,7 +152,7 @@ public class PlayList {
         return songList.get(playingIndex);
     }
 
-    public void clear(){
+    public void clear() {
         songList.clear();
         playingIndex = 0;
     }
@@ -176,7 +176,10 @@ public class PlayList {
                 playingIndex = randomPlayIndex();
                 break;
         }
-        return songList.get(playingIndex);
+        if (playingIndex >= 0 && playingIndex < songList.size()) {
+            return songList.get(playingIndex);
+        }
+        return null;
     }
 
     private int randomPlayIndex() {

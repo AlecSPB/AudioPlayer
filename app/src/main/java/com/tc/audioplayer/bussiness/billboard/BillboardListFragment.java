@@ -106,6 +106,9 @@ public class BillboardListFragment extends BaseListFragment {
         AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
                 (nativeAppInstallAd) -> {
                     TLogger.e(TAG, "onAppInstallAdLoaded");
+                    if(getContext() == null){
+                        return;
+                    }
                     NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
                             .from(getContext())
                             .inflate(R.layout.ad_native_app_install, recyclerView, false);
@@ -115,6 +118,9 @@ public class BillboardListFragment extends BaseListFragment {
                 }
                 , (nativeContentAd) -> {
                     TLogger.e(TAG, "onContentAdLoaded");
+                    if(getContext() == null){
+                        return;
+                    }
                     NativeContentAdView view = (NativeContentAdView) LayoutInflater
                             .from(getContext())
                             .inflate(R.layout.ad_native_content, recyclerView, false);
@@ -165,10 +171,16 @@ public class BillboardListFragment extends BaseListFragment {
         AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID_Billboard,
                 (nativeAppInstallAd)->{
                     TLogger.e(TAG, "onAppInstallAdLoaded");
+                    if(getContext() == null){
+                        return;
+                    }
                     addAdAfterNewBillboard(nativeAppInstallAd);
                 },
                 (contentAd) -> {
                     TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
+                    if(getContext() == null){
+                        return;
+                    }
                     addAdAfterNewBillboard(contentAd);
                 });
         loadBottomAd();

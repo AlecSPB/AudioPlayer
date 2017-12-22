@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.formats.NativeAppInstallAd;
+import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
@@ -27,6 +29,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
     public static final int TYPE_ARTIST = 1;
     public static final int TYPE_ALBUM = 2;
     public static final int TYPE_AD = 3;
+    public static final int TYPE_AD_INSTALL = 4;
 
     public SearchResultAdapter(Context context) {
         super(context);
@@ -43,13 +46,15 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
                 return mInflater.inflate(R.layout.item_search_album, parent, false);
             case TYPE_AD:
                 return mInflater.inflate(R.layout.ad_native_content, parent, false);
+            case TYPE_AD_INSTALL:
+                return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
         }
         return mInflater.inflate(R.layout.item_music, parent, false);
     }
 
     @Override
     public int getListItemViewHolderType(int dataIndex) {
-        Object object = getItem(dataIndex);
+        Object object = getItemFromViewIndex(dataIndex);
         if (object instanceof SongEntity) {
             return TYPE_SONG;
         } else if (object instanceof ArtistEntity) {
@@ -58,8 +63,10 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
             return TYPE_ALBUM;
         } else if (object instanceof NativeContentAd) {
             return TYPE_AD;
+        } else if(object instanceof NativeAppInstallAd){
+            return TYPE_AD_INSTALL;
         }
-        return super.getListItemViewHolderType(dataIndex);
+        return -1;
     }
 
     @Override
@@ -80,11 +87,16 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
                 NativeContentAd ad = (NativeContentAd) getItem(dataIndex);
                 AdMobUtils.populateContentAdView(ad, view, false);
                 break;
+            case TYPE_AD_INSTALL:
+                NativeAppInstallAdView installAdView = (NativeAppInstallAdView) holder.getView();
+                NativeAppInstallAd adInstall = (NativeAppInstallAd) getItem(dataIndex);
+                AdMobUtils.populateInstallAdView(adInstall, installAdView);
+                break;
         }
     }
 
     private void bindSong(int dataIndex, RecyclerViewHolder holder) {
-        SongEntity item = (SongEntity) getItem(dataIndex);
+        SongEntity item = (SongEntity) getItemFromViewIndex(dataIndex);
         holder.setText(R.id.tv_title, item.title);
         String author = TextUtils.isEmpty(item.album_title) ? item.author : item.author + "-" + item.album_title;
         holder.setText(R.id.tv_author, author);
@@ -96,7 +108,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
     }
 
     private void bindArtist(int dataIndex, RecyclerViewHolder holder) {
-        ArtistEntity item = (ArtistEntity) getItem(dataIndex);
+        ArtistEntity item = (ArtistEntity) getItemFromViewIndex(dataIndex);
         item.author = StringUtils.replaceEm(item.author);
         holder.setText(R.id.tv_title, item.author);
         holder.setText(R.id.tv_author, item.country);
@@ -107,7 +119,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
     }
 
     private void bindAlbum(int dataIndex, RecyclerViewHolder holder) {
-        SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean item = (SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean) getItem(dataIndex);
+        SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean item = (SearchWrapper.ResultBean.AlbumInfoBean.AlbumListBean) getItemFromViewIndex(dataIndex);
         item.title = StringUtils.replaceEm(item.title);
         item.author = StringUtils.replaceEm(item.author);
         holder.setText(R.id.tv_title, item.title);

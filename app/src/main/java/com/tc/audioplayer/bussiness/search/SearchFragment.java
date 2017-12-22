@@ -109,6 +109,9 @@ public class SearchFragment extends BaseFragment {
     @Override
     public void handleThrowable(Throwable t) {
         super.handleThrowable(t);
+        if(!isAdded()){
+            return;
+        }
         progressBar.setVisibility(View.GONE);
         Toast.makeText(getContext(), getString(R.string.net_error), Toast.LENGTH_SHORT).show();
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.multidex.MultiDexApplication;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.FirebaseApp;
@@ -34,6 +35,11 @@ import okhttp3.Response;
 
 public class AudioApplication extends MultiDexApplication {
     private static final String TAG = AudioApplication.class.getSimpleName();
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     private static AudioApplication instance;
 
     public static AudioApplication getInstance() {

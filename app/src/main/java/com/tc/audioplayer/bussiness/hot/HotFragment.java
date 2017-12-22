@@ -83,7 +83,7 @@ public class HotFragment extends BaseListFragment {
         }
         AdMobUtils.loadNativeAd(getContext(), Constant.AdmobNativeID,
                 (nativeAppInstallAd) -> {
-                    if (hasAddTopAd) {
+                    if (hasAddTopAd || getContext() == null) {
                         return;
                     }
                     TLogger.e(TAG, "onAppInstallAdLoaded");
@@ -96,7 +96,7 @@ public class HotFragment extends BaseListFragment {
                 }
                 ,
                 (nativeContentAd) -> {
-                    if (hasAddTopAd) {
+                    if (hasAddTopAd || getContext() == null) {
                         return;
                     }
                     TLogger.e(TAG, "onContentAdLoaded");

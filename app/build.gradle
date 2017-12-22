@@ -58,7 +58,7 @@ android {
     buildToolsVersion '26.0.2'
 }
 
-def googlePlayServicesVersion = '10.2.1'
+def googlePlayServicesVersion = '11.6.0'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':base')

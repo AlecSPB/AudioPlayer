@@ -84,12 +84,18 @@ public class BillboardDetailActivity extends ToolbarActivity {
                 AdMobUtils.loadNativeAd(BillboardDetailActivity.this, Constant.AdmobNativeID,
                         (nativeAppInstallAd) -> {
                             TLogger.e(TAG, "onAppInstallAdLoaded");
+                            if(BillboardDetailActivity.this == null){
+                                return;
+                            }
                             List<Object> result = adapter.getData();
                             result.add(14, nativeAppInstallAd);
                             adapter.setData(result);
                         },
                         (nativeContentAd) -> {
                             TLogger.e(TAG, "onContentAdLoaded");
+                            if(BillboardDetailActivity.this == null){
+                                return;
+                            }
                             List<Object> result = adapter.getData();
                             result.add(14, nativeContentAd);
                             adapter.setData(result);
@@ -111,7 +117,7 @@ public class BillboardDetailActivity extends ToolbarActivity {
         }
         AdMobUtils.loadNativeAd(this, Constant.AdmobNativeID,
                 (nativeAppInstallAd) -> {
-                    if (hasAddTopAd) {
+                    if (hasAddTopAd || BillboardDetailActivity.this == null) {
                         return;
                     }
                     TLogger.e(TAG, "onAppInstallAdLoaded");
@@ -123,7 +129,7 @@ public class BillboardDetailActivity extends ToolbarActivity {
                     hasAddTopAd = true;
                 },
                 (nativeContentAd) -> {
-                    if (hasAddTopAd) {
+                    if (hasAddTopAd || BillboardDetailActivity.this == null) {
                         return;
                     }
                     TLogger.e(TAG, "onContentAdLoaded");

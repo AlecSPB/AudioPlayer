@@ -68,7 +68,6 @@ public class AdMobUtils {
      */
     public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
                                              NativeAppInstallAdView adView) {
-        adView.setNativeAd(appInstallAd);
         adView.setImageView(adView.findViewById(R.id.contentad_image));
         List<NativeAd.Image> images = appInstallAd.getImages();
         ((ImageView) adView.getImageView()).setScaleType(ImageView.ScaleType.FIT_XY);
@@ -76,6 +75,7 @@ public class AdMobUtils {
             ((ImageView) adView.getImageView()).setImageDrawable(images.get(0).getDrawable());
         }
         adView.setVisibility(View.VISIBLE);
+        adView.setNativeAd(appInstallAd);
     }
 
     /**
@@ -134,7 +134,7 @@ public class AdMobUtils {
         InterstitialAd mInterstitialAd = new InterstitialAd(context);
         mInterstitialAd.setAdUnitId(Constant.AdmobInterID);
         AdRequest adRequest = getRequestBuilder().build();
-            mInterstitialAd.loadAd(adRequest);
+        mInterstitialAd.loadAd(adRequest);
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
