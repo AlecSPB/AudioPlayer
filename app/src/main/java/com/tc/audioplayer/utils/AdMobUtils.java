@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.ads.mediation.facebook.FacebookAdapter;
@@ -68,12 +69,24 @@ public class AdMobUtils {
      */
     public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
                                              NativeAppInstallAdView adView) {
-        adView.setImageView(adView.findViewById(R.id.contentad_image));
+        ImageView ivImage = (ImageView) adView.findViewById(R.id.contentad_image);
+        TextView tvHeadLine = (TextView) adView.findViewById(R.id.tv_headline);
+        RatingBar rbRating = (RatingBar) adView.findViewById(R.id.rb_rating);
+        TextView tvStore = (TextView) adView.findViewById(R.id.tv_store);
+        adView.setImageView(ivImage);
+        adView.setHeadlineView(tvHeadLine);
+        adView.setStarRatingView(rbRating);
+        adView.setStoreView(tvStore);
+
         List<NativeAd.Image> images = appInstallAd.getImages();
         ((ImageView) adView.getImageView()).setScaleType(ImageView.ScaleType.FIT_XY);
         if (images.size() > 0) {
-            ((ImageView) adView.getImageView()).setImageDrawable(images.get(0).getDrawable());
+            ivImage.setImageDrawable(images.get(0).getDrawable());
         }
+        tvHeadLine.setText(appInstallAd.getHeadline());
+        tvStore.setText(appInstallAd.getStore());
+        rbRating.setNumStars(5);
+        rbRating.setRating(appInstallAd.getStarRating().floatValue());
         adView.setVisibility(View.VISIBLE);
         adView.setNativeAd(appInstallAd);
     }
