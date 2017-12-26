@@ -3,6 +3,7 @@ package com.tc.audioplayer.utils;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -69,17 +70,19 @@ public class AdMobUtils {
      */
     public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
                                              NativeAppInstallAdView adView) {
-        ImageView ivImage = (ImageView) adView.findViewById(R.id.contentad_image);
+        ImageView ivImage = (ImageView) adView.findViewById(R.id.content_image);
         TextView tvHeadLine = (TextView) adView.findViewById(R.id.tv_headline);
         RatingBar rbRating = (RatingBar) adView.findViewById(R.id.rb_rating);
         TextView tvStore = (TextView) adView.findViewById(R.id.tv_store);
+        Button btnCallToAction = (Button) adView.findViewById(R.id.btn_install);
         adView.setImageView(ivImage);
         adView.setHeadlineView(tvHeadLine);
         adView.setStarRatingView(rbRating);
         adView.setStoreView(tvStore);
+        adView.setCallToActionView(btnCallToAction);
 
         List<NativeAd.Image> images = appInstallAd.getImages();
-        ((ImageView) adView.getImageView()).setScaleType(ImageView.ScaleType.FIT_XY);
+        ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
         if (images.size() > 0) {
             ivImage.setImageDrawable(images.get(0).getDrawable());
         }

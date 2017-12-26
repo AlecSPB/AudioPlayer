@@ -11,4 +11,5 @@
     <color name="line">#e7e4e4</color>
     <color name="search">#bcbaba</color>
     <color name="search_text">#232222</color>
+    <color name="default_btn_press">#8db2e6</color>
 </resources>

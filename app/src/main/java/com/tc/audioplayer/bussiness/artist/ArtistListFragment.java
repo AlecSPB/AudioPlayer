@@ -10,12 +10,15 @@ import com.tc.audioplayer.base.BaseListFragment;
 import com.tc.model.entity.ArtistEntity;
 import com.tc.model.entity.ArtistList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by itcayman on 2017/9/21.
  */
 
 public class ArtistListFragment extends BaseListFragment {
-    public static ArtistListFragment newInstance(){
+    public static ArtistListFragment newInstance() {
         ArtistListFragment fragment = new ArtistListFragment();
         return fragment;
     }
@@ -37,9 +40,11 @@ public class ArtistListFragment extends BaseListFragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((v, position) -> {
-            ArtistEntity artist = adapter.getItem(position);
-            Navigator.toArtistDetailActivity(getContext(),artist.ting_uid, artist.artist_id,
-                    artist.name, artist.avatar_big, artist.country);
+            if (adapter.getItem(position) instanceof ArtistEntity) {
+                ArtistEntity artist = (ArtistEntity) adapter.getItem(position);
+                Navigator.toArtistDetailActivity(getContext(), artist.ting_uid, artist.artist_id,
+                        artist.name, artist.avatar_big, artist.country);
+            }
         });
     }
 
@@ -53,6 +58,8 @@ public class ArtistListFragment extends BaseListFragment {
     public void setData(Object data) {
         super.setData(data);
         ArtistList listWrapp = (ArtistList) data;
-        adapter.setData(listWrapp.artist);
+        List<Object> dataWithAd = new ArrayList<>();
+        dataWithAd.addAll(listWrapp.artist);
+        adapter.setData(dataWithAd);
     }
 }
