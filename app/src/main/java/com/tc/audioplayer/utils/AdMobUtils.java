@@ -75,17 +75,21 @@ public class AdMobUtils {
         RatingBar rbRating = (RatingBar) adView.findViewById(R.id.rb_rating);
         TextView tvStore = (TextView) adView.findViewById(R.id.tv_store);
         Button btnCallToAction = (Button) adView.findViewById(R.id.btn_install);
+        ImageView ivIcon = (ImageView) adView.findViewById(R.id.iv_appicon);
         adView.setImageView(ivImage);
         adView.setHeadlineView(tvHeadLine);
         adView.setStarRatingView(rbRating);
         adView.setStoreView(tvStore);
         adView.setCallToActionView(btnCallToAction);
+        adView.setIconView(ivIcon);
 
         List<NativeAd.Image> images = appInstallAd.getImages();
         ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
         if (images.size() > 0) {
             ivImage.setImageDrawable(images.get(0).getDrawable());
         }
+        NativeAd.Image icon = appInstallAd.getIcon();
+        ivIcon.setImageDrawable(icon.getDrawable());
         tvHeadLine.setText(appInstallAd.getHeadline());
         tvStore.setText(appInstallAd.getStore());
         rbRating.setNumStars(5);
