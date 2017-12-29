@@ -117,3 +117,7 @@ public static java.lang.String TABLENAME;
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
 -keep class com.tc.model.entity.**{*;}
+
+########## google ##########
+-keep class com.google.** { *;}
+-dontwarn com.google.**
