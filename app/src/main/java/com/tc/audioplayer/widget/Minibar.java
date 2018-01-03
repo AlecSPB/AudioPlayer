@@ -3,6 +3,7 @@ package com.tc.audioplayer.widget;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -77,10 +78,13 @@ public class Minibar extends LinearLayout {
         ButterKnife.bind(this);
         setOnClickListener((v) -> {
 //            Navigator.toPlayerDetailActivity(getContext());
-            if (fragmentManager == null && getContext() instanceof AppCompatActivity)
+            if (fragmentManager == null && getContext() instanceof AppCompatActivity) {
                 fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+            }
             PlayerDetailDialog dialog = new PlayerDetailDialog();
-            dialog.show(fragmentManager, "player_detail_dialog");
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.add(dialog, "player_detail_dialog");
+            ft.commitAllowingStateLoss();//注意这里使用commitAllowingStateLoss()
         });
         playerListener = new MibarPlayerListener();
     }
@@ -127,7 +131,7 @@ public class Minibar extends LinearLayout {
     }
 
     @OnClick(R.id.iv_prev)
-    public void onPlayPrev(View view){
+    public void onPlayPrev(View view) {
         PlayerManager.getInstance().playPrev();
     }
 

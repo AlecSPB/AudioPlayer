@@ -113,6 +113,9 @@ public class AdMobUtils {
                     @Override
                     public void onContentAdLoaded(NativeContentAd contentAd) {
                         TLogger.e(TAG, "onContentAdLoaded: " + contentAd.getBody());
+                        if (context == null) {
+                            return;
+                        }
                         populateContentAdView(contentAd, adView, false);
                     }
                 })

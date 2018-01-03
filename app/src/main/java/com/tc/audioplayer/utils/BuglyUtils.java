@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.tc.base.BuildConfig;
 import com.tc.base.utils.DeviceUtils;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -16,7 +17,8 @@ public class BuglyUtils {
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(context);
         strategy.setDeviceID(DeviceUtils.getDeviceId(context));//设置设备号
         strategy.setAppChannel("GooglePlay");  //设置渠道
-        strategy.setAppVersion("1.0.0");  //App的版本
+        String version = BuildConfig.VERSION_NAME + "." + BuildConfig.VERSION_CODE;
+        strategy.setAppVersion(version);  //App的版本
         strategy.setAppPackageName(context.getPackageName());  //App的包名
         goForGround(context);
         refreshUserId();

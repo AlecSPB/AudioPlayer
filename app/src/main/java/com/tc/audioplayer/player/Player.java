@@ -130,6 +130,7 @@ public class Player implements IPlayer {
 
     void startUpdateProgress() {
         Subscription subscribe = Observable.timer(0, 1, TimeUnit.SECONDS)
+                .onBackpressureDrop()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((aLong) -> {
@@ -447,6 +448,7 @@ public class Player implements IPlayer {
             playLocal(fileUrl);
         };
         onlineCase.getMusicFile(fileUrl)
+                .onBackpressureBuffer()
                 .subscribeOn(Schedulers.newThread())
                 .map((responseBody) -> {
                     return FileUtil.writeResponseBodyToDisk(responseBody, file);

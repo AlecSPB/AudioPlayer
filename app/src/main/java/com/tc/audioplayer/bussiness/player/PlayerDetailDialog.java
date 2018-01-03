@@ -186,6 +186,7 @@ public class PlayerDetailDialog extends DialogFragment {
         };
         File lrcFile = FileUtil.getLrcFile(lrclink);
         onlineCase.getMusicFile(lrclink)
+                .onBackpressureBuffer()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map((responseBody) -> {

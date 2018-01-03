@@ -6,6 +6,9 @@ package com.tc.audioplayer.utils;
 
 public class StringUtils {
     public static String replaceEm(String str) {
+        if(str == null){
+            return "";
+        }
         str = str.replaceAll("<em>", "");
         str = str.replaceAll("</em>", "");
         return str;

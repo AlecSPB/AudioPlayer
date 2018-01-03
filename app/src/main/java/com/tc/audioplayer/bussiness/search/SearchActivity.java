@@ -53,10 +53,12 @@ public class SearchActivity extends ToolbarActivity {
         cetSearch.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         cetSearch.setOnEditorActionListener(etActionListener);
         toolbar.setNavigationIcon(null);
+    }
 
-        minibar.postDelayed(() -> {
-            minibar.bindData();
-        }, 500);
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        minibar.bindData();
     }
 
     @Override

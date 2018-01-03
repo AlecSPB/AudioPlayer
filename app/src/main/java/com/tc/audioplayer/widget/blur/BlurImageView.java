@@ -2,6 +2,7 @@ package com.tc.audioplayer.widget.blur;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -44,16 +45,18 @@ public class BlurImageView extends ImageView {
                 Bitmap.Config.ARGB_8888);
 
         mRenderScript = RenderScript.create(getContext());
-        mBlurScript = ScriptIntrinsicBlur.create(mRenderScript, Element.U8_4(mRenderScript));
 
         mBlurInput = Allocation.createFromBitmap(mRenderScript, mBitmapToBlur,
                 Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
         mBlurOutput = Allocation.createTyped(mRenderScript, mBlurInput.getType());
 
         mBlurInput.copyFrom(mBitmapToBlur);
-        mBlurScript.setRadius(blurRadius);
-        mBlurScript.setInput(mBlurInput);
-        mBlurScript.forEach(mBlurOutput);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
+            mBlurScript = ScriptIntrinsicBlur.create(mRenderScript, Element.U8_4(mRenderScript));
+            mBlurScript.setRadius(blurRadius);
+            mBlurScript.setInput(mBlurInput);
+            mBlurScript.forEach(mBlurOutput);
+        }
         mBlurOutput.copyTo(mBlurredBitmap);
 
         drawableFadeDisplayer.display(mBlurredBitmap, this);
