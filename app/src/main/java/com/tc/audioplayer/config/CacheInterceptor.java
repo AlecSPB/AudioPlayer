@@ -110,23 +110,27 @@ public class CacheInterceptor implements Interceptor {
         } else if (bodyEncoded(response.headers())) {
             //HTTP (encoded body omitted)
         } else {
-            BufferedSource source = responseBody.source();
-            source.request(Long.MAX_VALUE); // Buffer the entire body.
-            Buffer buffer = source.buffer();
+            try {
+                BufferedSource source = responseBody.source();
+                source.request(Long.MAX_VALUE); // Buffer the entire body.
+                Buffer buffer = source.buffer();
 
-            Charset charset = UTF8;
-            MediaType contentType = responseBody.contentType();
-            if (contentType != null) {
-                try {
-                    charset = contentType.charset(UTF8);
-                } catch (UnsupportedCharsetException e) {
-                    //Couldn't decode the response body; charset is likely malformed.
-                    return "";
+                Charset charset = UTF8;
+                MediaType contentType = responseBody.contentType();
+                if (contentType != null) {
+                    try {
+                        charset = contentType.charset(UTF8);
+                    } catch (UnsupportedCharsetException e) {
+                        //Couldn't decode the response body; charset is likely malformed.
+                        return "";
+                    }
                 }
-            }
-            if (contentLength != 0) {
-                String result = buffer.clone().readString(charset);
-                return result;
+                if (contentLength != 0) {
+                    String result = buffer.clone().readString(charset);
+                    return result;
+                }
+            } catch (Exception e) {
+                return "";
             }
         }
         return "";
