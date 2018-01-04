@@ -68,7 +68,7 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
             holder.setText(R.id.tv_title, item.title);
             int number = getItemCount() > 20 && dataIndex > 14 ? dataIndex : dataIndex + 1;
             holder.setText(R.id.tv_number, String.valueOf(number));
-            holder.setText(R.id.tv_album, item.album_title);
+            holder.setText(R.id.tv_album, item.author);
             if (favVisiable) {
                 holder.getView(R.id.iv_fav).setVisibility(View.VISIBLE);
                 holder.getView(R.id.iv_fav).setTag(item);
