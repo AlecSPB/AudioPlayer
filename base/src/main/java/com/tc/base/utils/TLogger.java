@@ -33,6 +33,10 @@ public class TLogger {
     private TLogger() {
     }
 
+    public static void setEnable(boolean enable){
+        isEnable = enable;
+    }
+
     public static boolean isEnable() {
         return isEnable;
     }

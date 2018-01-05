@@ -162,8 +162,9 @@ public class Player implements IPlayer {
 
     @Override
     public void addPlayerListener(PlayerListener listener) {
-        if (!playerListeners.contains(listener))
+        if (!playerListeners.contains(listener)) {
             playerListeners.add(listener);
+        }
     }
 
     @Override
@@ -174,6 +175,7 @@ public class Player implements IPlayer {
     }
 
     @PlayList.PlayMode
+    @Override
     public int switchNextMode(@PlayList.PlayMode int current) {
         seekToDuration = 0;
         switch (current) {
@@ -403,7 +405,7 @@ public class Player implements IPlayer {
                 loadMusicFile((SongDetail) songDetail);
             }
         };
-        onlineCase.getMusicInfo(entity.song_id)
+        Subscription subscribe = onlineCase.getMusicInfo(entity.song_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map((songDetail) -> {
@@ -411,6 +413,7 @@ public class Player implements IPlayer {
                     return songDetail;
                 })
                 .subscribe(onNext, getOnError());
+        compositeSubscription.add(subscribe);
     }
 
     private void updateMusicInfo(SongDetail songDetail) {

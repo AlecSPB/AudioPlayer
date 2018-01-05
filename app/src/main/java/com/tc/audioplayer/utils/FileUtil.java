@@ -71,7 +71,7 @@ public class FileUtil {
                 outputStream.flush();
                 return true;
             } catch (IOException e) {
-                TLogger.e(TAG, "writeResponseBodyToDisk exception: ", e);
+                TLogger.e(TAG, "writeResponseBodyToDisk exception1: ", e);
                 return false;
             } finally {
                 if (inputStream != null) {
@@ -82,7 +82,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
-            TLogger.e(TAG, "writeResponseBodyToDisk exception: ", e);
+            TLogger.e(TAG, "writeResponseBodyToDisk exception2: ", e);
             return false;
         }
     }

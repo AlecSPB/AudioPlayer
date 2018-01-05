@@ -52,6 +52,7 @@ public class AudioApplication extends MultiDexApplication {
         if (instance == null) {
             instance = this;
         }
+        TLogger.setEnable(BuildConfig.DEBUG);
         OkHttpClient client = getModelConfig();
         APIServiceProvider.init(this, client);
         SharedPreferencesUtil.init(this);

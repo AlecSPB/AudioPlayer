@@ -54,6 +54,8 @@ public class Minibar extends LinearLayout {
     private MibarPlayerListener playerListener;
     private int progress;
     private FragmentManager fragmentManager;
+    private PlayerDetailDialog dialog;
+    private FragmentTransaction ft;
 
     public Minibar(Context context) {
         super(context);
@@ -81,10 +83,14 @@ public class Minibar extends LinearLayout {
             if (fragmentManager == null && getContext() instanceof AppCompatActivity) {
                 fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
             }
-            PlayerDetailDialog dialog = new PlayerDetailDialog();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.add(dialog, "player_detail_dialog");
-            ft.commitAllowingStateLoss();//注意这里使用commitAllowingStateLoss()
+            if (dialog == null) {
+                dialog = new PlayerDetailDialog();
+            }
+            if (!dialog.isShown) {
+                ft = fragmentManager.beginTransaction();
+                ft.add(dialog, "player_detail_dialog");
+                ft.commitAllowingStateLoss();//注意这里使用commitAllowingStateLoss()
+            }
         });
         playerListener = new MibarPlayerListener();
     }

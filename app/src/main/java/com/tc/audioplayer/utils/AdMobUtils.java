@@ -41,6 +41,9 @@ public class AdMobUtils {
      */
     public static void populateContentAdView(NativeContentAd nativeContentAd,
                                              NativeContentAdView adView, boolean showTopLayout) {
+        if (nativeContentAd == null || adView == null) {
+            return;
+        }
         // Assign native ad object to the native view.
         adView.setNativeAd(nativeContentAd);
 

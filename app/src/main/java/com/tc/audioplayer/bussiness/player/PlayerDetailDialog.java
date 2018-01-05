@@ -1,5 +1,6 @@
 package com.tc.audioplayer.bussiness.player;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -67,6 +68,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private SeekbarListener seekbarListener;
     private boolean seekbarStarting;
     private String lrclink;
+    public boolean isShown;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +110,12 @@ public class PlayerDetailDialog extends DialogFragment {
         PlayerManager.getInstance().addPlayListener(playerListener);
         initPlayerStatus();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isShown = true;
     }
 
     @Override
@@ -248,9 +256,20 @@ public class PlayerDetailDialog extends DialogFragment {
     }
 
     @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+    }
+
+    @Override
     public void onDestroyView() {
         PlayerManager.getInstance().removePlayListener(playerListener);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isShown = false;
     }
 
     private void updatePlayModeUI(int playMode) {
