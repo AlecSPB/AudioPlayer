@@ -52,7 +52,7 @@ public class Player implements IPlayer {
     public static final int ERROR_CODE_NULL = 404;//歌曲为空
     public static final int ERROR_CODE_LOAD_INFO_FAIL = 405;//加载歌曲信息失败
     public static final int ERROR_CODE_LOAD_LOCAL_FILE_FAIL = 406;//加载本地音频失败
-    private static final String TAG = "Player";
+    private static final String TAG = "CorePlayer";
     private static volatile Player sInstance;
     List<PlayerListener> playerListeners;
     private MediaPlayer mediaPlayer;
@@ -66,6 +66,7 @@ public class Player implements IPlayer {
     @PlayState
     private int playState = DEFAULT;
     private CompositeSubscription compositeSubscription;
+    private CompositeSubscription requestSubscription;
     private int currentDuration;
     private int seekToDuration;
     private int progress;
@@ -83,6 +84,7 @@ public class Player implements IPlayer {
         mediaPlayer.setOnErrorListener(mediaListener);
         onlineCase = new OnlineCase();
         compositeSubscription = new CompositeSubscription();
+        requestSubscription = new CompositeSubscription();
     }
 
     public static Player getInstance() {
@@ -105,7 +107,7 @@ public class Player implements IPlayer {
         return seekToDuration;
     }
 
-    void resetProgressa() {
+    void resetProgress() {
         progress = 0;
         currentDuration = 0;
         seekToDuration = 0;
@@ -118,7 +120,6 @@ public class Player implements IPlayer {
 
     void onPrepared() {
 //        if (seekToDuration == 0) {
-        startUpdateProgress();
         TLogger.d(TAG, "get play path: duration=" + currentDuration * 1000 + " path=" + path);
         startUpdateProgress();
         for (int i = 0; i < playerListeners.size(); i++) {
@@ -135,8 +136,10 @@ public class Player implements IPlayer {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe((aLong) -> {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
+                    currentDuration = currentDuration < 0 ? 0 : currentDuration;
                     this.playList.setCurrentDuration(currentDuration);
                     int duration = mediaPlayer.getDuration() / 1000;
+                    duration = duration < 0 ? 0 : duration;
                     SongEntity current = getPlayingSong();
                     if (current != null) {
                         current.setFile_duration(duration);
@@ -148,11 +151,12 @@ public class Player implements IPlayer {
                     }
 //                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
                 });
-        compositeSubscription.add(subscribe);
+//        compositeSubscription.add(subscribe);
     }
 
     public void onCompletion() {
-        resetProgressa();
+        TLogger.e(TAG, "onCompletion");
+        resetProgress();
         if (playMode != PlayList.SINGLE) {
             playNext();
         } else {
@@ -247,8 +251,9 @@ public class Player implements IPlayer {
         }
         if (playList.prepare()) {
             mediaPlayer.reset();
-            stopUpdateProgress();
+            resetProgress();
             SongEntity song = playList.getCurrentSong();
+            requestSubscription.clear();
             loadMusicDetail(song);
             return true;
         }
@@ -290,21 +295,23 @@ public class Player implements IPlayer {
     @Override
     public boolean playPrev() {
         if (playList.prev() != null) {
+            TLogger.d(TAG, "playPrev: index=" + playList.getPlayingIndex());
             play();
+            return true;
         } else {
             return false;
         }
-        return false;
     }
 
     @Override
     public boolean playNext() {
         if (playList.next() != null) {
+            TLogger.d(TAG, "playNext: index=" + playList.getPlayingIndex());
             play();
+            return true;
         } else {
             return false;
         }
-        return true;
     }
 
     @Override
@@ -394,7 +401,7 @@ public class Player implements IPlayer {
             listener.onPreparingStart();
         }
 
-        TLogger.i(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source);
+        TLogger.i(TAG, "loadMusicDetail: songid=" + entity.song_id + " source=" + entity.song_source + " name=" + entity.title);
         for (int i = 0; i < playerListeners.size(); i++) {
             PlayerListener listener = playerListeners.get(i);
             listener.onInit(getPlayList());
@@ -413,12 +420,13 @@ public class Player implements IPlayer {
                     return songDetail;
                 })
                 .subscribe(onNext, getOnError());
-        compositeSubscription.add(subscribe);
+        requestSubscription.add(subscribe);
     }
 
     private void updateMusicInfo(SongDetail songDetail) {
         SongEntity songEntity = playList.getCurrentSong();
         SongInfoEntity songInfo = songDetail.songinfo;
+        TLogger.d(TAG, "updateMusicInfo: title=" + songInfo.getTitle() + " id=" + songInfo.song_id);
         songEntity.setTitle(songInfo.getTitle());
         songEntity.setAuthor(songInfo.author);
         songEntity.setLrclink(songInfo.lrclink);
@@ -439,8 +447,10 @@ public class Player implements IPlayer {
     }
 
     private void loadMusicFile(SongDetail songDetail) {
+        resetProgress();
         String fileUrl = songDetail.bitrate.file_link;
         String fileName = songDetail.songinfo.author + "-" + songDetail.songinfo.album_title;
+        TLogger.d(TAG, "loadMusicFile: " + fileName + " " + fileUrl);
         int fileSize = songDetail.bitrate.file_size;
         File file = FileUtil.getMusicFile(fileName, fileSize);
         if (file != null && file.exists()) {
@@ -466,8 +476,8 @@ public class Player implements IPlayer {
             mediaPlayer.setDataSource(fileUrl);
             mediaPlayer.prepare();
             mediaPlayer.start();
-            resetProgressa();
             onPrepared();
+            TLogger.d(TAG, "playLocal: " + fileUrl);
         } catch (Exception e) {
             TLogger.e(TAG, "parse MusicFile error: " + e);
             File file = new File(fileUrl);

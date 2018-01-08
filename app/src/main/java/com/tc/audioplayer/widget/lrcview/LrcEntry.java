@@ -6,6 +6,8 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.tc.base.utils.CollectionUtil;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -79,6 +81,9 @@ public class LrcEntry implements Comparable<LrcEntry> {
         }
 
         Collections.sort(entryList);
+        if (CollectionUtil.isEmpty(entryList)) {
+            lrcFile.deleteOnExit();
+        }
         return entryList;
     }
 

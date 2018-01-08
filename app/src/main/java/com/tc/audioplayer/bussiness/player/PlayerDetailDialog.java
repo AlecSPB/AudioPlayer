@@ -10,12 +10,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.ads.formats.NativeContentAdView;
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.bussiness.fav.FavHelper;
 import com.tc.audioplayer.player.PlayerManager;
@@ -61,7 +61,7 @@ public class PlayerDetailDialog extends DialogFragment {
     private TextView tvTotalDuration;
     private SeekBar seekBar;
     private LrcView lrcView;
-    private NativeContentAdView adView;
+    private FrameLayout adView;
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
     private DetailPlayerListener playerListener;
@@ -94,7 +94,7 @@ public class PlayerDetailDialog extends DialogFragment {
         lrcView = (LrcView) view.findViewById(R.id.lrc);
         tvCurrentDuration = (TextView) view.findViewById(R.id.tv_current_duration);
         tvTotalDuration = (TextView) view.findViewById(R.id.tv_total_duration);
-        adView = (NativeContentAdView) view.findViewById(R.id.ad_play);
+        adView = (FrameLayout) view.findViewById(R.id.ad_play);
 
         seekbarListener = new SeekbarListener();
 
@@ -297,9 +297,13 @@ public class PlayerDetailDialog extends DialogFragment {
                 PlayerManager.getInstance().playPause();
                 break;
             case R.id.iv_prev:
+                lrcView.reset();
+                seekBar.setProgress(0);
                 PlayerManager.getInstance().playPrev();
                 break;
             case R.id.iv_next:
+                lrcView.reset();
+                seekBar.setProgress(0);
                 PlayerManager.getInstance().playNext();
                 break;
             case R.id.iv_fav:

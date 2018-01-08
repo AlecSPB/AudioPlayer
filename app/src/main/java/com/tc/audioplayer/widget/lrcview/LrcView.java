@@ -18,7 +18,6 @@ import android.view.animation.LinearInterpolator;
 
 import com.tc.audioplayer.R;
 import com.tc.audioplayer.utils.DimenUtils;
-import com.tc.base.utils.TLogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -249,7 +248,11 @@ public class LrcView extends View {
      * @param time 当前播放时间
      */
     public void updateTime(final long time) {
-        TLogger.e(TAG, "updateTime:" + time + " nextTime:" + mNextTime);
+        if (!hasLrc()) {
+            invalidate();
+            return;
+        }
+//        TLogger.e(TAG, "updateTime:" + time + " nextTime:" + mNextTime);
         runOnUi(new Runnable() {
             @Override
             public void run() {
@@ -310,7 +313,7 @@ public class LrcView extends View {
         return !mLrcEntryList.isEmpty();
     }
 
-    private void reset() {
+    public void reset() {
         hasRest = true;
         mLrcEntryList.clear();
         mCurrentLine = 0;

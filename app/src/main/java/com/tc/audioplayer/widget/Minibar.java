@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.tc.audioplayer.R;
@@ -174,7 +173,6 @@ public class Minibar extends LinearLayout {
         @Override
         public void onBufferingError() {
             loadingView.stop();
-            Toast.makeText(getContext(), getContext().getString(R.string.error_buffering), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -213,8 +211,6 @@ public class Minibar extends LinearLayout {
         public void onError(int errorCode) {
             super.onError(errorCode);
             loadingView.stop();
-            Toast.makeText(getContext(), getContext().getString(R.string.error_load_music_info, errorCode),
-                    Toast.LENGTH_SHORT).show();
         }
     }
 }

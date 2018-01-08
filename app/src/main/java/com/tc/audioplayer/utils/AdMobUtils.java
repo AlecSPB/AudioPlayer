@@ -2,9 +2,12 @@ package com.tc.audioplayer.utils;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -73,18 +76,31 @@ public class AdMobUtils {
      */
     public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
                                              NativeAppInstallAdView adView) {
+        populateInstallAdView(appInstallAd, adView, false);
+    }
+
+    /**
+     * 安装广告
+     */
+    public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
+                                             NativeAppInstallAdView adView, boolean onlyShowImage) {
         ImageView ivImage = (ImageView) adView.findViewById(R.id.content_image);
         TextView tvHeadLine = (TextView) adView.findViewById(R.id.tv_headline);
         RatingBar rbRating = (RatingBar) adView.findViewById(R.id.rb_rating);
         TextView tvStore = (TextView) adView.findViewById(R.id.tv_store);
         Button btnCallToAction = (Button) adView.findViewById(R.id.btn_install);
         ImageView ivIcon = (ImageView) adView.findViewById(R.id.iv_appicon);
+        LinearLayout root = (LinearLayout) adView.findViewById(R.id.ll_root);
         adView.setImageView(ivImage);
         adView.setHeadlineView(tvHeadLine);
         adView.setStarRatingView(rbRating);
         adView.setStoreView(tvStore);
         adView.setCallToActionView(btnCallToAction);
         adView.setIconView(ivIcon);
+        View adChoiceView = adView.getAdChoicesView();
+        if (adChoiceView != null) {
+            adChoiceView.setVisibility(View.GONE);
+        }
 
         List<NativeAd.Image> images = appInstallAd.getImages();
         ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -97,6 +113,14 @@ public class AdMobUtils {
         tvStore.setText(appInstallAd.getStore());
         rbRating.setNumStars(5);
         rbRating.setRating(appInstallAd.getStarRating().floatValue());
+        if (onlyShowImage) {
+            tvHeadLine.setVisibility(View.GONE);
+            rbRating.setVisibility(View.GONE);
+            tvStore.setVisibility(View.GONE);
+            btnCallToAction.setVisibility(View.GONE);
+            ivIcon.setVisibility(View.GONE);
+            root.setPadding(0, 0, 0, 0);
+        }
         adView.setVisibility(View.VISIBLE);
         adView.setNativeAd(appInstallAd);
     }
@@ -104,12 +128,23 @@ public class AdMobUtils {
     /**
      * 播放器歌词页面的广告
      */
-    public static void showNativeContentAd(Context context, final NativeContentAdView adView) {
+    public static void showNativeContentAd(Context context, FrameLayout root) {
+        if(root.getChildCount()>0){
+            root.setVisibility(View.VISIBLE);
+            return;
+        }
         AdLoader adLoader = new AdLoader.Builder(context, Constant.AdmobNativeID_Billboard)
                 .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
                     @Override
                     public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
                         TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
+                        NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
+                                .from(context)
+                                .inflate(R.layout.ad_native_app_install, root, false);
+                        root.removeAllViews();
+                        root.addView(view);
+                        root.setVisibility(View.VISIBLE);
+                        AdMobUtils.populateInstallAdView(appInstallAd, view);
                     }
                 })
                 .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
@@ -119,7 +154,13 @@ public class AdMobUtils {
                         if (context == null) {
                             return;
                         }
-                        populateContentAdView(contentAd, adView, false);
+                        NativeContentAdView view = (NativeContentAdView) LayoutInflater
+                                .from(context)
+                                .inflate(R.layout.ad_native_content, root, false);
+                        root.removeAllViews();
+                        root.addView(view);
+                        root.setVisibility(View.VISIBLE);
+                        populateContentAdView(contentAd, view, false);
                     }
                 })
                 .withAdListener(new AdListener() {

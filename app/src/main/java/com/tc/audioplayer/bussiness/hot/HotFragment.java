@@ -91,7 +91,7 @@ public class HotFragment extends BaseListFragment {
                             .from(getContext())
                             .inflate(R.layout.ad_native_app_install, recyclerView, false);
                     adapter.addHeaderView(0, view);
-                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view, true);
                     hasAddTopAd = true;
                 }
                 ,

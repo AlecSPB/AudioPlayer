@@ -2,9 +2,11 @@ package com.tc.audioplayer.player;
 
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.tc.audioplayer.AudioApplication;
+import com.tc.audioplayer.R;
 import com.tc.base.utils.CollectionUtil;
 import com.tc.base.utils.TLogger;
 import com.tc.model.db.DBManager;
@@ -42,6 +44,18 @@ public class PlayerManager {
     public void registerPlayer(IPlayer iPlayer) {
         TLogger.d(TAG, "registerPlayer " + iPlayer);
         this.player = iPlayer;
+        addPlayListener(new SimplePlayerListener(){
+            @Override
+            public void onBufferingError() {
+                Toast.makeText(context, context.getString(R.string.error_buffering), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                Toast.makeText(context, context.getString(R.string.error_load_music_info, errorCode),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private PlayerManager() {
@@ -182,21 +196,25 @@ public class PlayerManager {
     }
 
     public void updatePlaylistToDB() {
-        CommonEntity commonEntity = getCommonEntityFromDB();
-        PlayList playList = player.getPlayList();
-        String content = gson.toJson(playList);
-        TLogger.d(TAG, "updatePlaylistToDB: index=" + playList.getPlayingIndex()
-                + " duration=" + playList.getCurrentDuration());
-        if (commonEntity != null) {
-            commonEntity.content = content;
-            DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
-                    .getCommonEntityDao().update(commonEntity);
-        } else {
-            CommonEntity temp = new CommonEntity();
-            temp.content = content;
-            temp.setType(PlayList.class.getSimpleName());
-            DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
-                    .getCommonEntityDao().insert(temp);
+        try {
+            CommonEntity commonEntity = getCommonEntityFromDB();
+            PlayList playList = player.getPlayList();
+            String content = gson.toJson(playList);
+            TLogger.d(TAG, "updatePlaylistToDB: index=" + playList.getPlayingIndex()
+                    + " duration=" + playList.getCurrentDuration());
+            if (commonEntity != null) {
+                commonEntity.content = content;
+                DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
+                        .getCommonEntityDao().update(commonEntity);
+            } else {
+                CommonEntity temp = new CommonEntity();
+                temp.content = content;
+                temp.setType(PlayList.class.getSimpleName());
+                DBManager.getInstance(AudioApplication.getInstance()).getDaoSession()
+                        .getCommonEntityDao().insert(temp);
+            }
+        } catch (Exception e) {
+            TLogger.e(TAG, "updatePlaylistToDB exception: " + e.toString());
         }
     }
 
