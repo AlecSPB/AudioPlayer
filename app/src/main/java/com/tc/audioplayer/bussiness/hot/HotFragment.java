@@ -89,9 +89,9 @@ public class HotFragment extends BaseListFragment {
                     TLogger.e(TAG, "onAppInstallAdLoaded");
                     NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
                             .from(getContext())
-                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                            .inflate(R.layout.ad_native_app_install2, recyclerView, false);
                     adapter.addHeaderView(0, view);
-                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view, true);
+                    AdMobUtils.populateInstallAdView2(nativeAppInstallAd, view);
                     hasAddTopAd = true;
                 }
                 ,

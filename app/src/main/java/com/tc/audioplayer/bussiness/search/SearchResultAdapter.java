@@ -47,7 +47,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
             case TYPE_AD:
                 return mInflater.inflate(R.layout.ad_native_content, parent, false);
             case TYPE_AD_INSTALL:
-                return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
+                return mInflater.inflate(R.layout.ad_native_app_install2, parent, false);
         }
         return mInflater.inflate(R.layout.item_music, parent, false);
     }
@@ -90,7 +90,7 @@ public class SearchResultAdapter extends HeaderFooterAdapter<Object> {
             case TYPE_AD_INSTALL:
                 NativeAppInstallAdView installAdView = (NativeAppInstallAdView) holder.getView();
                 NativeAppInstallAd adInstall = (NativeAppInstallAd) getItem(dataIndex);
-                AdMobUtils.populateInstallAdView(adInstall, installAdView);
+                AdMobUtils.populateInstallAdView2(adInstall, installAdView);
                 break;
         }
     }

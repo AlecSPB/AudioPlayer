@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            app:divider_color="@color/line"
+            app:divider_color="@color/default_line"
             app:divider_marginLeft="@dimen/activity_horizontal_margin"
             app:divider_marginRight="@dimen/activity_horizontal_margin" />
 

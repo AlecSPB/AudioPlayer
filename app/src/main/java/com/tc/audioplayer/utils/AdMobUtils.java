@@ -80,6 +80,35 @@ public class AdMobUtils {
     }
 
     /**
+     * 安装广告,简约类型
+     */
+    public static void populateInstallAdView2(NativeAppInstallAd appInstallAd,
+                                              NativeAppInstallAdView adView) {
+        ImageView ivImage = (ImageView) adView.findViewById(R.id.content_image);
+        TextView tvHeadLine = (TextView) adView.findViewById(R.id.tv_headline);
+        TextView btnCallToAction = (TextView) adView.findViewById(R.id.btn_install);
+        LinearLayout root = (LinearLayout) adView.findViewById(R.id.ll_root);
+        adView.setImageView(ivImage);
+        adView.setHeadlineView(tvHeadLine);
+        adView.setCallToActionView(btnCallToAction);
+        View adChoiceView = adView.getAdChoicesView();
+        if (adChoiceView != null) {
+            adChoiceView.setVisibility(View.GONE);
+        }
+
+        List<NativeAd.Image> images = appInstallAd.getImages();
+        ivImage.setScaleType(ImageView.ScaleType.FIT_XY);
+        if (images.size() > 0) {
+            ivImage.setImageDrawable(images.get(0).getDrawable());
+        }
+        tvHeadLine.setText(appInstallAd.getHeadline());
+        root.setPadding(0, 0, 0, 0);
+        adView.setVisibility(View.VISIBLE);
+        adView.setNativeAd(appInstallAd);
+    }
+
+
+    /**
      * 安装广告
      */
     public static void populateInstallAdView(NativeAppInstallAd appInstallAd,
@@ -129,7 +158,7 @@ public class AdMobUtils {
      * 播放器歌词页面的广告
      */
     public static void showNativeContentAd(Context context, FrameLayout root) {
-        if(root.getChildCount()>0){
+        if (root.getChildCount() > 0) {
             root.setVisibility(View.VISIBLE);
             return;
         }

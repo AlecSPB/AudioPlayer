@@ -65,6 +65,7 @@ public class BaseListFragment extends BaseFragment {
 
     @Override
     public void handleThrowable(Throwable t) {
+        super.handleThrowable(t);
         swipeRefreshLayout.setRefreshing(false);
         tvRetry.setVisibility(View.VISIBLE);
     }

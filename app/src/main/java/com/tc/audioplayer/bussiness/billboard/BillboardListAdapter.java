@@ -42,7 +42,7 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
         } else if (viewType == TYPE_NATIVE_AD_CONTENT) {
             return mInflater.inflate(R.layout.ad_billoard, parent, false);
         } else if (viewType == TYPE_NATIVE_AD_INSTALL) {
-            return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
+            return mInflater.inflate(R.layout.ad_native_app_install2, parent, false);
         }
         return null;
     }
@@ -64,7 +64,7 @@ public class BillboardListAdapter extends HeaderFooterAdapter<Object> {
         } else if (item instanceof NativeContentAd) {
             AdMobUtils.populateContentAdView((NativeContentAd) item, (NativeContentAdView) holder.getView(), true);
         } else if (item instanceof NativeAppInstallAd) {
-            AdMobUtils.populateInstallAdView((NativeAppInstallAd) item, (NativeAppInstallAdView) holder.getView());
+            AdMobUtils.populateInstallAdView2((NativeAppInstallAd) item, (NativeAppInstallAdView) holder.getView());
         }
     }
 

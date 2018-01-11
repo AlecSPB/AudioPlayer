@@ -67,4 +67,12 @@
     <string name="ad">详情</string>
     <string name="press_back">再次点击退出</string>
     <string name="share_title">清新的应用界面，里程碑式革新的播放器风格，百万海量免费正版高品质华语流行、经典歌曲，打造的属于华人的音乐。</string>
+
+    <string name="install">安装</string>
+    <string name="notice_exit_title">确认退出？</string>
+    <string name="notice_exit_content">格桑音乐在其它平台也有哦</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="notice_default_title">温馨提示</string>
+    <string name="notice_go_xufeng_app">您可以试试雪峰音乐</string>
 </resources>

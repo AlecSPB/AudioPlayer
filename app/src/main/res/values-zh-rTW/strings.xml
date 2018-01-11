@@ -66,4 +66,12 @@
     <string name="error_go_narket">天啊，您沒安裝應用市場，連瀏覽器也沒有，您買個手機幹啥？</string>
     <string name="press_back">再次點擊退出</string>
     <string name="share_title">清新的應用界面，裏程碑式革新的播放器風格，百萬海量免費正版高品質華語流行、經典歌曲，打造的屬於華人的音樂。</string>
+
+    <string name="install">安裝</string>
+    <string name="notice_exit_title">確認退出？</string>
+    <string name="notice_exit_content">格桑音樂在其它平臺也有哦</string>
+    <string name="dialog_ok">確定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="notice_default_title">温馨提示</string>
+    <string name="notice_go_xufeng_app">您可以試試雪峰音樂</string>
 </resources>

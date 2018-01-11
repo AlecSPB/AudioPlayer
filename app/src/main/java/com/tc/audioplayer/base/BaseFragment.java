@@ -6,9 +6,14 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 
+import com.tc.audioplayer.AudioApplication;
+import com.tc.audioplayer.R;
 import com.tc.audioplayer.event.EventBusRegisterFlags;
 import com.tc.audioplayer.permission.core.IPermissionActivity;
 import com.tc.audioplayer.permission.core.IPermissionFragment;
+import com.tc.audioplayer.utils.MarketUtils;
+import com.tc.audioplayer.utils.NetUtils;
+import com.tc.audioplayer.widget.alertview.TAlert;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -18,6 +23,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class BaseFragment extends Fragment implements IPermissionFragment, IView {
     protected EventBus eventBus;
+    private static boolean hasShowGoXufengDialog = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +45,28 @@ public class BaseFragment extends Fragment implements IPermissionFragment, IView
     @Override
     public void handleThrowable(Throwable t) {
         Log.e("Tag", "handleThrowable: " + t.getMessage());
+        //有网络情况下，如果列表完全加载失败（可能Api已经关闭或所在区域不可用），而本地没有播放过的歌曲，
+        // 出来一个对话框。 “您可以试试雪峰音乐”，点确定就去市场。
+        if (NetUtils.isNetworkAvailable() && !hasShowGoXufengDialog) {
+            hasShowGoXufengDialog = true;
+            String noticeTitle = AudioApplication.getInstance().getString(R.string.notice_default_title);
+            String noticeContent = AudioApplication.getInstance().getString(R.string.notice_go_xufeng_app);
+            String ok = AudioApplication.getInstance().getString(R.string.dialog_ok);
+            String cancel = AudioApplication.getInstance().getString(R.string.dialog_cancel);
+            TAlert.showAlert(getContext(), noticeTitle, noticeContent, ok, cancel,
+                    new TAlert.AlertListener() {
+                        @Override
+                        public void ok() {
+                            hasShowGoXufengDialog = false;
+                            MarketUtils.gotoRelatedApps(getContext());
+                        }
+
+                        @Override
+                        public void cancel() {
+                            hasShowGoXufengDialog = false;
+                        }
+                    });
+        }
     }
 
     @Override
@@ -64,6 +92,7 @@ public class BaseFragment extends Fragment implements IPermissionFragment, IView
      *
      * @return
      */
+
     protected int configDefaultRigsterFlags() {
         return EventBusRegisterFlags.NOT_NEED_DEFAULT_REGISTER;
     }

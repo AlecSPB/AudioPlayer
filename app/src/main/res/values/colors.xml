@@ -8,7 +8,7 @@
     <color name="bg_minibar">#f4f1f1</color>
     <color name="lrc_highlight">#1d64f2</color>
     <color name="lrc_default">#737171</color>
-    <color name="line">#e7e4e4</color>
+    <color name="default_line">#e7e4e4</color>
     <color name="search">#bcbaba</color>
     <color name="search_text">#232222</color>
     <color name="default_btn_press">#8db2e6</color>

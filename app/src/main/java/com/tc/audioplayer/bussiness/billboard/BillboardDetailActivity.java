@@ -123,9 +123,9 @@ public class BillboardDetailActivity extends ToolbarActivity {
                     TLogger.e(TAG, "onAppInstallAdLoaded");
                     NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
                             .from(BillboardDetailActivity.this)
-                            .inflate(R.layout.ad_native_app_install, recyclerView, false);
+                            .inflate(R.layout.ad_native_app_install2, recyclerView, false);
                     adapter.addFooterView(view);
-                    AdMobUtils.populateInstallAdView(nativeAppInstallAd, view);
+                    AdMobUtils.populateInstallAdView2(nativeAppInstallAd, view);
                     hasAddTopAd = true;
                 },
                 (nativeContentAd) -> {

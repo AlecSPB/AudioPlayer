@@ -37,7 +37,7 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
             case TYPE_AD_CONTENT:
                 return mInflater.inflate(R.layout.ad_native_content, parent, false);
             case TYPE_AD_INSTALL:
-                return mInflater.inflate(R.layout.ad_native_app_install, parent, false);
+                return mInflater.inflate(R.layout.ad_native_app_install2, parent, false);
         }
         return mInflater.inflate(R.layout.item_artist_detail, parent, false);
     }
@@ -84,7 +84,7 @@ public class ArtistDetailAdapter extends HeaderFooterAdapter<Object> {
         } else if(ob instanceof NativeAppInstallAd){
             NativeAppInstallAdView installAdView = (NativeAppInstallAdView) holder.getView();
             NativeAppInstallAd ad = (NativeAppInstallAd) ob;
-            AdMobUtils.populateInstallAdView(ad, installAdView);
+            AdMobUtils.populateInstallAdView2(ad, installAdView);
         }
     }
 

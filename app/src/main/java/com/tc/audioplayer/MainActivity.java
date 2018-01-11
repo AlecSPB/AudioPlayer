@@ -31,9 +31,11 @@ import com.tc.audioplayer.bussiness.billboard.BillboardListFragment;
 import com.tc.audioplayer.bussiness.hot.HotFragment;
 import com.tc.audioplayer.bussiness.search.SearchHistoryFragment;
 import com.tc.audioplayer.player.PlayerManager;
+import com.tc.audioplayer.utils.MarketUtils;
 import com.tc.audioplayer.utils.NetUtils;
 import com.tc.audioplayer.utils.StatusBarUtil;
 import com.tc.audioplayer.widget.Minibar;
+import com.tc.audioplayer.widget.alertview.TAlert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,6 @@ public class MainActivity extends BaseActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final int MUTI_PERMISSION_WINDOW = 10;
-    private long backPressed = 0;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -125,7 +126,7 @@ public class MainActivity extends BaseActivity
 
         vpContentMain.setAdapter(adapter);
         tabLayout.setupWithViewPager(vpContentMain);
-        vpContentMain.setCurrentItem(0);
+        vpContentMain.setCurrentItem(3);
         for (int i = 0; i < tabTitles.length; i++) {
             tabLayout.getTabAt(i).setCustomView(createTabView(i));
         }
@@ -213,13 +214,23 @@ public class MainActivity extends BaseActivity
             drawerLayout.closeDrawer(GravityCompat.START);
             return;
         }
-        if (System.currentTimeMillis() - backPressed < 2000) {
-            PlayerManager.getInstance().close(this);
-            finish();
-        } else {
-            Toast.makeText(this, getString(R.string.press_back), Toast.LENGTH_SHORT).show();
-            backPressed = System.currentTimeMillis();
-        }
+        String noticeTitle = getString(R.string.notice_exit_title);
+        String noticeContent = getString(R.string.notice_exit_content);
+        String ok = getString(R.string.dialog_ok);
+        String cancel = getString(R.string.dialog_cancel);
+        TAlert.showAlert(this, noticeTitle, noticeContent, ok, cancel,
+                new TAlert.AlertListener() {
+                    @Override
+                    public void ok() {
+                        PlayerManager.getInstance().close(MainActivity.this);
+                        finish();
+                    }
+
+                    @Override
+                    public void cancel() {
+
+                    }
+                });
     }
 
     @Override
@@ -254,7 +265,7 @@ public class MainActivity extends BaseActivity
 //                Toast.makeText(this, "定时功能暂未上线", Toast.LENGTH_SHORT).show();
 //                break;
             case R.id.nav_about:
-                openApplicationMarket("com.xuefeng.huarenmusic");
+                MarketUtils.openApplicationMarket(this, "com.xuefeng.huarenmusic");
                 break;
             case R.id.nav_apps:
 //                Intent share_intent = new Intent();
@@ -281,35 +292,13 @@ public class MainActivity extends BaseActivity
                 PlayerManager.getInstance().close(this);
                 finish();
                 break;
+            default:
         }
         item.setCheckable(false);
         item.setChecked(false);
         drawerLayout.closeDrawers();
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    /**
-     * 通过包名 在应用商店打开应用
-     *
-     * @param packageName 包名
-     */
-    private void openApplicationMarket(String packageName) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        try {
-            String str = "market://details?id=" + packageName;
-            intent.setData(Uri.parse(str));
-            startActivity(intent);
-        } catch (Exception e) {
-            // 打开应用商店失败 可能是没有手机没有安装应用市场
-            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
-            //这里存在一个极端情况就是有些用户浏览器也没有，再判断一次
-            if (intent.resolveActivity(getPackageManager()) != null) { //有浏览器
-                startActivity(intent);
-            } else { //天哪，这还是智能手机吗？
-                Toast.makeText(this, "天啊，您没安装应用市场，连浏览器也没有，您买个手机干啥？", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
 //    @Override

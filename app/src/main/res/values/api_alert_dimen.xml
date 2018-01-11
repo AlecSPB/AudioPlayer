@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="app_icon_size">48dip</dimen>
+    <dimen name="toast_y_offset">64dip</dimen>
+    <dimen name="status_bar_height">25dip</dimen>
+    <dimen name="fastscroll_overlay_size">104dp</dimen>
+    <dimen name="fastscroll_thumb_width">64dp</dimen>
+    <dimen name="fastscroll_thumb_height">52dp</dimen>
+    <dimen name="dialog_padding">25dp</dimen>
+
+</resources>
