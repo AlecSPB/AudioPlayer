@@ -94,7 +94,7 @@ public class SearchResultFragment extends BaseListFragment {
                             .from(getContext())
                             .inflate(R.layout.ad_native_content, recyclerView, false);
                     adapter.addFooterView(view);
-                    AdMobUtils.showNativeContentAd(getContext(), view);
+                    AdMobUtils.populateContentAdView(nativeContentAd, view, false);
                 });
     }
 

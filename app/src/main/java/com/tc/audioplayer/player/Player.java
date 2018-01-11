@@ -67,6 +67,7 @@ public class Player implements IPlayer {
     private int playState = DEFAULT;
     private CompositeSubscription compositeSubscription;
     private CompositeSubscription requestSubscription;
+    private CompositeSubscription loadFileSubscription;
     private int currentDuration;
     private int seekToDuration;
     private int progress;
@@ -85,6 +86,7 @@ public class Player implements IPlayer {
         onlineCase = new OnlineCase();
         compositeSubscription = new CompositeSubscription();
         requestSubscription = new CompositeSubscription();
+        loadFileSubscription = new CompositeSubscription();
     }
 
     public static Player getInstance() {
@@ -151,7 +153,7 @@ public class Player implements IPlayer {
                     }
 //                    TLogger.e(TAG, "currentDuration=" + currentDuration + " duration=" + duration + " progress=" + progress);
                 });
-//        compositeSubscription.add(subscribe);
+        compositeSubscription.add(subscribe);
     }
 
     public void onCompletion() {
@@ -446,8 +448,9 @@ public class Player implements IPlayer {
         return onError;
     }
 
-    private void loadMusicFile(SongDetail songDetail) {
+    private synchronized void loadMusicFile(SongDetail songDetail) {
         resetProgress();
+        loadFileSubscription.clear();
         String fileUrl = songDetail.bitrate.file_link;
         String fileName = songDetail.songinfo.author + "-" + songDetail.songinfo.album_title;
         TLogger.d(TAG, "loadMusicFile: " + fileName + " " + fileUrl);
@@ -460,7 +463,7 @@ public class Player implements IPlayer {
         Action1<Boolean> onNext = (saveLrcSuccess) -> {
             playLocal(fileUrl);
         };
-        onlineCase.getMusicFile(fileUrl)
+        Subscription subscription = onlineCase.getMusicFile(fileUrl)
                 .onBackpressureBuffer()
                 .subscribeOn(Schedulers.newThread())
                 .map((responseBody) -> {
@@ -468,6 +471,7 @@ public class Player implements IPlayer {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext, getOnError());
+        loadFileSubscription.add(subscription);
     }
 
     private void playLocal(String fileUrl) {

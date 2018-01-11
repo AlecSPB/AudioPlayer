@@ -43,7 +43,7 @@ public class FileUtil {
      * @param body lrc流
      * @param file file
      */
-    public static boolean writeResponseBodyToDisk(ResponseBody body, File file) {
+    public synchronized static boolean writeResponseBodyToDisk(ResponseBody body, File file) {
         try {
             checkCacheDir();
             File futureStudioIconFile = file;
@@ -81,8 +81,13 @@ public class FileUtil {
                     outputStream.close();
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             TLogger.e(TAG, "writeResponseBodyToDisk exception2: ", e);
+            return false;
+        } catch (OutOfMemoryError error) {
+            if(file.exists()){
+                file.deleteOnExit();
+            }
             return false;
         }
     }

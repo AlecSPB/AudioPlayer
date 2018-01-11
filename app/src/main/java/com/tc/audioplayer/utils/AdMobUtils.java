@@ -158,7 +158,7 @@ public class AdMobUtils {
      * 播放器歌词页面的广告
      */
     public static void showNativeContentAd(Context context, FrameLayout root) {
-        if (root.getChildCount() > 0) {
+        if (root!=null && root.getChildCount() > 0) {
             root.setVisibility(View.VISIBLE);
             return;
         }
@@ -167,6 +167,9 @@ public class AdMobUtils {
                     @Override
                     public void onAppInstallAdLoaded(NativeAppInstallAd appInstallAd) {
                         TLogger.e(TAG, "onAppInstallAdLoaded: " + appInstallAd.getHeadline());
+                        if(context == null){
+                            return;
+                        }
                         NativeAppInstallAdView view = (NativeAppInstallAdView) LayoutInflater
                                 .from(context)
                                 .inflate(R.layout.ad_native_app_install, root, false);
