@@ -68,6 +68,9 @@ public class TAlert {
      * @param alertListener
      */
     public static void showAlert(Context context, String title, String msg, String okBtnName, String cancelBtnName, AlertListener alertListener) {
+        if(context == null) {
+            return;
+        }
         if (TextUtils.isEmpty(cancelBtnName)) {
             showSingleBtnAlert(context, title, msg, okBtnName, alertListener);
             return;
